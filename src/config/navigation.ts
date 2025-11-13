@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
-import { LayoutDashboard, BookOpen, Users } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, Settings } from "lucide-react";
 
 import type { AppRole } from "@/types/roles";
 import { APP_ROLES } from "@/types/roles";

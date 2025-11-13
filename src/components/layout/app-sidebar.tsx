@@ -100,13 +100,15 @@ export function AppSidebar() {
             <User className="h-5 w-5" />
             Profile
           </Button>
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 rounded-2xl px-4 py-3 text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+          <Link
+            href="/settings"
+            className={cn(
+              "flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+            )}
           >
             <Settings className="h-5 w-5" />
             Settings
-          </Button>
+          </Link>
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 rounded-2xl px-4 py-3 text-muted-foreground hover:bg-accent/50 hover:text-foreground"
