@@ -36,7 +36,39 @@ src/
 	types/                   # Shared types
 ```
 
-## How to Add a New Page/Feature
+
+## Feature Generator Script
+
+You can safely create or delete feature modules using the automated script:
+
+### Create a Feature
+
+```
+pnpm generate:feature <FeatureName>
+```
+
+This will:
+- Scaffold a new folder under `src/features/<feature>` with all boilerplate files and subfolders
+- Create a route wrapper in `src/app/(app)/<feature>/page.tsx`
+- Add a navigation entry to `src/config/navigation.ts` at the generator marker
+
+### Delete a Feature
+
+```
+pnpm generate:feature <FeatureName> --delete
+```
+
+This will:
+- Prompt for confirmation
+- Delete the feature folder and route wrapper
+- Remove the navigation entry from `src/config/navigation.ts`
+
+The script is robust and will not break navigation. All changes are made at the `// [GENERATOR-INSERTION-POINT]` marker in `navigation.ts`.
+
+---
+
+## How to Add a New Page/Feature (Manual)
+If you prefer to do it manually:
 1. Duplicate one of the `features/page-*` folders and rename it (e.g., `features/your-feature`).
 2. Add your main page component in `features/your-feature/pages/your-feature-page.tsx`.
 3. Create a route wrapper in `src/app/(app)/your-feature/page.tsx`:
@@ -46,7 +78,7 @@ src/
 		 return <YourFeaturePage />;
 	 }
 	 ```
-4. Add a navigation entry in `src/config/navigation.ts`.
+4. Add a navigation entry in `src/config/navigation.ts` at the marker.
 
 ## How to Add a New Role
 1. Edit `src/types/roles.ts` and add your new role to the `AppRole` union and `APP_ROLES` array.

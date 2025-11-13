@@ -33,4 +33,5 @@ export const navigationItems: NavigationItem[] = [
     icon: Users,
     roles: ALL_ROLES,
   },
+  // [GENERATOR-INSERTION-POINT]
 ];
