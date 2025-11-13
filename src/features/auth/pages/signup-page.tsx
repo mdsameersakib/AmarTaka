@@ -17,7 +17,7 @@ export function SignupPage() {
             Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Join Poralikha today
+            Join Project Template today
           </p>
         </div>
         <div className="text-center text-muted-foreground">

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Poralikha - Student Learning Platform",
+  title: "Project Template",
   description:
     "Manage your classes, assignments, and study materials all in one place",
 };

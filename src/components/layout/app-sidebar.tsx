@@ -1,19 +1,24 @@
+
 "use client";
 
-import { LogOut, Moon, RefreshCw, Settings, Sun, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-
+import { LogOut, Moon, RefreshCw, Settings, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { navigationItems } from "@/config/navigation";
 import { useRole } from "@/hooks";
 import { cn } from "@/lib/utils";
 
 export function AppSidebar() {
+
+
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const { role, cycleRole } = useRole();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const roleNavigation = navigationItems.filter(
     (item) => !item.roles || item.roles.includes(role),
@@ -40,20 +45,22 @@ export function AppSidebar() {
               </span>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="rounded-xl bg-accent/50 p-2 transition-all duration-200 hover:bg-accent"
-            title={
-              theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"
-            }
-          >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-foreground" />
-            ) : (
-              <Moon className="h-5 w-5 text-foreground" />
-            )}
-          </button>
+          {mounted && (
+            <button
+              type="button"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-xl bg-accent/50 p-2 transition-all duration-200 hover:bg-accent"
+              title={
+                theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"
+              }
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5 text-foreground" />
+              ) : (
+                <Moon className="h-5 w-5 text-foreground" />
+              )}
+            </button>
+          )}
         </div>
       </div>
 
