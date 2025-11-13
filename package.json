@@ -8,7 +8,8 @@
   "start": "next start",
   "lint": "biome check",
   "format": "biome format --write",
-  "generate:feature": "node scripts/generate-feature.js"
+  "generate:feature": "node scripts/generate-feature.js",
+  "generate:role": "node scripts/generate-role.js"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",

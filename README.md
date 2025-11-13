@@ -1,3 +1,28 @@
+## Role Generator Script
+
+You can create or delete roles in your app using the automated script:
+
+### Create a Role
+
+```
+pnpm generate:role <RoleName>
+```
+
+This will:
+- Add the role to the `AppRole` union in `src/types/roles.ts`
+- Add the role to the `APP_ROLES` array
+
+### Delete a Role
+
+```
+pnpm generate:role <RoleName> --delete
+```
+
+This will:
+- Prompt for confirmation
+- Remove the role from the `AppRole` union and `APP_ROLES` array
+
+The script is robust and will not break your types file. All changes are made in `src/types/roles.ts`.
 
 # Project Template
 **Status**: 🟡 In Development
