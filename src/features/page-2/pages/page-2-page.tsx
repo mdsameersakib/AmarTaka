@@ -1,7 +1,7 @@
 export default function Page2Feature() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background to-muted/30">
-      <div className="w-full max-w-xl rounded-2xl bg-card p-10 shadow-xl border border-border flex flex-col items-center gap-6">
+    <div className="flex h-full w-full flex-col items-center justify-center bg-card">
+      <div className="w-full max-w-xl flex flex-col items-center gap-6 p-10">
         <div className="flex items-center gap-3">
           <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/20">
             <span className="text-2xl font-bold text-primary">2</span>

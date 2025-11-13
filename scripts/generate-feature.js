@@ -50,14 +50,33 @@ async function main() {
         console.log(`Deleted: ${appRouteDir}`);
       }
     }
+    // Clean up empty parent directories if they exist
+    const appDir = path.join('src', 'app', '(app)');
+    if (fs.existsSync(appDir)) {
+      const entries = fs.readdirSync(appDir);
+      if (entries.length === 0) {
+        if (dryRun) {
+          console.log(`[Dry Run] Would delete empty directory: ${appDir}`);
+        } else {
+          try {
+            fs.rmdirSync(appDir);
+            console.log(`Deleted empty directory: ${appDir}`);
+          } catch (e) {
+            // Directory not empty or other error, ignore
+          }
+        }
+      }
+    }
     // Remove from navigation.ts using marker
     let navContent = fs.readFileSync(navFile, 'utf8');
-    const navEntryRegex = new RegExp(`\{[^}]*label:\s*['\"\`]${capitalize(featureName)}['\"\`][^}]*},?\n`, 'g');
+    const navEntryRegex = new RegExp(`\\s*\\{[^}]*label:\\s*['\"\`]${capitalize(featureName)}['\"\`][^}]*\\},?\\n`, 'g');
     if (navEntryRegex.test(navContent)) {
       if (dryRun) {
         console.log(`[Dry Run] Would remove navigation entry for: ${featureName}`);
       } else {
-        navContent = navContent.replace(navEntryRegex, '');
+        // Re-create regex since test() consumed it
+        const navEntryRegex2 = new RegExp(`\\s*\\{[^}]*label:\\s*['\"\`]${capitalize(featureName)}['\"\`][^}]*\\},?\\n`, 'g');
+        navContent = navContent.replace(navEntryRegex2, '');
         fs.writeFileSync(navFile, navContent);
         console.log(`Removed navigation entry for: ${featureName}`);
       }
@@ -87,7 +106,41 @@ async function main() {
     fs.writeFileSync(path.join(featureDir, 'README.md'), `# ${capitalize(featureName)} Feature\n`);
     fs.writeFileSync(path.join(featureDir, 'index.ts'), `export * from \"./pages/${featureName}-page\";\n`);
     fs.writeFileSync(path.join(featureDir, 'pages', `${featureName}-page.tsx`),
-      `export default function ${capitalize(featureName)}Page() {\n  return <div>${capitalize(featureName)} Page</div>;\n}\n`
+      `export default function ${capitalize(featureName)}Page() {
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center bg-card">
+      <div className="w-full max-w-xl flex flex-col items-center gap-6 p-10">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/20">
+            <span className="text-2xl font-bold text-primary">${capitalize(featureName).charAt(0)}</span>
+          </span>
+          <h2 className="text-3xl font-semibold tracking-tight">${capitalize(featureName)}</h2>
+        </div>
+        <p className="text-muted-foreground text-center">
+          This is a beautiful starter page. Use this as a template for your own content and layouts.<br />
+          <span className="text-xs text-muted-foreground">Edit <code>src/features/${featureName}/pages/${featureName}-page.tsx</code> to get started.</span>
+        </p>
+        <div className="w-full flex flex-col gap-4 mt-4">
+          <div className="rounded-lg border bg-muted/50 p-4 text-left">
+            <h3 className="mb-1 font-medium">Section Example</h3>
+            <p className="text-sm text-muted-foreground">
+              You can add cards, forms, tables, or any UI here. This is a flexible layout for your next feature.
+            </p>
+          </div>
+          <div className="rounded-lg border bg-muted/50 p-4 text-left">
+            <h3 className="mb-1 font-medium">Quick Tips</h3>
+            <ul className="list-disc pl-5 text-sm text-muted-foreground">
+              <li>Use Tailwind utility classes for rapid design.</li>
+              <li>Organize your components in <code>src/components</code>.</li>
+              <li>Update navigation in <code>src/config/navigation.ts</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+`
     );
     fs.writeFileSync(path.join(appRouteDir, 'page.tsx'),
       `import ${capitalize(featureName)}Page from \"@/features/${featureName}/pages/${featureName}-page\";\n\nexport default function ${capitalize(featureName)}Route() {\n  return <${capitalize(featureName)}Page />;\n}\n`

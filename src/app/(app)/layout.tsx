@@ -12,7 +12,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         {/* Main Content Card */}
         <Card className="flex-1 overflow-hidden rounded-3xl border border-border/30 shadow-xl">
-          <div className="h-full overflow-y-auto">{children}</div>
+          <div className="h-full overflow-y-auto bg-card">{children}</div>
         </Card>
       </div>
     </div>

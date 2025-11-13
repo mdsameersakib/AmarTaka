@@ -32,6 +32,5 @@ export const navigationItems: NavigationItem[] = [
     href: "/page-3",
     icon: Users,
     roles: ALL_ROLES,
-  },
-  // [GENERATOR-INSERTION-POINT]
+  },  // [GENERATOR-INSERTION-POINT]
 ];
