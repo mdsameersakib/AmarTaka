@@ -1,20 +1,20 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  Download,
-  Filter,
-  Search,
-  X,
-} from "lucide-react";
+import { Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useMoney } from "@/providers/money-provider";
-import type { Transaction, TransactionType } from "@/types/money";
+import type { TransactionType } from "@/types/money";
 import { cn } from "@/lib/utils";
+import { formatCurrency } from "@/lib/currency";
+import { TransactionRow } from "@/features/transactions/components/transaction-row";
+import {
+  FilterPill,
+  FilterSummary,
+  SearchFilter,
+  SelectField,
+} from "@/features/transactions/components/filters";
 
 type FilterType = "all" | TransactionType;
 
@@ -106,21 +106,12 @@ export default function TransactionsPage() {
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          <div className="rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] p-4 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
-            <div className="flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 shadow-neo-sm dark:border-[#4ade80] dark:bg-black">
-              <Search className="h-4 w-4 text-[#0f172a]/60 dark:text-[#bbf7d0]" />
-              <Input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search category, wallet, note"
-                className="border-0 bg-transparent p-0 text-sm font-semibold focus-visible:ring-0"
-              />
-            </div>
-            <p className="mt-3 text-xs font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-              {filtered.length} results
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#030712]">
+          <SearchFilter
+            search={search}
+            onSearchChange={setSearch}
+            resultsCount={filtered.length}
+          />
+          <FilterSummary>
             <FilterPill
               label="All"
               active={typeFilter === "all"}
@@ -136,9 +127,7 @@ export default function TransactionsPage() {
               active={typeFilter === "expense"}
               onClick={() => setTypeFilter("expense")}
             />
-            <div className="flex-1" />
-            <Filter className="h-4 w-4 text-[#0f172a]/40 dark:text-[#4ade80]" />
-          </div>
+          </FilterSummary>
         </div>
 
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
@@ -177,59 +166,6 @@ export default function TransactionsPage() {
   );
 }
 
-function TransactionRow({
-  transaction,
-  onDelete,
-}: {
-  transaction: Transaction;
-  onDelete: (id: number) => void;
-}) {
-  const isIncome = transaction.type === "income";
-  const Icon = isIncome ? ArrowDownRight : ArrowUpRight;
-  return (
-    <div className="flex flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex items-center gap-4">
-        <div className="rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] p-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
-          <Icon
-            className={cn(
-              "h-5 w-5",
-              isIncome ? "text-green-600" : "text-red-500",
-            )}
-          />
-        </div>
-        <div>
-          <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-            {transaction.category} - {transaction.wallet}
-          </p>
-          <p className="text-xs text-[#0f172a]/60 dark:text-[#bbf7d0]/70">
-            {transaction.date} - {transaction.note || "No note"}
-          </p>
-        </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <p
-          className={cn(
-            "text-lg font-black",
-            isIncome
-              ? "text-green-700 dark:text-green-300"
-              : "text-red-600 dark:text-red-300",
-          )}
-        >
-          {isIncome ? "+" : "-"}
-          {formatCurrency(transaction.amount)}
-        </p>
-        <button
-          type="button"
-          onClick={() => onDelete(transaction.id)}
-          className="rounded-full border-2 border-transparent p-2 text-[#0f172a]/40 transition hover:border-[#0f172a] hover:text-[#0f172a] dark:text-[#bbf7d0]/60"
-        >
-          <X className="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-  );
-}
-
 function FilterCard({
   label,
   value,
@@ -256,64 +192,3 @@ function FilterCard({
     </div>
   );
 }
-
-function FilterPill({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "btn-neo rounded-2xl border-2 border-[#0f172a] px-3 py-1 text-xs font-black uppercase tracking-wide text-[#0f172a]",
-        active ? "bg-[#22c55e]" : "bg-white dark:bg-black dark:text-[#bbf7d0]",
-      )}
-    >
-      {label}
-    </button>
-  );
-}
-
-function SelectField({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: string[];
-}) {
-  return (
-    <label className="flex flex-col gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#030712]">
-      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/60 dark:text-[#bbf7d0]/60">
-        {label}
-      </span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-2 font-semibold shadow-neo-sm focus:outline-none dark:border-[#4ade80] dark:bg-black dark:text-white"
-      >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option === "all" ? "All" : option}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-const currencyFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
-
-const formatCurrency = (value: number) => currencyFormatter.format(value);
