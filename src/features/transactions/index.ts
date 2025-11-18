@@ -1,4 +1,4 @@
-export * from "./pages/page-1-page";
+export * from "./pages/transactions-page";
 // export * from "./components";
 // export * from "./hooks";
 // export * from "./types";

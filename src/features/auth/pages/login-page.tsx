@@ -17,7 +17,8 @@ export function LoginPage() {
             Sign in to Project Template
           </h2>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Project Template is a starter template for your next web application.
+            Project Template is a starter template for your next web
+            application.
           </p>
         </div>
         <div className="text-center text-muted-foreground">

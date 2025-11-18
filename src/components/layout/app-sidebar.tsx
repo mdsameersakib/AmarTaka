@@ -1,19 +1,16 @@
-
 "use client";
 
-import { useEffect, useState } from "react";
+import { LogOut, Moon, RefreshCw, Settings, Sun, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import { LogOut, Moon, RefreshCw, Settings, Sun, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { navigationItems } from "@/config/navigation";
 import { useRole } from "@/hooks";
 import { cn } from "@/lib/utils";
 
 export function AppSidebar() {
-
-
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const { role, cycleRole } = useRole();
@@ -41,7 +38,7 @@ export function AppSidebar() {
             <div className="flex flex-col">
               <span className="text-foreground">Project Template</span>
               <span className="text-xs text-muted-foreground">
-                {role.replace(/^role/, 'Role-')} view
+                {role.replace(/^role/, "Role-")} view
               </span>
             </div>
           </div>
@@ -51,7 +48,9 @@ export function AppSidebar() {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="rounded-xl bg-accent/50 p-2 transition-all duration-200 hover:bg-accent"
               title={
-                theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"
+                theme === "dark"
+                  ? "Switch to Light Mode"
+                  : "Switch to Dark Mode"
               }
             >
               {theme === "dark" ? (
@@ -103,7 +102,7 @@ export function AppSidebar() {
           <Link
             href="/settings"
             className={cn(
-              "flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+              "flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-muted-foreground hover:bg-accent/50 hover:text-foreground",
             )}
           >
             <Settings className="h-5 w-5" />

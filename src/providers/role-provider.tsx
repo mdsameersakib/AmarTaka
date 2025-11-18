@@ -26,7 +26,8 @@ export function RoleProvider({ children }: { children: ReactNode }) {
 
   const cycleRole = useCallback(() => {
     setRole((current) => {
-      const roles = (typeof APP_ROLES !== 'undefined' ? APP_ROLES : [DEFAULT_APP_ROLE]);
+      const roles =
+        typeof APP_ROLES !== "undefined" ? APP_ROLES : [DEFAULT_APP_ROLE];
       const idx = roles.indexOf(current);
       return roles[(idx + 1) % roles.length];
     });

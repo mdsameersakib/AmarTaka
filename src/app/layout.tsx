@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { MoneyProvider } from "@/providers/money-provider";
 import { RoleProvider } from "@/providers/role-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 
@@ -14,10 +15,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Project Template",
+  title: "Amar Taka - Money Management",
   description:
-    "Manage your classes, assignments, and study materials all in one place",
+    "Neo-brutalist personal finance experience for tracking income, expenses, wallets, and categories.",
 };
 
 export default function RootLayout({
@@ -28,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased`}
       >
         <RoleProvider>
           <ThemeProvider
@@ -37,7 +44,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <MoneyProvider>{children}</MoneyProvider>
           </ThemeProvider>
         </RoleProvider>
       </body>
