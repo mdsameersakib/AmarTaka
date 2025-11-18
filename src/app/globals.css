@@ -221,3 +221,67 @@ html {
 .dark .fab-animate {
   animation: fabPulseDark 2.4s infinite;
 }
+
+@keyframes sheetSlideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes sheetSlideDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.sheet-bottom {
+  will-change: transform, opacity;
+}
+
+.sheet-bottom[data-state="open"] {
+  animation: sheetSlideUp 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.sheet-bottom[data-state="closed"] {
+  animation: sheetSlideDown 0.25s ease-in;
+}
+
+@keyframes sheetOverlayIn {
+  0% {
+    backdrop-filter: blur(0px);
+  }
+
+  100% {
+    backdrop-filter: blur(20px);
+  }
+}
+
+@keyframes sheetOverlayOut {
+  0% {
+    backdrop-filter: blur(20px);
+  }
+
+  100% {
+    backdrop-filter: blur(0px);
+  }
+}
+
+.sheet-overlay[data-state="open"] {
+  animation: sheetOverlayIn 0.35s ease-out forwards;
+}
+
+.sheet-overlay[data-state="closed"] {
+  animation: sheetOverlayOut 0.25s ease-in forwards;
+}

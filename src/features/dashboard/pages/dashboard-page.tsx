@@ -292,7 +292,11 @@ export default function DashboardPage() {
         <PlusIcon className="h-7 w-7" />
       </button>
 
-      <Sheet open={isTypeSelectorOpen} onOpenChange={setIsTypeSelectorOpen}>
+        <Sheet
+          open={isTypeSelectorOpen}
+          onOpenChange={setIsTypeSelectorOpen}
+          onOpenAutoFocus={(event) => event.preventDefault()}
+        >
         <SheetContent
           side="bottom"
           className="h-[50vh] max-h-[420px] rounded-t-[32px] border-4 border-[#0f172a] bg-white shadow-neo-lg dark:border-[#4ade80] dark:bg-[#020617]"
