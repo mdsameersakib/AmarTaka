@@ -45,16 +45,16 @@ const formatDateTimeDemo = (value: string) => {
   return `${base} 3:23PM`;
 };
 
-type FilterType = "all" | TransactionType;
+  type FilterType = "all" | TransactionType;
 
-export default function DashboardPage() {
-  const {
-    state,
-    totals,
-    walletBalances,
-    spendingByCategory,
-    trend,
-    recentTransactions,
+  export default function DashboardPage() {
+    const {
+      state,
+      totals,
+      walletBalances,
+      spendingByCategory,
+      trend,
+      recentTransactions,
     allTransactions,
     recurring,
     showCents,
@@ -81,10 +81,75 @@ export default function DashboardPage() {
     date: new Date().toISOString().slice(0, 10),
     note: "",
   });
-  const [categoryDialog, setCategoryDialog] = useState(false);
-  const [walletDialog, setWalletDialog] = useState(false);
-  const [newCategory, setNewCategory] = useState("");
-  const [newWallet, setNewWallet] = useState("");
+    const [categoryDialog, setCategoryDialog] = useState(false);
+    const [walletDialog, setWalletDialog] = useState(false);
+    const [newCategory, setNewCategory] = useState("");
+    const [newWallet, setNewWallet] = useState("");
+    const [spendingRange, setSpendingRange] = useState<
+      "week" | "month" | "year"
+    >("month");
+
+    const rangeFilteredSpending = useMemo(() => {
+      const now = new Date();
+
+      const isSameCalendarWeek = (date: Date) => {
+        const startOfWeek = new Date(now);
+        startOfWeek.setHours(0, 0, 0, 0);
+        const day = startOfWeek.getDay();
+        startOfWeek.setDate(startOfWeek.getDate() - day);
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(endOfWeek.getDate() + 7);
+
+        return date >= startOfWeek && date < endOfWeek;
+      };
+
+      const isSameCalendarMonth = (date: Date) =>
+        date.getFullYear() === now.getFullYear() &&
+        date.getMonth() === now.getMonth();
+
+      const isSameCalendarYear = (date: Date) =>
+        date.getFullYear() === now.getFullYear();
+
+      const categoryMap: Record<string, number> = {};
+      state.categories.forEach((category) => {
+        categoryMap[category] = 0;
+      });
+
+      state.transactions.forEach((tx) => {
+        if (tx.type !== "expense") return;
+        const txDate = new Date(tx.date);
+        if (Number.isNaN(txDate.getTime())) return;
+
+        let include = false;
+        if (spendingRange === "week") {
+          include = isSameCalendarWeek(txDate);
+        } else if (spendingRange === "month") {
+          include = isSameCalendarMonth(txDate);
+        } else {
+          include = isSameCalendarYear(txDate);
+        }
+
+        if (include) {
+          categoryMap[tx.category] =
+            (categoryMap[tx.category] ?? 0) + tx.amount;
+        }
+      });
+
+      const ranged = Object.entries(categoryMap)
+        .map<{ category: string; amount: number }>(([category, amount]) => ({
+          category,
+          amount,
+        }))
+        .filter((item) => item.amount > 0)
+        .sort((a, b) => b.amount - a.amount);
+
+      if (ranged.length > 0) {
+        return ranged;
+      }
+
+      return spendingByCategory;
+    }, [state.transactions, state.categories, spendingRange, spendingByCategory]);
 
   const visibleTransactions = useMemo(() => {
     const source = tab === "recent" ? recentTransactions : allTransactions;
@@ -149,18 +214,18 @@ export default function DashboardPage() {
         <section className="grid gap-6 lg:grid-cols-5">
           <div className="lg:col-span-3 space-y-6">
             <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-                Wallets
-              </h2>
-              <Button
-                variant="ghost"
-                className="btn-neo gap-2 rounded-2xl border-2 border-transparent text-xs font-semibold uppercase text-[#0f172a]/70 hover:border-[#0f172a]"
-                onClick={() => setWalletDialog(true)}
-              >
-                Manage
-              </Button>
-            </div>
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
+                  Wallets
+                </h2>
+                <Button
+                  variant="ghost"
+                  className="btn-neo gap-2 rounded-2xl border-2 border-transparent text-xs font-semibold uppercase text-[#0f172a]/70 hover:border-[#0f172a]"
+                  onClick={() => setWalletDialog(true)}
+                >
+                  Manage
+                </Button>
+              </div>
               <div className="grid grid-cols-2 gap-3">
                 {walletBalances.map((wallet) => (
                   <WalletCard
@@ -176,7 +241,7 @@ export default function DashboardPage() {
               <h2 className="mb-4 text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
                 Recent Transactions
               </h2>
-              <div className="h-64 space-y-3 overflow-y-auto">
+              <div className="h-64 space-y-3 overflow-y-auto pr-3">
                 {recentTransactions.length === 0 ? (
                   <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/40 dark:border-[#4ade80]/40 dark:bg-[#052e16] dark:text-[#bbf7d0]/50">
                     No recent transactions.
@@ -216,47 +281,80 @@ export default function DashboardPage() {
               </div>
             </div>
 
-          <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-                Spending Insights
-              </h2>
-              <Button
-                variant="ghost"
-                className="btn-neo gap-2 rounded-2xl border-2 border-transparent text-xs font-semibold uppercase text-[#0f172a]/70 hover:border-[#0f172a]"
-                onClick={() => setCategoryDialog(true)}
-              >
-                Categories
-              </Button>
-            </div>
-
-            <div className="mt-4 space-y-4">
-              {spendingByCategory.slice(0, 4).map((category) => (
-                <div
-                  key={category.category}
-                  className="flex items-center gap-4"
-                >
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                      {category.category}
-                    </p>
-                    <div className="mt-1 h-3 overflow-hidden rounded-full border-2 border-[#0f172a] bg-[#ecfccb] shadow-neo-sm dark:border-[#4ade80]">
-                      <div
-                        className="h-full bg-[#16a34a]"
-                        style={{
-                          width: `${Math.min(100, (category.amount / totals.expense) * 100)}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <p className="text-lg font-bold text-[#0f172a] dark:text-white">
-                    {formatCurrency(category.amount, showCents)}
-                  </p>
+            <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
+                  Spending Insights
+                </h2>
+                <div className="inline-flex rounded-full border-2 border-[#0f172a] bg-[#fefce8] p-1 text-xs font-semibold uppercase text-[#0f172a]/70 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
+                  <button
+                    type="button"
+                    className={cn(
+                      "px-2 py-1 rounded-full",
+                      spendingRange === "week" &&
+                        "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]",
+                    )}
+                    onClick={() => setSpendingRange("week")}
+                  >
+                    W
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      "px-2 py-1 rounded-full",
+                      spendingRange === "month" &&
+                        "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]",
+                    )}
+                    onClick={() => setSpendingRange("month")}
+                  >
+                    M
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      "px-2 py-1 rounded-full",
+                      spendingRange === "year" &&
+                        "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]",
+                    )}
+                    onClick={() => setSpendingRange("year")}
+                  >
+                    Y
+                  </button>
                 </div>
-              ))}
+              </div>
+
+              <div className="mt-2 space-y-4">
+                {rangeFilteredSpending.length === 0 ? (
+                  <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/40 dark:border-[#4ade80]/40 dark:bg-[#052e16] dark:text-[#bbf7d0]/50">
+                    No spending in this range.
+                  </p>
+                ) : (
+                  rangeFilteredSpending
+                    .slice(0, 4)
+                    .map((category: { category: string; amount: number }) => (
+                      <div
+                        key={category.category}
+                        className="flex items-center gap-4"
+                      >
+                      <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
+                              {category.category}
+                            </p>
+                            <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
+                              {formatCurrency(category.amount, showCents)}
+                            </p>
+                          </div>
+                          <div className="mt-1 h-4 overflow-hidden rounded-full border-2 border-[#0f172a] bg-[#ecfccb] shadow-neo-sm dark:border-[#4ade80]">
+                            <div className="h-full w-full bg-[#16a34a]" />
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
         <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712] lg:col-span-2">
           <div>
@@ -348,11 +446,7 @@ export default function DashboardPage() {
         <PlusIcon className="h-7 w-7" />
       </button>
 
-        <Sheet
-          open={isTypeSelectorOpen}
-          onOpenChange={setIsTypeSelectorOpen}
-          onOpenAutoFocus={(event) => event.preventDefault()}
-        >
+        <Sheet open={isTypeSelectorOpen} onOpenChange={setIsTypeSelectorOpen}>
         <SheetContent
           side="bottom"
           className="h-[50vh] max-h-[420px] rounded-t-[32px] border-4 border-[#0f172a] bg-white shadow-neo-lg dark:border-[#4ade80] dark:bg-[#020617]"
