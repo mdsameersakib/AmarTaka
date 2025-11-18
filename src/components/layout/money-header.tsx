@@ -13,7 +13,7 @@ export function MoneyHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b-4 border-[#0f172a] bg-[#c7f9cc]/95 backdrop-blur-sm shadow-neo dark:border-[#4ade80] dark:bg-[#020617]/90">
+    <header className="sticky top-0 z-40 border-b-4 border-[#0f172a] bg-[#c7f9cc]/95 backdrop-blur-sm shadow-neo dark:border-[#4ade80] dark:bg-[#020617]/90 rounded-b-[32px]">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 pb-5 pt-6 sm:px-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-black text-[#0f172a] dark:text-white">
