@@ -35,6 +35,7 @@ export function ManageDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-[32px] border-4 border-[#0f172a] bg-white shadow-neo dark:border-[#4ade80] dark:bg-[#020617]">
+        <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogHeader>
           <DialogTitle className="text-3xl font-black text-[#0f172a] dark:text-white">
             {title}
@@ -80,4 +81,3 @@ export function ManageDialog({
     </Dialog>
   );
 }
-

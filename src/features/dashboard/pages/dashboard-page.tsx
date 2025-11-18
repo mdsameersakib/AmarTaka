@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
 import { useMoney } from "@/providers/money-provider";
@@ -113,25 +113,24 @@ export default function DashboardPage() {
 
   return (
     <div className="relative mb-20 flex flex-col gap-8">
-      <section className="grid gap-4 sm:grid-cols-3">
-        <SummaryCard
-          label="Total Balance"
-          amount={totals.total}
-          icon={Wallet}
-          pill="+12% vs last month"
-        />
-        <SummaryCard
-          label="Income"
-          amount={totals.income}
-          icon={ArrowDownRight}
-          accent="income"
-        />
-        <SummaryCard
-          label="Expenses"
-          amount={totals.expense}
-          icon={ArrowUpRight}
-          accent="expense"
-        />
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="col-span-2 sm:col-span-1">
+          <SummaryCard label="Total Balance" amount={totals.total} />
+        </div>
+        <div>
+          <SummaryCard
+            label="Income"
+            amount={totals.income}
+            accent="income"
+          />
+        </div>
+        <div>
+          <SummaryCard
+            label="Expenses"
+            amount={totals.expense}
+            accent="expense"
+          />
+        </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-5">
@@ -149,7 +148,7 @@ export default function DashboardPage() {
                 Manage
               </Button>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               {walletBalances.map((wallet) => (
                 <div
                   key={wallet.wallet}
@@ -290,81 +289,6 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-2xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-              Transactions
-            </h2>
-            <p className="text-xs font-semibold uppercase text-[#0f172a]/60 dark:text-[#bbf7d0]/70">
-              {visibleTransactions.length} entries
-            </p>
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-1 shadow-neo-sm dark:border-[#4ade80] dark:bg-black">
-              <Search className="h-4 w-4 text-[#0f172a]/60 dark:text-[#bbf7d0]" />
-              <Input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search notes, categories..."
-                className="border-0 bg-transparent p-0 text-sm font-semibold focus-visible:ring-0"
-              />
-            </div>
-            <div className="flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-3 py-2 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
-              {(["all", "income", "expense"] as FilterType[]).map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => setFilter(option)}
-                  className={cn(
-                    "rounded-xl px-3 py-1 text-xs font-bold uppercase transition",
-                    filter === option
-                      ? "bg-[#0f172a] text-white dark:bg-[#4ade80] dark:text-[#022c22]"
-                      : "text-[#0f172a]/60 dark:text-[#bbf7d0]/60",
-                  )}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <Tabs
-          value={tab}
-          onValueChange={(value) => setTab(value as typeof tab)}
-          className="mt-6"
-        >
-          <TabsList className="w-full rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
-            <TabsTrigger
-              value="recent"
-              className="flex-1 rounded-xl text-xs font-bold uppercase data-[state=active]:bg-white data-[state=active]:text-[#0f172a] dark:data-[state=active]:bg-black dark:data-[state=active]:text-[#bbf7d0]"
-            >
-              Recent
-            </TabsTrigger>
-            <TabsTrigger
-              value="all"
-              className="flex-1 rounded-xl text-xs font-bold uppercase data-[state=active]:bg-white data-[state=active]:text-[#0f172a] dark:data-[state=active]:bg-black dark:data-[state=active]:text-[#bbf7d0]"
-            >
-              All
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="recent" className="mt-5 space-y-3">
-            <TransactionList
-              transactions={visibleTransactions}
-              onDelete={deleteTransaction}
-            />
-          </TabsContent>
-          <TabsContent value="all" className="mt-5 space-y-3">
-            <TransactionList
-              transactions={visibleTransactions}
-              onDelete={deleteTransaction}
-            />
-          </TabsContent>
-        </Tabs>
-      </section>
-
       <button
         type="button"
         onClick={() => setIsTypeSelectorOpen(true)}
@@ -378,6 +302,7 @@ export default function DashboardPage() {
           side="bottom"
           className="h-[50vh] max-h-[420px] rounded-t-[32px] border-4 border-[#0f172a] bg-white shadow-neo-lg dark:border-[#4ade80] dark:bg-[#020617]"
         >
+          <SheetTitle className="sr-only">Choose transaction type</SheetTitle>
           <div className="mx-auto mb-6 h-1.5 w-12 cursor-pointer rounded-full bg-[#e5e7eb] dark:bg-[#166534]" />
           <h2 className="mb-6 text-center text-2xl font-black text-[#0f172a] dark:text-white">
             What do you want to do?
@@ -464,13 +389,11 @@ export default function DashboardPage() {
 function SummaryCard({
   label,
   amount,
-  icon: Icon,
   accent,
   pill,
 }: {
   label: string;
   amount: number;
-  icon: LucideIcon;
   accent?: "income" | "expense";
   pill?: string;
 }) {
@@ -490,9 +413,6 @@ function SummaryCard({
           <p className="text-3xl font-black text-[#0f172a] dark:text-white">
             {formatCurrency(amount)}
           </p>
-        </div>
-        <div className="rounded-2xl border-2 border-[#0f172a] bg-white p-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-black">
-          <Icon className="h-6 w-6 text-[#0f172a] dark:text-[#4ade80]" />
         </div>
       </div>
       {pill ? (
