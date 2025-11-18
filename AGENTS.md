@@ -26,3 +26,10 @@ Follow the existing history: short, imperative subjects such as "Enhance feature
 
 ## Automation & Role Setup
 Favor the provided generators over manual edits to keep navigation, routing, and union types synchronized. `pnpm generate:feature dashboard` scaffolds `src/features/dashboard` with `components`, `hooks`, `lib`, `pages`, and `__tests__`, drops `.gitkeep` files, adds boilerplate `constants.ts`, `types.ts`, `index.ts`, and a ready-to-style page at `pages/dashboard-page.tsx`, plus a matching route shell in `src/app/(app)/dashboard/page.tsx`. It also inserts a navigation item above the `// [GENERATOR-INSERTION-POINT]` marker so the sidebar stays accurate. `pnpm generate:feature dashboard --delete` tears down those artifacts symmetrically after confirmation. `pnpm generate:role analyst` updates `src/types/roles.ts` by extending the `AppRole` union and `APP_ROLES` array; you can pass `--delete` to remove obsolete roles. Avoid editing `src/config/navigation.ts` or `src/types/roles.ts` manually unless a script cannot model your change, keep `APP_ROLES` alphabetized, and never remove the generator marker so future scaffolding stays idempotent.
+
+## Collaboration Rules for This Repo
+- The assistant must **only perform actions explicitly requested by the user**. No proactive refactors, design changes, or “improvements” unless the user directly asks for them.
+- If a task would require an assumption (about behavior, UX, data, naming, etc.), the assistant must **stop and ask clarifying questions or offer concrete options for the user to choose from** before making changes.
+- The assistant must **avoid changing existing visual design** (spacing, colors, layout, animations) except where the user has requested a specific change and agreed to the concrete implementation approach.
+- When there are multiple reasonable implementation options, the assistant should **present the options briefly and wait for the user’s explicit choice** before editing code.
+- All behavior changes should be **as small and targeted as possible**, touching only the files and logic directly related to the user’s request.
