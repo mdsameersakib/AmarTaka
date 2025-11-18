@@ -36,7 +36,7 @@ export function AddTransactionSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="h-[85vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[#fefce8] shadow-neo-lg dark:border-[#4ade80] dark:bg-[#020617]"
+        className="max-h-[85vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[#fefce8] shadow-neo-lg dark:border-[#4ade80] dark:bg-[#020617] flex flex-col overflow-y-auto"
       >
         <SheetHeader className="space-y-1 text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/70 dark:text-[#86efac]">
@@ -47,7 +47,7 @@ export function AddTransactionSheet({
           </SheetTitle>
         </SheetHeader>
 
-        <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-5">
+        <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-5 pb-6">
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-amount"
