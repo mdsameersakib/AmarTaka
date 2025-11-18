@@ -9,14 +9,12 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
 import type { TransactionInput, TransactionType } from "@/types/money";
 
 type AddTransactionSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   formType: TransactionType;
-  setFormType: (type: TransactionType) => void;
   formData: TransactionInput;
   setFormData: (data: TransactionInput) => void;
   wallets: string[];
@@ -28,7 +26,6 @@ export function AddTransactionSheet({
   open,
   onOpenChange,
   formType,
-  setFormType,
   formData,
   setFormData,
   wallets,
@@ -51,24 +48,6 @@ export function AddTransactionSheet({
         </SheetHeader>
 
         <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-5">
-          <div className="grid grid-cols-2 gap-4">
-            {(["income", "expense"] as TransactionType[]).map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => setFormType(type)}
-                className={cn(
-                  "btn-neo rounded-3xl border-2 border-[#0f172a] px-4 py-3 text-sm font-black uppercase shadow-neo-sm transition dark:border-[#4ade80]",
-                  formType === type
-                    ? "bg-[#0f172a] text-white dark:bg-[#4ade80] dark:text-[#022c22]"
-                    : "bg-white text-[#0f172a] dark:bg-black dark:text-[#bbf7d0]",
-                )}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-amount"
@@ -183,4 +162,3 @@ export function AddTransactionSheet({
     </Sheet>
   );
 }
-
