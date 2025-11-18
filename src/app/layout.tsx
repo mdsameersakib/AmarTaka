@@ -4,6 +4,7 @@ import "./globals.css";
 import { MoneyProvider } from "@/providers/money-provider";
 import { RoleProvider } from "@/providers/role-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { PwaRegister } from "./pwa-register";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased`}
       >
+        <PwaRegister />
         <RoleProvider>
           <ThemeProvider
             attribute="class"
