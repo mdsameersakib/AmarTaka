@@ -442,7 +442,7 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
       spendingByCategory,
       topCategory: spendingByCategory[0],
       trend,
-      recentTransactions: sortedTransactions.slice(0, 3),
+      recentTransactions: sortedTransactions.slice(0, 10),
       allTransactions: sortedTransactions,
       recurring: state.recurring,
       showCents: state.showCents,

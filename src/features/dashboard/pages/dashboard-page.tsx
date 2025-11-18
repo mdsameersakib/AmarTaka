@@ -33,6 +33,18 @@ const formatDate = (value: string) =>
     day: "numeric",
   });
 
+const formatDateWithYear = (value: string) =>
+  new Date(value).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "2-digit",
+  });
+
+const formatDateTimeDemo = (value: string) => {
+  const base = formatDateWithYear(value).replace(/ /g, "-");
+  return `${base} 3:23PM`;
+};
+
 type FilterType = "all" | TransactionType;
 
 export default function DashboardPage() {
@@ -134,9 +146,9 @@ export default function DashboardPage() {
         />
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-3 space-y-6">
-          <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
+        <section className="grid gap-6 lg:grid-cols-5">
+          <div className="lg:col-span-3 space-y-6">
+            <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
             <div className="mb-5 flex items-center justify-between">
               <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
                 Wallets
@@ -149,16 +161,60 @@ export default function DashboardPage() {
                 Manage
               </Button>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              {walletBalances.map((wallet) => (
-                <WalletCard
-                  key={wallet.wallet}
-                  name={wallet.wallet}
-                  balance={wallet.balance}
-                />
-              ))}
+              <div className="grid grid-cols-2 gap-3">
+                {walletBalances.map((wallet) => (
+                  <WalletCard
+                    key={wallet.wallet}
+                    name={wallet.wallet}
+                    balance={wallet.balance}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+
+            <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
+              <h2 className="mb-4 text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
+                Recent Transactions
+              </h2>
+              <div className="h-64 space-y-3 overflow-y-auto">
+                {recentTransactions.length === 0 ? (
+                  <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/40 dark:border-[#4ade80]/40 dark:bg-[#052e16] dark:text-[#bbf7d0]/50">
+                    No recent transactions.
+                  </p>
+                ) : (
+                  recentTransactions.map((tx) => {
+                    const isIncome = tx.type === "income";
+                    return (
+                      <div
+                        key={tx.id}
+                        className="rounded-2xl border-2 border-[#0f172a] bg-[#fefce8] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-[#14532d] dark:text-[#bbf7d0]">
+                            {tx.note ? `${tx.category}-${tx.note}` : tx.category}
+                          </p>
+                          <p
+                            className={cn(
+                              "text-sm font-black",
+                              isIncome
+                                ? "text-green-700 dark:text-green-300"
+                                : "text-red-600 dark:text-red-300",
+                            )}
+                          >
+                            {isIncome ? "+" : "-"}
+                            {formatCurrency(tx.amount, showCents)}
+                          </p>
+                        </div>
+                        <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 dark:text-[#bbf7d0]/70">
+                          <span>{formatDateTimeDemo(tx.date)}</span>
+                          <span>{tx.wallet}</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
 
           <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
             <div className="flex items-center justify-between">
