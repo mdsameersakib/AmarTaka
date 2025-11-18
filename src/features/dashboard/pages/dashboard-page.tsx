@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowDownRight,
@@ -45,6 +45,7 @@ export default function DashboardPage() {
     recentTransactions,
     allTransactions,
     recurring,
+    showCents,
     addTransaction,
     deleteTransaction,
     addCategory,
@@ -113,24 +114,24 @@ export default function DashboardPage() {
 
   return (
     <div className="relative mb-20 flex flex-col gap-8">
-      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-        <div className="col-span-2 sm:col-span-1">
-          <SummaryCard label="Total Balance" amount={totals.total} />
-        </div>
-        <div>
-          <SummaryCard
-            label="Income"
-            amount={totals.income}
-            accent="income"
-          />
-        </div>
-        <div>
-          <SummaryCard
-            label="Expenses"
-            amount={totals.expense}
-            accent="expense"
-          />
-        </div>
+      <section className="space-y-4">
+        <SummaryCard
+          label="Total Balance"
+          amount={totals.total}
+          showCents={showCents}
+        />
+        <SummaryCard
+          label="Income"
+          amount={totals.income}
+          accent="income"
+          showCents={showCents}
+        />
+        <SummaryCard
+          label="Expenses"
+          amount={totals.expense}
+          accent="expense"
+          showCents={showCents}
+        />
       </section>
 
       <section className="grid gap-6 lg:grid-cols-5">
@@ -150,17 +151,11 @@ export default function DashboardPage() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               {walletBalances.map((wallet) => (
-                <div
+                <WalletCard
                   key={wallet.wallet}
-                  className="rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]"
-                >
-                  <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                    {wallet.wallet}
-                  </p>
-                  <p className="text-2xl font-black text-[#0f172a] dark:text-white">
-                    {formatCurrency(wallet.balance)}
-                  </p>
-                </div>
+                  name={wallet.wallet}
+                  balance={wallet.balance}
+                />
               ))}
             </div>
           </div>
@@ -199,7 +194,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <p className="text-lg font-bold text-[#0f172a] dark:text-white">
-                    {formatCurrency(category.amount)}
+                    {formatCurrency(category.amount, showCents)}
                   </p>
                 </div>
               ))}
@@ -226,20 +221,20 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
                     <span>{point.label}</span>
                     <span>
-                      Net {formatCurrency(point.income - point.expense)}
+                      Net {formatCurrency(point.income - point.expense, showCents)}
                     </span>
                   </div>
                   <div className="mt-2 grid grid-cols-2 gap-3 text-xs font-bold uppercase text-[#0f172a] dark:text-white">
                     <div className="flex flex-col gap-1">
                       <span>Income</span>
                       <span className="rounded-full bg-white px-3 py-1 shadow-neo-sm dark:bg-black">
-                        {formatCurrency(point.income)}
+                        {formatCurrency(point.income, showCents)}
                       </span>
                     </div>
                     <div className="flex flex-col gap-1">
                       <span>Expense</span>
                       <span className="rounded-full bg-white px-3 py-1 shadow-neo-sm dark:bg-black">
-                        {formatCurrency(point.expense)}
+                        {formatCurrency(point.expense, showCents)}
                       </span>
                     </div>
                   </div>
@@ -280,7 +275,7 @@ export default function DashboardPage() {
                     </p>
                   </div>
                   <p className="text-lg font-black text-[#0f172a] dark:text-white">
-                    {formatCurrency(item.amount)}
+                    {formatCurrency(item.amount, showCents)}
                   </p>
                 </div>
               ))}
@@ -391,11 +386,13 @@ function SummaryCard({
   amount,
   accent,
   pill,
+  showCents,
 }: {
   label: string;
   amount: number;
   accent?: "income" | "expense";
   pill?: string;
+  showCents: boolean;
 }) {
   return (
     <div
@@ -411,7 +408,7 @@ function SummaryCard({
             {label}
           </p>
           <p className="text-3xl font-black text-[#0f172a] dark:text-white">
-            {formatCurrency(amount)}
+            {formatCurrency(amount, showCents)}
           </p>
         </div>
       </div>
@@ -497,6 +494,68 @@ function TransactionRow({
           <X className="h-4 w-4" />
         </button>
       </div>
+    </div>
+  );
+}
+
+function WalletCard({
+  name,
+  balance,
+}: {
+  name: string;
+  balance: number;
+}) {
+  const { showCents } = useMoney();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const amountRef = useRef<HTMLParagraphElement | null>(null);
+  const [needsFullRow, setNeedsFullRow] = useState(false);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      const amountEl = amountRef.current;
+      const containerEl = containerRef.current;
+
+      if (!amountEl || !containerEl) return;
+
+      const isOverflowing = amountEl.scrollWidth > containerEl.clientWidth;
+      setNeedsFullRow(isOverflowing);
+    };
+
+    checkOverflow();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(() => checkOverflow());
+      if (containerRef.current) {
+        observer.observe(containerRef.current);
+      }
+      return () => {
+        if (containerRef.current) {
+          observer.unobserve(containerRef.current);
+        }
+        observer.disconnect();
+      };
+    }
+
+    return;
+  }, [showCents]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn(
+        "rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]",
+        needsFullRow && "col-span-2 sm:col-span-1",
+      )}
+    >
+      <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
+        {name}
+      </p>
+      <p
+        ref={amountRef}
+        className="text-2xl font-black text-[#0f172a] dark:text-white"
+      >
+        {formatCurrency(balance, showCents)}
+      </p>
     </div>
   );
 }

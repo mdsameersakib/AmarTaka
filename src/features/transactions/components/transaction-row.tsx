@@ -5,6 +5,7 @@ import { ArrowDownRight, ArrowUpRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
 import type { Transaction } from "@/types/money";
+import { useMoney } from "@/providers/money-provider";
 
 type TransactionRowProps = {
   transaction: Transaction;
@@ -12,6 +13,7 @@ type TransactionRowProps = {
 };
 
 export function TransactionRow({ transaction, onDelete }: TransactionRowProps) {
+  const { showCents } = useMoney();
   const isIncome = transaction.type === "income";
   const Icon = isIncome ? ArrowDownRight : ArrowUpRight;
 
@@ -45,7 +47,7 @@ export function TransactionRow({ transaction, onDelete }: TransactionRowProps) {
           )}
         >
           {isIncome ? "+" : "-"}
-          {formatCurrency(transaction.amount)}
+          {formatCurrency(transaction.amount, showCents)}
         </p>
         <button
           type="button"
@@ -58,4 +60,3 @@ export function TransactionRow({ transaction, onDelete }: TransactionRowProps) {
     </div>
   );
 }
-

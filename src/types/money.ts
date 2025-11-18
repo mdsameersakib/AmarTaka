@@ -23,6 +23,7 @@ export interface MoneyState {
   categories: string[];
   transactions: Transaction[];
   recurring: RecurringPayment[];
+  showCents: boolean;
 }
 
 export interface MoneyTotals {

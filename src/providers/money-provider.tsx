@@ -183,6 +183,7 @@ const DEMO_STATE: MoneyState = {
     },
     { id: 3, name: "Spotify", amount: 9.99, date: "20th", type: "expense" },
   ],
+  showCents: true,
 };
 
 const cloneDemoState = (): MoneyState =>
@@ -198,6 +199,7 @@ interface MoneyContextValue {
   recentTransactions: Transaction[];
   allTransactions: Transaction[];
   recurring: RecurringPayment[];
+  showCents: boolean;
   addTransaction: (input: TransactionInput) => void;
   deleteTransaction: (id: number) => void;
   addCategory: (name: string) => void;
@@ -205,6 +207,8 @@ interface MoneyContextValue {
   addWallet: (name: string) => void;
   deleteWallet: (name: string) => void;
   resetDemoData: () => void;
+  setShowCents: (value: boolean) => void;
+  toggleShowCents: () => void;
   isReady: boolean;
 }
 
@@ -220,7 +224,14 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as MoneyState;
-        setState(parsed);
+        const base = cloneDemoState();
+        setState({
+          ...base,
+          ...parsed,
+          showCents: (parsed as MoneyState).showCents ?? base.showCents,
+        });
+      } else {
+        setState(cloneDemoState());
       }
     } catch {
       // ignore invalid payloads
@@ -409,6 +420,20 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
     setState(cloneDemoState());
   }, []);
 
+  const setShowCents = useCallback((value: boolean) => {
+    setState((prev) => ({
+      ...prev,
+      showCents: value,
+    }));
+  }, []);
+
+  const toggleShowCents = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      showCents: !prev.showCents,
+    }));
+  }, []);
+
   const value: MoneyContextValue = useMemo(
     () => ({
       state,
@@ -420,6 +445,7 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
       recentTransactions: sortedTransactions.slice(0, 3),
       allTransactions: sortedTransactions,
       recurring: state.recurring,
+      showCents: state.showCents,
       addTransaction,
       deleteTransaction,
       addCategory,
@@ -427,6 +453,8 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
       addWallet,
       deleteWallet,
       resetDemoData,
+      setShowCents,
+      toggleShowCents,
       isReady,
     }),
     [
@@ -442,6 +470,8 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
       addWallet,
       deleteWallet,
       resetDemoData,
+      setShowCents,
+      toggleShowCents,
       isReady,
     ],
   );

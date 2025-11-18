@@ -19,7 +19,8 @@ import {
 type FilterType = "all" | TransactionType;
 
 export default function TransactionsPage() {
-  const { allTransactions, totals, state, deleteTransaction } = useMoney();
+  const { allTransactions, totals, state, deleteTransaction, showCents } =
+    useMoney();
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<FilterType>("all");
   const [walletFilter, setWalletFilter] = useState<string>("all");
@@ -92,15 +93,18 @@ export default function TransactionsPage() {
             label="Total Entries"
             value={filtered.length.toString()}
           />
-          <FilterCard label="Balance" value={formatCurrency(totals.total)} />
+          <FilterCard
+            label="Balance"
+            value={formatCurrency(totals.total, showCents)}
+          />
           <FilterCard
             label="Income"
-            value={formatCurrency(totals.income)}
+            value={formatCurrency(totals.income, showCents)}
             accent="income"
           />
           <FilterCard
             label="Expenses"
-            value={formatCurrency(totals.expense)}
+            value={formatCurrency(totals.expense, showCents)}
             accent="expense"
           />
         </div>
