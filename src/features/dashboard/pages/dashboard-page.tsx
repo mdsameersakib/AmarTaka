@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { LucideIcon } from "lucide-react";
+import { useState } from "react";
 import {
   ArrowDownRight,
   ArrowUpRight,
   CreditCard,
-  PlusIcon,
   RefreshCw,
   Search,
   Wallet,
@@ -15,40 +13,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
 import { useMoney } from "@/providers/money-provider";
-import type {
-  Transaction,
-  TransactionInput,
-  TransactionType,
-} from "@/types/money";
+import type { Transaction } from "@/types/money";
 import { AddTransactionSheet } from "@/features/dashboard/components/transaction-form";
 import { ManageDialog } from "@/features/dashboard/components/manage-dialog";
+import { useTransactionLauncher } from "@/features/dashboard/hooks/use-transaction-launcher";
+import { FloatingActionLauncher } from "@/features/dashboard/components/floating-action-launcher";
+import { SummaryCard } from "@/features/dashboard/components/summary-card";
+import { TransactionList } from "@/features/dashboard/components/transaction-list";
+import { WalletCard } from "@/features/dashboard/components/wallet-card";
+import { WalletsSection } from "@/features/dashboard/components/wallets-section";
+import { RecentTransactionsSection } from "@/features/dashboard/components/recent-transactions-section";
+import { SpendingInsightsSection } from "@/features/dashboard/components/spending-insights-section";
+import { MonthlyTrendSection } from "@/features/dashboard/components/monthly-trend-section";
+import { RecurringSection } from "@/features/dashboard/components/recurring-section";
+import { useDashboardFilters } from "@/features/dashboard/hooks/use-dashboard-filters";
+import { useSpendingInsights } from "@/features/dashboard/hooks/use-spending-insights";
+import { formatDateTimeDemo } from "@/features/dashboard/lib/date";
 
-const formatDate = (value: string) =>
-  new Date(value).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-
-const formatDateWithYear = (value: string) =>
-  new Date(value).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "2-digit",
-  });
-
-const formatDateTimeDemo = (value: string) => {
-  const base = formatDateWithYear(value).replace(/ /g, "-");
-  return `${base} 3:23PM`;
-};
-
-  type FilterType = "all" | TransactionType;
-
-  export default function DashboardPage() {
-    const {
+export default function DashboardPage() {
+  const {
       state,
       totals,
       walletBalances,
@@ -64,130 +50,46 @@ const formatDateTimeDemo = (value: string) => {
     deleteCategory,
     addWallet,
     deleteWallet,
-    resetDemoData,
-  } = useMoney();
+      resetDemoData,
+    } = useMoney();
 
-  const [tab, setTab] = useState<"recent" | "all">("recent");
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<FilterType>("all");
-  const [isTypeSelectorOpen, setIsTypeSelectorOpen] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formType, setFormType] = useState<TransactionType>("expense");
-  const [formData, setFormData] = useState<TransactionInput>({
-    type: "expense",
-    amount: 0,
-    wallet: state.wallets[0] ?? "",
-    category: state.categories[0] ?? "",
-    date: new Date().toISOString().slice(0, 10),
-    note: "",
+  const {
+    tab,
+    setTab,
+    search,
+    setSearch,
+    filter,
+    setFilter,
+    visibleTransactions,
+  } = useDashboardFilters({
+    recentTransactions,
+    allTransactions,
   });
-    const [categoryDialog, setCategoryDialog] = useState(false);
-    const [walletDialog, setWalletDialog] = useState(false);
-    const [newCategory, setNewCategory] = useState("");
-    const [newWallet, setNewWallet] = useState("");
-    const [spendingRange, setSpendingRange] = useState<
-      "week" | "month" | "year"
-    >("month");
 
-    const rangeFilteredSpending = useMemo(() => {
-      const now = new Date();
+  const {
+    spendingRange,
+    setSpendingRange,
+    rangeFilteredSpending,
+  } = useSpendingInsights({
+    state,
+    spendingByCategory,
+  });
 
-      const isSameCalendarWeek = (date: Date) => {
-        const startOfWeek = new Date(now);
-        startOfWeek.setHours(0, 0, 0, 0);
-        const day = startOfWeek.getDay();
-        startOfWeek.setDate(startOfWeek.getDate() - day);
-
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(endOfWeek.getDate() + 7);
-
-        return date >= startOfWeek && date < endOfWeek;
-      };
-
-      const isSameCalendarMonth = (date: Date) =>
-        date.getFullYear() === now.getFullYear() &&
-        date.getMonth() === now.getMonth();
-
-      const isSameCalendarYear = (date: Date) =>
-        date.getFullYear() === now.getFullYear();
-
-      const categoryMap: Record<string, number> = {};
-      state.categories.forEach((category) => {
-        categoryMap[category] = 0;
-      });
-
-      state.transactions.forEach((tx) => {
-        if (tx.type !== "expense") return;
-        const txDate = new Date(tx.date);
-        if (Number.isNaN(txDate.getTime())) return;
-
-        let include = false;
-        if (spendingRange === "week") {
-          include = isSameCalendarWeek(txDate);
-        } else if (spendingRange === "month") {
-          include = isSameCalendarMonth(txDate);
-        } else {
-          include = isSameCalendarYear(txDate);
-        }
-
-        if (include) {
-          categoryMap[tx.category] =
-            (categoryMap[tx.category] ?? 0) + tx.amount;
-        }
-      });
-
-      const ranged = Object.entries(categoryMap)
-        .map<{ category: string; amount: number }>(([category, amount]) => ({
-          category,
-          amount,
-        }))
-        .filter((item) => item.amount > 0)
-        .sort((a, b) => b.amount - a.amount);
-
-      if (ranged.length > 0) {
-        return ranged;
-      }
-
-      return spendingByCategory;
-    }, [state.transactions, state.categories, spendingRange, spendingByCategory]);
-
-  const visibleTransactions = useMemo(() => {
-    const source = tab === "recent" ? recentTransactions : allTransactions;
-    const lower = search.toLowerCase();
-    return source.filter((tx) => {
-      const matchesFilter = filter === "all" || tx.type === filter;
-      const matchesSearch =
-        !lower ||
-        tx.category.toLowerCase().includes(lower) ||
-        tx.wallet.toLowerCase().includes(lower) ||
-        (tx.note ?? "").toLowerCase().includes(lower);
-      return matchesFilter && matchesSearch;
-    });
-  }, [tab, recentTransactions, allTransactions, search, filter]);
-
-  const openForm = (type: TransactionType) => {
-    setFormType(type);
-    setFormData({
-      type,
-      amount: 0,
-      wallet: state.wallets[0] ?? "",
-      category: state.categories[0] ?? "",
-      date: new Date().toISOString().slice(0, 10),
-      note: "",
-    });
-    setIsFormOpen(true);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!formData.wallet || !formData.category || !formData.date) return;
-    addTransaction({
-      ...formData,
-      type: formType,
-      amount: Number(formData.amount),
-    });
-    setIsFormOpen(false);
-  };
+  const {
+    isTypeSelectorOpen,
+    setIsTypeSelectorOpen,
+    isFormOpen,
+    setIsFormOpen,
+    formType,
+    formData,
+    setFormData,
+    openForm,
+    handleSubmit,
+  } = useTransactionLauncher();
+  const [categoryDialog, setCategoryDialog] = useState(false);
+  const [walletDialog, setWalletDialog] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
+  const [newWallet, setNewWallet] = useState("");
 
   return (
     <div className="relative mb-20 flex flex-col gap-8">
@@ -209,287 +111,44 @@ const formatDateTimeDemo = (value: string) => {
           accent="expense"
           showCents={showCents}
         />
-      </section>
+        </section>
 
         <section className="grid gap-6 lg:grid-cols-5">
           <div className="lg:col-span-3 space-y-6">
-            <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
-              <div className="mb-5 flex items-center justify-between">
-                <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-                  Wallets
-                </h2>
-                <Button
-                  variant="ghost"
-                  className="btn-neo gap-2 rounded-2xl border-2 border-transparent text-xs font-semibold uppercase text-[#0f172a]/70 hover:border-[#0f172a]"
-                  onClick={() => setWalletDialog(true)}
-                >
-                  Manage
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {walletBalances.map((wallet) => (
-                  <WalletCard
-                    key={wallet.wallet}
-                    name={wallet.wallet}
-                    balance={wallet.balance}
-                  />
-                ))}
-              </div>
-            </div>
+            <WalletsSection
+              walletBalances={walletBalances}
+              onManageClick={() => setWalletDialog(true)}
+            />
 
-            <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
-              <h2 className="mb-4 text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-                Recent Transactions
-              </h2>
-              <div className="h-64 space-y-3 overflow-y-auto pr-3">
-                {recentTransactions.length === 0 ? (
-                  <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/40 dark:border-[#4ade80]/40 dark:bg-[#052e16] dark:text-[#bbf7d0]/50">
-                    No recent transactions.
-                  </p>
-                ) : (
-                  recentTransactions.map((tx) => {
-                    const isIncome = tx.type === "income";
-                    return (
-                      <div
-                        key={tx.id}
-                        className="rounded-2xl border-2 border-[#0f172a] bg-[#fefce8] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]"
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-[#14532d] dark:text-[#bbf7d0]">
-                            {tx.note ? `${tx.category}-${tx.note}` : tx.category}
-                          </p>
-                          <p
-                            className={cn(
-                              "text-sm font-black",
-                              isIncome
-                                ? "text-green-700 dark:text-green-300"
-                                : "text-red-600 dark:text-red-300",
-                            )}
-                          >
-                            {isIncome ? "+" : "-"}
-                            {formatCurrency(tx.amount, showCents)}
-                          </p>
-                        </div>
-                        <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 dark:text-[#bbf7d0]/70">
-                          <span>{formatDateTimeDemo(tx.date)}</span>
-                          <span>{tx.wallet}</span>
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            </div>
+            <RecentTransactionsSection
+              recentTransactions={recentTransactions}
+              showCents={showCents}
+            />
 
-            <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-                  Spending Insights
-                </h2>
-                <div className="inline-flex rounded-full border-2 border-[#0f172a] bg-[#fefce8] p-1 text-xs font-semibold uppercase text-[#0f172a]/70 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
-                  <button
-                    type="button"
-                    className={cn(
-                      "px-2 py-1 rounded-full",
-                      spendingRange === "week" &&
-                        "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]",
-                    )}
-                    onClick={() => setSpendingRange("week")}
-                  >
-                    W
-                  </button>
-                  <button
-                    type="button"
-                    className={cn(
-                      "px-2 py-1 rounded-full",
-                      spendingRange === "month" &&
-                        "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]",
-                    )}
-                    onClick={() => setSpendingRange("month")}
-                  >
-                    M
-                  </button>
-                  <button
-                    type="button"
-                    className={cn(
-                      "px-2 py-1 rounded-full",
-                      spendingRange === "year" &&
-                        "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]",
-                    )}
-                    onClick={() => setSpendingRange("year")}
-                  >
-                    Y
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-2 space-y-4">
-                {rangeFilteredSpending.length === 0 ? (
-                  <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/40 dark:border-[#4ade80]/40 dark:bg-[#052e16] dark:text-[#bbf7d0]/50">
-                    No spending in this range.
-                  </p>
-                ) : (
-                  rangeFilteredSpending
-                    .slice(0, 4)
-                    .map((category: { category: string; amount: number }) => (
-                      <div
-                        key={category.category}
-                        className="flex items-center gap-4"
-                      >
-                      <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                              {category.category}
-                            </p>
-                            <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                              {formatCurrency(category.amount, showCents)}
-                            </p>
-                          </div>
-                          <div className="mt-1 h-4 overflow-hidden rounded-full border-2 border-[#0f172a] bg-[#ecfccb] shadow-neo-sm dark:border-[#4ade80]">
-                            <div className="h-full w-full bg-[#16a34a]" />
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                )}
-              </div>
-            </div>
+            <SpendingInsightsSection
+              spendingRange={spendingRange}
+              setSpendingRange={setSpendingRange}
+              rangeFilteredSpending={rangeFilteredSpending}
+              showCents={showCents}
+            />
           </div>
 
         <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712] lg:col-span-2">
-          <div>
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-                Monthly Trend
-              </h2>
-              <span className="rounded-full bg-[#d9f99d] px-3 py-1 text-xs font-bold uppercase text-[#14532d] dark:bg-[#052e16] dark:text-[#bbf7d0]">
-                {trend.length} mo
-              </span>
-            </div>
-            <div className="space-y-3">
-              {trend.map((point) => (
-                <div
-                  key={point.label}
-                  className="rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]"
-                >
-                  <div className="flex items-center justify-between text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                    <span>{point.label}</span>
-                    <span>
-                      Net {formatCurrency(point.income - point.expense, showCents)}
-                    </span>
-                  </div>
-                  <div className="mt-2 grid grid-cols-2 gap-3 text-xs font-bold uppercase text-[#0f172a] dark:text-white">
-                    <div className="flex flex-col gap-1">
-                      <span>Income</span>
-                      <span className="rounded-full bg-white px-3 py-1 shadow-neo-sm dark:bg-black">
-                        {formatCurrency(point.income, showCents)}
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <span>Expense</span>
-                      <span className="rounded-full bg-white px-3 py-1 shadow-neo-sm dark:bg-black">
-                        {formatCurrency(point.expense, showCents)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <MonthlyTrendSection trend={trend} showCents={showCents} />
 
-          <div>
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-black uppercase tracking-tight text-[#0f172a] dark:text-white">
-                Recurring
-              </h2>
-              <Button
-                variant="ghost"
-                className="btn-neo gap-2 rounded-2xl border-2 border-transparent text-xs font-semibold uppercase text-[#0f172a]/70 hover:border-[#0f172a]"
-                onClick={resetDemoData}
-              >
-                <RefreshCw className="h-4 w-4" />
-                Reset
-              </Button>
-            </div>
-            <div className="space-y-3">
-              {recurring.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center gap-4 rounded-2xl border-2 border-[#0f172a] bg-[#fefce8] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]"
-                >
-                  <div className="rounded-2xl border-2 border-[#0f172a] bg-white p-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-black">
-                    <CreditCard className="h-5 w-5 text-[#0f172a] dark:text-[#4ade80]" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                      {item.name}
-                    </p>
-                    <p className="text-xs text-[#0f172a]/70 dark:text-[#bbf7d0]/70">
-                      {item.date} - {item.type}
-                    </p>
-                  </div>
-                  <p className="text-lg font-black text-[#0f172a] dark:text-white">
-                    {formatCurrency(item.amount, showCents)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <RecurringSection
+            recurring={recurring}
+            showCents={showCents}
+            onReset={resetDemoData}
+          />
         </div>
       </section>
 
-      <button
-        type="button"
-        onClick={() => setIsTypeSelectorOpen(true)}
-        className="fab-animate fixed bottom-10 right-10 z-40 inline-flex h-16 w-16 items-center justify-center rounded-full border-4 border-[#0f172a] bg-[#22c55e] text-[#0f172a] shadow-neo-lg dark:border-[#4ade80] dark:bg-[#4ade80] dark:text-[#022c22]"
-      >
-        <PlusIcon className="h-7 w-7" />
-      </button>
-
-        <Sheet open={isTypeSelectorOpen} onOpenChange={setIsTypeSelectorOpen}>
-        <SheetContent
-          side="bottom"
-          className="h-[50vh] max-h-[420px] rounded-t-[32px] border-4 border-[#0f172a] bg-white shadow-neo-lg dark:border-[#4ade80] dark:bg-[#020617]"
-        >
-          <SheetTitle className="sr-only">Choose transaction type</SheetTitle>
-          <div className="mx-auto mb-6 h-1.5 w-12 cursor-pointer rounded-full bg-[#e5e7eb] dark:bg-[#166534]" />
-          <h2 className="mb-6 text-center text-2xl font-black text-[#0f172a] dark:text-white">
-            What do you want to do?
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              type="button"
-              className="btn-neo group flex h-40 flex-col items-center justify-center gap-3 rounded-2xl border-2 border-[#0f172a] bg-[#dcfce7] p-6 shadow-neo-sm hover:bg-[#bbf7d0] dark:border-[#4ade80] dark:bg-[#052e16]"
-              onClick={() => {
-                openForm("income");
-                setIsTypeSelectorOpen(false);
-              }}
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#0f172a] bg-[#22c55e] text-white shadow-neo-sm transition-transform group-hover:scale-110 dark:border-[#4ade80] dark:bg-[#16a34a]">
-                <ArrowDownRight className="h-8 w-8" />
-              </div>
-              <span className="text-lg font-bold text-[#16a34a] dark:text-[#4ade80]">
-                Add Income
-              </span>
-            </button>
-            <button
-              type="button"
-              className="btn-neo group flex h-40 flex-col items-center justify-center gap-3 rounded-2xl border-2 border-[#0f172a] bg-[#fee2e2] p-6 shadow-neo-sm hover:bg-[#fecaca] dark:border-[#f97373] dark:bg-[#450a0a]"
-              onClick={() => {
-                openForm("expense");
-                setIsTypeSelectorOpen(false);
-              }}
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#0f172a] bg-[#ef4444] text-white shadow-neo-sm transition-transform group-hover:scale-110 dark:border-[#f97373] dark:bg-[#b91c1c]">
-                <ArrowUpRight className="h-8 w-8" />
-              </div>
-              <span className="text-lg font-bold text-[#b91c1c] dark:text-[#fecaca]">
-                Spend Money
-              </span>
-            </button>
-          </div>
-        </SheetContent>
-      </Sheet>
+      <FloatingActionLauncher
+        open={isTypeSelectorOpen}
+        onOpenChange={setIsTypeSelectorOpen}
+        onSelectType={openForm}
+      />
 
       <AddTransactionSheet
         open={isFormOpen}
@@ -534,183 +193,3 @@ const formatDateTimeDemo = (value: string) => {
     </div>
   );
 }
-
-function SummaryCard({
-  label,
-  amount,
-  accent,
-  pill,
-  showCents,
-}: {
-  label: string;
-  amount: number;
-  accent?: "income" | "expense";
-  pill?: string;
-  showCents: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        "rounded-[32px] border-4 border-[#0f172a] bg-white p-5 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]",
-        accent === "income" && "bg-[#dcfce7]",
-        accent === "expense" && "bg-[#fee2e2]",
-      )}
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/50 dark:text-[#bbf7d0]/70">
-            {label}
-          </p>
-          <p className="text-3xl font-black text-[#0f172a] dark:text-white">
-            {formatCurrency(amount, showCents)}
-          </p>
-        </div>
-      </div>
-      {pill ? (
-        <span className="mt-4 inline-flex rounded-full bg-[#0f172a] px-3 py-1 text-xs font-bold uppercase text-white shadow-neo-sm dark:bg-[#4ade80] dark:text-[#022c22]">
-          {pill}
-        </span>
-      ) : null}
-    </div>
-  );
-}
-
-function TransactionList({
-  transactions,
-  onDelete,
-}: {
-  transactions: Transaction[];
-  onDelete: (id: number) => void;
-}) {
-  if (!transactions.length) {
-    return (
-      <div className="rounded-3xl border-2 border-dashed border-[#0f172a]/40 bg-[#fefce8] px-6 py-12 text-center text-sm font-semibold uppercase text-[#0f172a]/50 dark:border-[#4ade80]/50 dark:bg-[#052e16] dark:text-[#bbf7d0]/60">
-        No transactions match the filter.
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-3">
-      {transactions.map((tx) => (
-        <TransactionRow key={tx.id} transaction={tx} onDelete={onDelete} />
-      ))}
-    </div>
-  );
-}
-
-function TransactionRow({
-  transaction,
-  onDelete,
-}: {
-  transaction: Transaction;
-  onDelete: (id: number) => void;
-}) {
-  const isIncome = transaction.type === "income";
-  const Icon = isIncome ? ArrowDownRight : ArrowUpRight;
-
-  return (
-    <div className="flex items-center gap-4 rounded-3xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
-      <div className="rounded-2xl border-2 border-[#0f172a] bg-white p-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-black">
-        <Icon
-          className={cn(
-            "h-5 w-5",
-            isIncome ? "text-green-600" : "text-red-500",
-          )}
-        />
-      </div>
-      <div className="flex-1">
-        <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-          {transaction.category} - {transaction.wallet}
-        </p>
-        <p className="text-xs text-[#0f172a]/70 dark:text-[#bbf7d0]/70">
-          {transaction.note || "No note"} - {formatDate(transaction.date)}
-        </p>
-      </div>
-      <div className="flex items-center gap-3">
-        <p
-          className={cn(
-            "text-lg font-black",
-            isIncome
-              ? "text-green-700 dark:text-green-300"
-              : "text-red-600 dark:text-red-300",
-          )}
-        >
-          {isIncome ? "+" : "-"}
-          {formatCurrency(transaction.amount)}
-        </p>
-        <button
-          type="button"
-          onClick={() => onDelete(transaction.id)}
-          className="rounded-full border-2 border-transparent p-2 text-[#0f172a]/40 transition hover:border-[#0f172a] hover:text-[#0f172a] dark:text-[#bbf7d0]/60"
-          aria-label="Delete transaction"
-        >
-          <X className="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function WalletCard({
-  name,
-  balance,
-}: {
-  name: string;
-  balance: number;
-}) {
-  const { showCents } = useMoney();
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const amountRef = useRef<HTMLParagraphElement | null>(null);
-  const [needsFullRow, setNeedsFullRow] = useState(false);
-
-  useEffect(() => {
-    const checkOverflow = () => {
-      const amountEl = amountRef.current;
-      const containerEl = containerRef.current;
-
-      if (!amountEl || !containerEl) return;
-
-      const isOverflowing = amountEl.scrollWidth > containerEl.clientWidth;
-      setNeedsFullRow(isOverflowing);
-    };
-
-    checkOverflow();
-
-    if (typeof ResizeObserver !== "undefined") {
-      const observer = new ResizeObserver(() => checkOverflow());
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
-      }
-      return () => {
-        if (containerRef.current) {
-          observer.unobserve(containerRef.current);
-        }
-        observer.disconnect();
-      };
-    }
-
-    return;
-  }, [showCents]);
-
-  return (
-    <div
-      ref={containerRef}
-      className={cn(
-        "rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]",
-        needsFullRow && "col-span-2 sm:col-span-1",
-      )}
-    >
-      <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-        {name}
-      </p>
-      <p
-        ref={amountRef}
-        className="text-2xl font-black text-[#0f172a] dark:text-white"
-      >
-        {formatCurrency(balance, showCents)}
-      </p>
-    </div>
-  );
-}
-

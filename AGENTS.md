@@ -9,6 +9,11 @@
 ## Project Structure & Module Organization
 The repo is a feature-first Next.js 16 template. Keep route shells in `src/app/(app)/<feature>/page.tsx` that import the main feature page from `src/features/<feature>/pages`. Every feature folder already contains `components`, `hooks`, `lib`, `pages`, and `__tests__`; avoid leaking feature-specific logic elsewhere. Shared UI and stateful helpers live in `src/components`, `src/hooks`, `src/providers`, and `src/types`, while configuration such as navigation and roles sits in `src/config`. Static assets go in `public`, and automation lives in `scripts/`.
 
+### Shared vs feature-local rule
+- Only promote a hook/component/lib/type from a feature folder (e.g. `src/features/dashboard/...`) to a shared location (e.g. `src/hooks`, `src/components`, `src/lib`, `src/types`) when another feature uses it with the **exact same API and behavior**.
+- If a second usage would require even a minor behavior or API change, keep that code feature-local and duplicate/adjust it per feature instead of forcing a shared abstraction.
+- When in doubt about promoting something, the assistant must ask the user first and agree on the placement before moving any files.
+
 ## Build, Test, and Development Commands
 - `pnpm dev` - run the Next dev server with fast refresh.
 - `pnpm build` followed by `pnpm start` - produce and preview the optimized production build.
