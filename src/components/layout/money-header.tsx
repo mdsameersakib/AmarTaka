@@ -34,7 +34,7 @@ export function MoneyHeader() {
                 className={cn(
                   "flex items-center justify-center gap-2 rounded-2xl border-2 border-transparent px-3 py-2 text-xs font-bold uppercase tracking-wide transition",
                   isActive
-                    ? "border-[#0f172a] bg-[#a3e635] text-[#0f172a] shadow-neo-sm dark:border-[#4ade80]"
+                    ? "border-[#0f172a] bg-[#a3e635] text-[#0f172a] dark:border-[#4ade80]"
                     : "text-[#0f172a]/60 hover:bg-[#d7f7d0]/70 dark:text-[#86efac]/70",
                 )}
               >
