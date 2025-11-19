@@ -20,6 +20,7 @@ export interface RecurringPayment {
 
 export interface MoneyState {
   wallets: string[];
+  walletInitialBalances?: Record<string, number>;
   categories: string[];
   transactions: Transaction[];
   recurring: RecurringPayment[];

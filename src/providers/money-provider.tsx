@@ -25,6 +25,13 @@ const STORAGE_KEY = "amarTakaData_v3";
 
 const DEMO_STATE: MoneyState = {
   wallets: ["Cash", "Bank", "PayPal", "Bkash", "Nagad"],
+  walletInitialBalances: {
+    Cash: 0,
+    Bank: 0,
+    PayPal: 0,
+    Bkash: 0,
+    Nagad: 0,
+  },
   categories: [
     "Food",
     "Transport",
@@ -255,8 +262,10 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
 
   const totalsAndWallets = useMemo(() => {
     const walletMap: Record<string, number> = {};
+    const initialBalances = state.walletInitialBalances ?? {};
+
     state.wallets.forEach((wallet) => {
-      walletMap[wallet] = 0;
+      walletMap[wallet] = Number(initialBalances[wallet] ?? 0);
     });
 
     let income = 0;
@@ -284,7 +293,7 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
         balance: walletMap[wallet] ?? 0,
       })),
     };
-  }, [state.transactions, state.wallets]);
+  }, [state.transactions, state.wallets, state.walletInitialBalances]);
 
   const spendingByCategory = useMemo(() => {
     const categoryMap: Record<string, number> = {};

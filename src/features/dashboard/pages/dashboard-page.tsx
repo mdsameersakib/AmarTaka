@@ -87,9 +87,7 @@ export default function DashboardPage() {
     handleSubmit,
   } = useTransactionLauncher();
   const [categoryDialog, setCategoryDialog] = useState(false);
-  const [walletDialog, setWalletDialog] = useState(false);
   const [newCategory, setNewCategory] = useState("");
-  const [newWallet, setNewWallet] = useState("");
 
   return (
     <div className="relative mb-20 flex flex-col gap-8">
@@ -115,10 +113,7 @@ export default function DashboardPage() {
 
         <section className="grid gap-6 lg:grid-cols-5">
           <div className="lg:col-span-3 space-y-6">
-            <WalletsSection
-              walletBalances={walletBalances}
-              onManageClick={() => setWalletDialog(true)}
-            />
+            <WalletsSection walletBalances={walletBalances} />
 
             <RecentTransactionsSection
               recentTransactions={recentTransactions}
@@ -176,20 +171,6 @@ export default function DashboardPage() {
         onDelete={deleteCategory}
       />
 
-      <ManageDialog
-        title="Wallets"
-        open={walletDialog}
-        onOpenChange={setWalletDialog}
-        items={state.wallets}
-        inputValue={newWallet}
-        onInputChange={setNewWallet}
-        onAdd={() => {
-          if (!newWallet.trim()) return;
-          addWallet(newWallet);
-          setNewWallet("");
-        }}
-        onDelete={deleteWallet}
-      />
     </div>
   );
 }
