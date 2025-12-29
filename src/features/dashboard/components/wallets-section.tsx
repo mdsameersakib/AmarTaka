@@ -1,5 +1,5 @@
-import type { WalletBalance } from "@/types/money";
 import { WalletCard } from "@/features/dashboard/components/wallet-card";
+import type { WalletBalance } from "@/types/money";
 
 type WalletsSectionProps = {
   walletBalances: WalletBalance[];

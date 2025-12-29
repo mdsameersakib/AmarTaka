@@ -5,7 +5,10 @@ const SHELL_URLS = ["/", "/favicon.ico", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_URLS)).catch(() => null),
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => cache.addAll(SHELL_URLS))
+      .catch(() => null),
   );
   self.skipWaiting();
 });
@@ -39,4 +42,3 @@ self.addEventListener("fetch", (event) => {
     }),
   );
 });
-

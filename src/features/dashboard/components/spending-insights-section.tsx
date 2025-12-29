@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
+import { cn } from "@/lib/utils";
 
 type SpendingRange = "week" | "month" | "year";
 
@@ -70,31 +70,25 @@ export function SpendingInsightsSection({
             No spending in this range.
           </p>
         ) : (
-          rangeFilteredSpending
-            .slice(0, 4)
-            .map((category) => (
-              <div
-                key={category.category}
-                className="flex items-center gap-4"
-              >
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                      {category.category}
-                    </p>
-                    <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
-                      {formatCurrency(category.amount, showCents)}
-                    </p>
-                  </div>
-                  <div className="mt-1 h-4 overflow-hidden rounded-full border-2 border-[#0f172a] bg-[#ecfccb] shadow-neo-sm dark:border-[#4ade80]">
-                    <div className="h-full w-full bg-[#16a34a]" />
-                  </div>
+          rangeFilteredSpending.slice(0, 4).map((category) => (
+            <div key={category.category} className="flex items-center gap-4">
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
+                    {category.category}
+                  </p>
+                  <p className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
+                    {formatCurrency(category.amount, showCents)}
+                  </p>
+                </div>
+                <div className="mt-1 h-4 overflow-hidden rounded-full border-2 border-[#0f172a] bg-[#ecfccb] shadow-neo-sm dark:border-[#4ade80]">
+                  <div className="h-full w-full bg-[#16a34a]" />
                 </div>
               </div>
-            ))
+            </div>
+          ))
         )}
       </div>
     </div>
   );
 }
-

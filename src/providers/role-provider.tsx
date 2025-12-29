@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import type { AppRole } from "@/types/roles";
-import { DEFAULT_APP_ROLE, APP_ROLES } from "@/types/roles";
+import { APP_ROLES, DEFAULT_APP_ROLE } from "@/types/roles";
 
 export interface RoleContextValue {
   role: AppRole;

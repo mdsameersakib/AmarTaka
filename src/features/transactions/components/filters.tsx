@@ -88,11 +88,7 @@ export function SearchFilter({
   );
 }
 
-export function FilterSummary({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function FilterSummary({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-wrap gap-3 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#030712]">
       {children}
@@ -101,4 +97,3 @@ export function FilterSummary({
     </div>
   );
 }
-

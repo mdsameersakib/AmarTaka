@@ -1,11 +1,10 @@
 "use client";
 
 import { ArrowDownRight, ArrowUpRight, X } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
-import type { Transaction } from "@/types/money";
+import { cn } from "@/lib/utils";
 import { useMoney } from "@/providers/money-provider";
+import type { Transaction } from "@/types/money";
 
 type TransactionRowProps = {
   transaction: Transaction;

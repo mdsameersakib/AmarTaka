@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
+import { cn } from "@/lib/utils";
 
 type SummaryCardProps = {
   label: string;
@@ -42,4 +42,3 @@ export function SummaryCard({
     </div>
   );
 }
-

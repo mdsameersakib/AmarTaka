@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
-import { formatCurrency } from "@/lib/currency";
-import type { Transaction } from "@/types/money";
 import { formatDateTimeDemo } from "@/features/dashboard/lib/date";
+import { formatCurrency } from "@/lib/currency";
+import { cn } from "@/lib/utils";
+import type { Transaction } from "@/types/money";
 
 type RecentTransactionsSectionProps = {
   recentTransactions: Transaction[];
@@ -58,4 +58,3 @@ export function RecentTransactionsSection({
     </div>
   );
 }
-

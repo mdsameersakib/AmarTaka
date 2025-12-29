@@ -56,8 +56,7 @@ export function useSpendingInsights({
       }
 
       if (include) {
-        categoryMap[tx.category] =
-          (categoryMap[tx.category] ?? 0) + tx.amount;
+        categoryMap[tx.category] = (categoryMap[tx.category] ?? 0) + tx.amount;
       }
     });
 
@@ -82,4 +81,3 @@ export function useSpendingInsights({
     rangeFilteredSpending,
   };
 }
-

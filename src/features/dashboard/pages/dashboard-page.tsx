@@ -1,79 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  CreditCard,
-  RefreshCw,
-  Search,
-  Wallet,
-  X,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
-import { formatCurrency } from "@/lib/currency";
-import { useMoney } from "@/providers/money-provider";
-import type { Transaction } from "@/types/money";
-import { AddTransactionSheet } from "@/features/dashboard/components/transaction-form";
-import { ManageDialog } from "@/features/dashboard/components/manage-dialog";
-import { useTransactionLauncher } from "@/features/dashboard/hooks/use-transaction-launcher";
 import { FloatingActionLauncher } from "@/features/dashboard/components/floating-action-launcher";
-import { SummaryCard } from "@/features/dashboard/components/summary-card";
-import { TransactionList } from "@/features/dashboard/components/transaction-list";
-import { WalletCard } from "@/features/dashboard/components/wallet-card";
-import { WalletsSection } from "@/features/dashboard/components/wallets-section";
-import { RecentTransactionsSection } from "@/features/dashboard/components/recent-transactions-section";
-import { SpendingInsightsSection } from "@/features/dashboard/components/spending-insights-section";
+import { ManageDialog } from "@/features/dashboard/components/manage-dialog";
 import { MonthlyTrendSection } from "@/features/dashboard/components/monthly-trend-section";
+import { RecentTransactionsSection } from "@/features/dashboard/components/recent-transactions-section";
 import { RecurringSection } from "@/features/dashboard/components/recurring-section";
-import { useDashboardFilters } from "@/features/dashboard/hooks/use-dashboard-filters";
-import { useSpendingInsights } from "@/features/dashboard/hooks/use-spending-insights";
-import { formatDateTimeDemo } from "@/features/dashboard/lib/date";
+import { SpendingInsightsSection } from "@/features/dashboard/components/spending-insights-section";
+import { SummaryCard } from "@/features/dashboard/components/summary-card";
+import { AddTransactionSheet } from "@/features/dashboard/components/transaction-form";
+import { WalletsSection } from "@/features/dashboard/components/wallets-section";
+import { useDashboardView } from "@/features/dashboard/hooks/use-dashboard-view";
+import { useTransactionLauncher } from "@/features/dashboard/hooks/use-transaction-launcher";
 
 export default function DashboardPage() {
   const {
-      state,
-      totals,
-      walletBalances,
-      spendingByCategory,
-      trend,
-      recentTransactions,
-    allTransactions,
-    recurring,
-    showCents,
-    addTransaction,
-    deleteTransaction,
-    addCategory,
-    deleteCategory,
-    addWallet,
-    deleteWallet,
-      resetDemoData,
-    } = useMoney();
-
-  const {
-    tab,
-    setTab,
-    search,
-    setSearch,
-    filter,
-    setFilter,
-    visibleTransactions,
-  } = useDashboardFilters({
+    totals,
+    walletBalances,
     recentTransactions,
-    allTransactions,
-  });
-
-  const {
+    showCents,
+    trend,
+    recurring,
+    resetDemoData,
     spendingRange,
     setSpendingRange,
     rangeFilteredSpending,
-  } = useSpendingInsights({
+    categoryDialog,
+    setCategoryDialog,
+    newCategory,
+    setNewCategory,
     state,
-    spendingByCategory,
-  });
+    deleteCategory,
+    handleAddCategory,
+  } = useDashboardView();
 
   const {
     isTypeSelectorOpen,
@@ -86,8 +44,6 @@ export default function DashboardPage() {
     openForm,
     handleSubmit,
   } = useTransactionLauncher();
-  const [categoryDialog, setCategoryDialog] = useState(false);
-  const [newCategory, setNewCategory] = useState("");
 
   return (
     <div className="relative mb-20 flex flex-col gap-8">
@@ -109,24 +65,24 @@ export default function DashboardPage() {
           accent="expense"
           showCents={showCents}
         />
-        </section>
+      </section>
 
-        <section className="grid gap-6 lg:grid-cols-5">
-          <div className="lg:col-span-3 space-y-6">
-            <WalletsSection walletBalances={walletBalances} />
+      <section className="grid gap-6 lg:grid-cols-5">
+        <div className="lg:col-span-3 space-y-6">
+          <WalletsSection walletBalances={walletBalances} />
 
-            <RecentTransactionsSection
-              recentTransactions={recentTransactions}
-              showCents={showCents}
-            />
+          <RecentTransactionsSection
+            recentTransactions={recentTransactions}
+            showCents={showCents}
+          />
 
-            <SpendingInsightsSection
-              spendingRange={spendingRange}
-              setSpendingRange={setSpendingRange}
-              rangeFilteredSpending={rangeFilteredSpending}
-              showCents={showCents}
-            />
-          </div>
+          <SpendingInsightsSection
+            spendingRange={spendingRange}
+            setSpendingRange={setSpendingRange}
+            rangeFilteredSpending={rangeFilteredSpending}
+            showCents={showCents}
+          />
+        </div>
 
         <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712] lg:col-span-2">
           <MonthlyTrendSection trend={trend} showCents={showCents} />
@@ -163,14 +119,9 @@ export default function DashboardPage() {
         items={state.categories}
         inputValue={newCategory}
         onInputChange={setNewCategory}
-        onAdd={() => {
-          if (!newCategory.trim()) return;
-          addCategory(newCategory);
-          setNewCategory("");
-        }}
+        onAdd={handleAddCategory}
         onDelete={deleteCategory}
       />
-
     </div>
   );
 }

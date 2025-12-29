@@ -1,6 +1,6 @@
 import { ArrowDownRight, ArrowUpRight, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
+import { cn } from "@/lib/utils";
 import type { Transaction } from "@/types/money";
 
 type TransactionListProps = {
@@ -13,7 +13,10 @@ type TransactionRowProps = {
   onDelete: (id: number) => void;
 };
 
-export function TransactionList({ transactions, onDelete }: TransactionListProps) {
+export function TransactionList({
+  transactions,
+  onDelete,
+}: TransactionListProps) {
   if (!transactions.length) {
     return (
       <div className="rounded-3xl border-2 border-dashed border-[#0f172a]/40 bg-[#fefce8] px-6 py-12 text-center text-sm font-semibold uppercase text-[#0f172a]/50 dark:border-[#4ade80]/50 dark:bg-[#052e16] dark:text-[#bbf7d0]/60">
@@ -81,4 +84,3 @@ function TransactionRow({ transaction, onDelete }: TransactionRowProps) {
     </div>
   );
 }
-

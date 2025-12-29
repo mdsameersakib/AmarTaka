@@ -8,13 +8,10 @@ export function PwaRegister() {
     if (!("serviceWorker" in navigator)) return;
     if (process.env.NODE_ENV !== "production") return;
 
-    navigator.serviceWorker
-      .register("/sw.js")
-      .catch(() => {
-        // ignore registration errors
-      });
+    navigator.serviceWorker.register("/sw.js").catch(() => {
+      // ignore registration errors
+    });
   }, []);
 
   return null;
 }
-

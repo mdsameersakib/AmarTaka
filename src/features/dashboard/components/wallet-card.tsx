@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/currency";
+import { cn } from "@/lib/utils";
 import { useMoney } from "@/providers/money-provider";
 
 type WalletCardProps = {
@@ -41,7 +41,7 @@ export function WalletCard({ name, balance }: WalletCardProps) {
     }
 
     return;
-  }, [showCents]);
+  }, []);
 
   return (
     <div
@@ -63,4 +63,3 @@ export function WalletCard({ name, balance }: WalletCardProps) {
     </div>
   );
 }
-
