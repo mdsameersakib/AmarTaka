@@ -1,12 +1,12 @@
 import { useState } from "react";
 import type { TransactionType } from "@/types/money";
 
-export type DateMode = "single" | "range";
+export type DateMode = "all" | "single" | "range";
 export type FilterType = "all" | TransactionType;
 
 export function useTransactionFilters() {
   const [showFilters, setShowFilters] = useState(false);
-  const [dateMode, setDateMode] = useState<DateMode>("single");
+  const [dateMode, setDateMode] = useState<DateMode>("all");
   const [singleDate, setSingleDate] = useState<string>(
     new Date().toISOString().slice(0, 10),
   );

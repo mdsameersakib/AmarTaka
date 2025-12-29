@@ -31,6 +31,17 @@ export function DateFilter({
           <button
             type="button"
             className={`rounded-full px-3 py-1 ${
+              dateMode === "all"
+                ? "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]"
+                : "text-[#0f172a]/70 dark:text-[#bbf7d0]/70"
+            }`}
+            onClick={() => setDateMode("all")}
+          >
+            All
+          </button>
+          <button
+            type="button"
+            className={`rounded-full px-3 py-1 ${
               dateMode === "single"
                 ? "bg-[#0f172a] text-[#fefce8] dark:bg-[#4ade80] dark:text-[#022c22]"
                 : "text-[#0f172a]/70 dark:text-[#bbf7d0]/70"
@@ -52,14 +63,23 @@ export function DateFilter({
           </button>
         </div>
       </div>
-      {dateMode === "single" ? (
+
+      {dateMode === "all" && (
+        <div className="w-full rounded-2xl border-2 border-[#0f172a]/20 bg-white/50 px-3 py-2 text-sm text-[#0f172a]/50 italic text-center dark:border-[#4ade80]/20 dark:bg-black/20 dark:text-[#bbf7d0]/50">
+          Showing all transactions
+        </div>
+      )}
+
+      {dateMode === "single" && (
         <input
           type="date"
           value={singleDate}
           onChange={(event) => setSingleDate(event.target.value)}
           className="w-full rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-2 text-sm font-semibold shadow-neo-sm focus:outline-none dark:border-[#4ade80] dark:bg-black dark:text-white"
         />
-      ) : (
+      )}
+
+      {dateMode === "range" && (
         <div className="grid grid-cols-2 gap-3">
           <input
             type="date"

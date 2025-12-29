@@ -1,5 +1,6 @@
 "use client";
 
+import { InfiniteScrollTrigger } from "@/components/ui/infinite-scroll-trigger";
 import {
   FilterPill,
   FilterSummary,
@@ -10,15 +11,18 @@ import { DateFilter } from "@/features/transactions/components/filters/date-filt
 import { FilterToggle } from "@/features/transactions/components/filters/filter-toggle";
 import { TransactionList } from "@/features/transactions/components/list/transaction-list";
 import { useFilteredTransactions } from "@/features/transactions/hooks/use-filtered-transactions";
+import { usePaginatedTransactions } from "@/features/transactions/hooks/use-paginated-transactions";
 import { useTransactionFilters } from "@/features/transactions/hooks/use-transaction-filters";
 import { useMoney } from "@/providers/money-provider";
 
 export default function TransactionsPage() {
   const { allTransactions, state } = useMoney();
   const filters = useTransactionFilters();
-  const { groupedByDate, filtered } = useFilteredTransactions(
-    allTransactions,
-    filters,
+  const { filtered } = useFilteredTransactions(allTransactions, filters);
+
+  const { groupedByDate, hasMore, loadMore } = usePaginatedTransactions(
+    filtered,
+    10,
   );
 
   return (
@@ -82,10 +86,14 @@ export default function TransactionsPage() {
         )}
       </section>
 
-      <TransactionList
-        groupedByDate={groupedByDate}
-        isEmpty={filtered.length === 0}
-      />
+      <div className="flex flex-col gap-4">
+        <TransactionList
+          groupedByDate={groupedByDate}
+          isEmpty={filtered.length === 0}
+        />
+
+        {hasMore && <InfiniteScrollTrigger onIntersect={loadMore} />}
+      </div>
     </div>
   );
 }
