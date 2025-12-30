@@ -9,7 +9,10 @@ import {
   useMemo,
   useState,
 } from "react";
-
+import { AnalyticsService } from "@/services/analytics-service";
+import { CategoryService } from "@/services/category-service";
+import { TransactionService } from "@/services/transaction-service";
+import { WalletService } from "@/services/wallet-service";
 import type {
   CategorySpending,
   MoneyState,
@@ -252,177 +255,47 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state, isReady]);
 
+  // Use Services for Derived State
   const sortedTransactions = useMemo(
-    () =>
-      [...state.transactions].sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      ),
-    [state.transactions],
+    () => TransactionService.getAll(state),
+    [state],
   );
 
-  const totalsAndWallets = useMemo(() => {
-    const walletMap: Record<string, number> = {};
-    const initialBalances = state.walletInitialBalances ?? {};
+  const { totals, walletBalances } = useMemo(
+    () => AnalyticsService.calculateTotalsAndWallets(state),
+    [state],
+  );
 
-    state.wallets.forEach((wallet) => {
-      walletMap[wallet] = Number(initialBalances[wallet] ?? 0);
-    });
+  const spendingByCategory = useMemo(
+    () => AnalyticsService.calculateSpendingByCategory(state),
+    [state],
+  );
 
-    let income = 0;
-    let expense = 0;
+  const trend = useMemo(() => AnalyticsService.calculateTrend(state), [state]);
 
-    state.transactions.forEach((tx) => {
-      const amt = Number(tx.amount);
-      if (tx.type === "income") {
-        income += amt;
-        walletMap[tx.wallet] = (walletMap[tx.wallet] ?? 0) + amt;
-      } else {
-        expense += amt;
-        walletMap[tx.wallet] = (walletMap[tx.wallet] ?? 0) - amt;
-      }
-    });
-
-    return {
-      totals: {
-        total: income - expense,
-        income,
-        expense,
-      },
-      walletBalances: state.wallets.map((wallet) => ({
-        wallet,
-        balance: walletMap[wallet] ?? 0,
-      })),
-    };
-  }, [state.transactions, state.wallets, state.walletInitialBalances]);
-
-  const spendingByCategory = useMemo(() => {
-    const categoryMap: Record<string, number> = {};
-    state.categories.forEach((category) => {
-      categoryMap[category] = 0;
-    });
-
-    state.transactions.forEach((tx) => {
-      if (tx.type === "expense") {
-        categoryMap[tx.category] = (categoryMap[tx.category] ?? 0) + tx.amount;
-      }
-    });
-
-    return Object.entries(categoryMap)
-      .map<CategorySpending>(([category, amount]) => ({ category, amount }))
-      .sort((a, b) => b.amount - a.amount);
-  }, [state.transactions, state.categories]);
-
-  const trend = useMemo(() => {
-    const buckets: Record<string, { income: number; expense: number }> = {};
-    state.transactions.forEach((tx) => {
-      const date = new Date(tx.date);
-      if (Number.isNaN(date.getTime())) return;
-      const label = date.toLocaleString("default", {
-        month: "short",
-        year: "2-digit",
-      });
-      if (!buckets[label]) {
-        buckets[label] = { income: 0, expense: 0 };
-      }
-      if (tx.type === "income") {
-        buckets[label].income += tx.amount;
-      } else {
-        buckets[label].expense += tx.amount;
-      }
-    });
-
-    const toTimestamp = (label: string) => {
-      const [mon, yr] = label.split(" ");
-      const parsed = Date.parse(`${mon} 1, 20${yr}`);
-      return Number.isNaN(parsed) ? Number.MAX_SAFE_INTEGER : parsed;
-    };
-
-    return Object.entries(buckets)
-      .map<TrendPoint>(([label, totals]) => ({
-        label,
-        income: Number(totals.income.toFixed(2)),
-        expense: Number(totals.expense.toFixed(2)),
-      }))
-      .sort((a, b) => toTimestamp(a.label) - toTimestamp(b.label));
-  }, [state.transactions]);
-
+  // Actions wrapped with Services
   const addTransaction = useCallback((input: TransactionInput) => {
-    setState((prev) => ({
-      ...prev,
-      transactions: [
-        {
-          ...input,
-          id: Date.now(),
-          amount: Number(input.amount),
-        },
-        ...prev.transactions,
-      ],
-    }));
+    setState((prev) => TransactionService.add(prev, input));
   }, []);
 
   const deleteTransaction = useCallback((id: number) => {
-    setState((prev) => ({
-      ...prev,
-      transactions: prev.transactions.filter((tx) => tx.id !== id),
-    }));
+    setState((prev) => TransactionService.delete(prev, id));
   }, []);
 
   const addCategory = useCallback((name: string) => {
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    setState((prev) => {
-      if (prev.categories.includes(trimmed)) return prev;
-      return {
-        ...prev,
-        categories: [...prev.categories, trimmed].sort((a, b) =>
-          a.localeCompare(b),
-        ),
-      };
-    });
+    setState((prev) => CategoryService.add(prev, name));
   }, []);
 
   const deleteCategory = useCallback((name: string) => {
-    setState((prev) => {
-      const fallback =
-        prev.categories.find((category) => category !== name) ||
-        "Uncategorized";
-      const nextCategories = prev.categories.filter(
-        (category) => category !== name,
-      );
-      if (
-        fallback === "Uncategorized" &&
-        !nextCategories.includes("Uncategorized")
-      ) {
-        nextCategories.push("Uncategorized");
-      }
-      nextCategories.sort((a, b) => a.localeCompare(b));
-      return {
-        ...prev,
-        categories: nextCategories,
-        transactions: prev.transactions.map((tx) =>
-          tx.category === name ? { ...tx, category: fallback } : tx,
-        ),
-      };
-    });
+    setState((prev) => CategoryService.delete(prev, name));
   }, []);
 
   const addWallet = useCallback((name: string) => {
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    setState((prev) => {
-      if (prev.wallets.includes(trimmed)) return prev;
-      return {
-        ...prev,
-        wallets: [...prev.wallets, trimmed].sort((a, b) => a.localeCompare(b)),
-      };
-    });
+    setState((prev) => WalletService.add(prev, name));
   }, []);
 
   const deleteWallet = useCallback((name: string) => {
-    setState((prev) => ({
-      ...prev,
-      wallets: prev.wallets.filter((wallet) => wallet !== name),
-    }));
+    setState((prev) => WalletService.delete(prev, name));
   }, []);
 
   const resetDemoData = useCallback(() => {
@@ -446,8 +319,8 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
   const value: MoneyContextValue = useMemo(
     () => ({
       state,
-      totals: totalsAndWallets.totals,
-      walletBalances: totalsAndWallets.walletBalances,
+      totals,
+      walletBalances,
       spendingByCategory,
       topCategory: spendingByCategory[0],
       trend,
@@ -468,7 +341,8 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
     }),
     [
       state,
-      totalsAndWallets,
+      totals,
+      walletBalances,
       spendingByCategory,
       trend,
       sortedTransactions,
