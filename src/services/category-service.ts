@@ -43,4 +43,19 @@ export const CategoryService = {
       transactions: nextTransactions,
     };
   },
+
+  rename: (state: MoneyState, oldName: string, newName: string): MoneyState => {
+    const trimmed = newName.trim();
+    if (!trimmed || state.categories.includes(trimmed)) return state;
+
+    const nextCategories = state.categories.map((c) =>
+      c === oldName ? trimmed : c,
+    );
+    nextCategories.sort((a, b) => a.localeCompare(b));
+
+    return {
+      ...state,
+      categories: nextCategories,
+    };
+  },
 };

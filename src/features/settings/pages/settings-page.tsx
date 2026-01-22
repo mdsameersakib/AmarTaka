@@ -37,7 +37,7 @@ export default function SettingsPage() {
 
         <ManagerCard
           label="Categories"
-          description="Organize recurring expense tags to keep your analytics sharp."
+          description="Organize recurring expense tags to keep your analytics sharp. Click to rename."
           icon={<Tag className="h-5 w-5" />}
           items={state.categories}
           value={categoryInput}
@@ -48,6 +48,7 @@ export default function SettingsPage() {
             setCategoryInput("");
           }}
           onDelete={deleteCategory}
+          allowRename={true}
         />
         <ManagerCard
           label="Wallets"

@@ -26,4 +26,37 @@ export const TransactionService = {
       transactions: state.transactions.filter((tx) => tx.id !== id),
     };
   },
+
+  deleteByWallet: (state: MoneyState, walletName: string): MoneyState => {
+    return {
+      ...state,
+      transactions: state.transactions.filter((tx) => tx.wallet !== walletName),
+    };
+  },
+
+  updateWalletName: (
+    state: MoneyState,
+    oldName: string,
+    newName: string,
+  ): MoneyState => {
+    return {
+      ...state,
+      transactions: state.transactions.map((tx) =>
+        tx.wallet === oldName ? { ...tx, wallet: newName } : tx,
+      ),
+    };
+  },
+
+  updateCategoryName: (
+    state: MoneyState,
+    oldName: string,
+    newName: string,
+  ): MoneyState => {
+    return {
+      ...state,
+      transactions: state.transactions.map((tx) =>
+        tx.category === oldName ? { ...tx, category: newName } : tx,
+      ),
+    };
+  },
 };

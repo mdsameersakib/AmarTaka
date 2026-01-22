@@ -214,8 +214,14 @@ interface MoneyContextValue {
   deleteTransaction: (id: number) => void;
   addCategory: (name: string) => void;
   deleteCategory: (name: string) => void;
+  renameCategory: (oldName: string, newName: string) => void;
   addWallet: (name: string) => void;
   deleteWallet: (name: string) => void;
+  deleteWalletWithStrategy: (
+    name: string,
+    strategy: "cascade" | "move",
+    targetWallet?: string,
+  ) => void;
   resetDemoData: () => void;
   setShowCents: (value: boolean) => void;
   toggleShowCents: () => void;
@@ -290,13 +296,43 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
     setState((prev) => CategoryService.delete(prev, name));
   }, []);
 
+  const renameCategory = useCallback((oldName: string, newName: string) => {
+    setState((prev) => {
+      // 1. Rename in list
+      let next = CategoryService.rename(prev, oldName, newName);
+      // 2. Rename in transactions
+      next = TransactionService.updateCategoryName(next, oldName, newName);
+      return next;
+    });
+  }, []);
+
   const addWallet = useCallback((name: string) => {
     setState((prev) => WalletService.add(prev, name));
   }, []);
 
   const deleteWallet = useCallback((name: string) => {
+    // Default simple delete (legacy), though UI should preferably use strategy
     setState((prev) => WalletService.delete(prev, name));
   }, []);
+
+  const deleteWalletWithStrategy = useCallback(
+    (name: string, strategy: "cascade" | "move", targetWallet?: string) => {
+      setState((prev) => {
+        let next = prev;
+
+        if (strategy === "cascade") {
+          next = TransactionService.deleteByWallet(next, name);
+        } else if (strategy === "move" && targetWallet) {
+          next = TransactionService.updateWalletName(next, name, targetWallet);
+        }
+
+        // Finally delete the wallet itself
+        next = WalletService.delete(next, name);
+        return next;
+      });
+    },
+    [],
+  );
 
   const resetDemoData = useCallback(() => {
     setState(cloneDemoState());
@@ -332,8 +368,10 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
       deleteTransaction,
       addCategory,
       deleteCategory,
+      renameCategory,
       addWallet,
       deleteWallet,
+      deleteWalletWithStrategy,
       resetDemoData,
       setShowCents,
       toggleShowCents,
@@ -350,8 +388,10 @@ export function MoneyProvider({ children }: { children: ReactNode }) {
       deleteTransaction,
       addCategory,
       deleteCategory,
+      renameCategory,
       addWallet,
       deleteWallet,
+      deleteWalletWithStrategy,
       resetDemoData,
       setShowCents,
       toggleShowCents,

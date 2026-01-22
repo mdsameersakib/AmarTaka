@@ -2,22 +2,22 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Amar Taka",
+    name: "Amar Taka - Personal Finance Tracker",
     short_name: "Amar Taka",
     description:
-      "Neo-brutalist personal finance experience for tracking income, expenses, wallets, and categories.",
+      "Offline-first personal finance tracker with Neobrutalist design.",
     start_url: "/",
     display: "standalone",
     background_color: "#f0fdf4",
-    theme_color: "#22c55e",
+    theme_color: "#16a34a",
     icons: [
       {
-        src: "/icon-192x192.png",
+        src: "/icons/icon-192x192.png",
         sizes: "192x192",
         type: "image/png",
       },
       {
-        src: "/icon-512x512.png",
+        src: "/icons/icon-512x512.png",
         sizes: "512x512",
         type: "image/png",
       },
