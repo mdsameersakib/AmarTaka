@@ -42,29 +42,29 @@ export function DeleteWalletDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md rounded-[32px] border-4 border-[#7f1d1d] bg-[#fee2e2] p-6 shadow-neo dark:border-[#f87171] dark:bg-[#450a0a]">
+      <DialogContent className="max-w-md rounded-[32px] border-4 border-[#7f1d1d] bg-[#fee2e2] p-6 shadow-neo">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-black uppercase text-[#7f1d1d] dark:text-[#fecaca]">
+          <DialogTitle className="flex items-center gap-2 text-xl font-black uppercase text-[#7f1d1d]">
             <AlertTriangle className="h-6 w-6" />
             Delete Wallet
           </DialogTitle>
         </DialogHeader>
 
         <div className="mt-4 space-y-4">
-          <p className="text-sm font-semibold text-[#7f1d1d] dark:text-[#fecaca]">
+          <p className="text-sm font-semibold text-[#7f1d1d]">
             You are about to delete{" "}
             <span className="font-black">"{walletName}"</span>.
           </p>
 
           {transactionCount > 0 ? (
             <>
-              <p className="text-sm text-[#7f1d1d]/80 dark:text-[#fecaca]/80">
+              <p className="text-sm text-[#7f1d1d]/80/80">
                 This wallet has <strong>{transactionCount}</strong> associated
                 transactions. What should happen to them?
               </p>
 
               <div className="space-y-3">
-                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3 dark:border-[#fecaca]/20 dark:bg-black/20">
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3/20 ">
                   <input
                     type="radio"
                     name="strategy"
@@ -73,16 +73,16 @@ export function DeleteWalletDialog({
                     onChange={() => setStrategy("cascade")}
                   />
                   <div>
-                    <span className="block font-bold text-[#7f1d1d] dark:text-[#fecaca]">
+                    <span className="block font-bold text-[#7f1d1d]">
                       Delete transactions
                     </span>
-                    <span className="text-xs text-[#7f1d1d]/70 dark:text-[#fecaca]/70">
+                    <span className="text-xs text-[#7f1d1d]/70">
                       Permanently remove them history.
                     </span>
                   </div>
                 </label>
 
-                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3 dark:border-[#fecaca]/20 dark:bg-black/20">
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3/20 ">
                   <input
                     type="radio"
                     name="strategy"
@@ -91,10 +91,10 @@ export function DeleteWalletDialog({
                     onChange={() => setStrategy("move")}
                   />
                   <div className="flex-1">
-                    <span className="block font-bold text-[#7f1d1d] dark:text-[#fecaca]">
+                    <span className="block font-bold text-[#7f1d1d]">
                       Move transactions
                     </span>
-                    <span className="text-xs text-[#7f1d1d]/70 dark:text-[#fecaca]/70">
+                    <span className="text-xs text-[#7f1d1d]/70">
                       Transfer them to another wallet.
                     </span>
 
@@ -102,7 +102,7 @@ export function DeleteWalletDialog({
                       <select
                         value={targetWallet}
                         onChange={(e) => setTargetWallet(e.target.value)}
-                        className="mt-2 w-full rounded-lg border-2 border-[#7f1d1d] bg-white px-2 py-1 text-sm font-semibold text-[#7f1d1d] focus:outline-none dark:border-[#fecaca] dark:bg-black dark:text-[#fecaca]"
+                        className="mt-2 w-full rounded-lg border-2 border-[#7f1d1d] bg-white px-2 py-1 text-sm font-semibold text-[#7f1d1d] focus:outline-none"
                       >
                         <option value="" disabled>
                           Select a wallet
@@ -119,7 +119,7 @@ export function DeleteWalletDialog({
               </div>
             </>
           ) : (
-            <p className="text-sm text-[#7f1d1d]/80 dark:text-[#fecaca]/80">
+            <p className="text-sm text-[#7f1d1d]/80/80">
               This wallet has no transactions. It is safe to delete.
             </p>
           )}
@@ -128,7 +128,7 @@ export function DeleteWalletDialog({
             <Button
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="border-transparent bg-transparent text-[#7f1d1d] hover:bg-black/5 dark:text-[#fecaca]"
+              className="border-transparent bg-transparent text-[#7f1d1d] hover:bg-black/5"
             >
               Cancel
             </Button>
@@ -138,7 +138,7 @@ export function DeleteWalletDialog({
                 transactionCount > 0 &&
                 (!strategy || (strategy === "move" && !targetWallet))
               }
-              className="border-2 border-[#7f1d1d] bg-[#ef4444] text-white hover:bg-[#dc2626] dark:border-[#fecaca] dark:bg-[#7f1d1d]"
+              className="border-2 border-[#7f1d1d] bg-[#ef4444] text-white hover:bg-[#dc2626]"
             >
               Delete
             </Button>

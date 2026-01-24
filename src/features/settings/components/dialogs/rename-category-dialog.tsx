@@ -32,27 +32,25 @@ export function RenameCategoryDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
+      <DialogContent className="max-w-md rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-black uppercase text-[#0f172a] dark:text-white">
+          <DialogTitle className="flex items-center gap-2 text-xl font-black uppercase text-[#0f172a] ">
             <Edit2 className="h-6 w-6" />
             Rename Category
           </DialogTitle>
         </DialogHeader>
 
         <div className="mt-4 space-y-4">
-          <p className="text-sm text-[#0f172a]/70 dark:text-[#bbf7d0]/70">
+          <p className="text-sm text-[#0f172a]/70">
             Renaming{" "}
-            <span className="font-bold text-[#0f172a] dark:text-white">
-              "{oldName}"
-            </span>{" "}
-            will update all past transactions to use the new name.
+            <span className="font-bold text-[#0f172a] ">"{oldName}"</span> will
+            update all past transactions to use the new name.
           </p>
 
           <Input
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
-            className="border-2 border-[#0f172a] bg-[#f0fdf4] font-semibold dark:border-[#4ade80] dark:bg-[#052e16]"
+            className="border-2 border-[#0f172a] bg-[#f0fdf4] font-semibold"
             placeholder="Enter new name"
           />
 
@@ -60,14 +58,14 @@ export function RenameCategoryDialog({
             <Button
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="border-transparent bg-transparent text-[#0f172a] hover:bg-black/5 dark:text-[#bbf7d0]"
+              className="border-transparent bg-transparent text-[#0f172a] hover:bg-black/5"
             >
               Cancel
             </Button>
             <Button
               onClick={handleConfirm}
               disabled={!newName.trim() || newName === oldName}
-              className="btn-neo border-2 border-[#0f172a] bg-[#22c55e] text-[#0f172a] dark:border-[#4ade80] dark:bg-[#4ade80] dark:text-[#022c22]"
+              className="btn-neo border-2 border-[#0f172a] bg-[#22c55e] text-[#0f172a]"
             >
               Save Changes
             </Button>

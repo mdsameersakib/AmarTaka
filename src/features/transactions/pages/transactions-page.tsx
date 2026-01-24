@@ -27,7 +27,7 @@ export default function TransactionsPage() {
 
   return (
     <div className="space-y-8">
-      <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-4 shadow-neo dark:border-[#4ade80] dark:bg-[#030712]">
+      <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-4 shadow-neo">
         <FilterToggle
           isOpen={filters.showFilters}
           onToggle={() => filters.setShowFilters((prev) => !prev)}

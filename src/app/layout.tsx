@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { MoneyProvider } from "@/providers/money-provider";
 import { RoleProvider } from "@/providers/role-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
 import { PwaRegister } from "./pwa-register";
 
 const geistSans = Geist({
@@ -34,20 +33,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased`}
       >
         <PwaRegister />
         <RoleProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <MoneyProvider>{children}</MoneyProvider>
-          </ThemeProvider>
+          <MoneyProvider>{children}</MoneyProvider>
         </RoleProvider>
       </body>
     </html>

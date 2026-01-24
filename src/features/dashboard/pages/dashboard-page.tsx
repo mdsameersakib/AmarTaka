@@ -84,7 +84,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712] lg:col-span-2">
+        <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo lg:col-span-2">
           <MonthlyTrendSection trend={trend} showCents={showCents} />
 
           <RecurringSection

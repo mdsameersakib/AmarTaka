@@ -34,10 +34,10 @@ export function ManageDialog({
 }: ManageDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[32px] border-4 border-[#0f172a] bg-white shadow-neo dark:border-[#4ade80] dark:bg-[#020617]">
+      <DialogContent className="rounded-[32px] border-4 border-[#0f172a] bg-white shadow-neo">
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogHeader>
-          <DialogTitle className="text-3xl font-black text-[#0f172a] dark:text-white">
+          <DialogTitle className="text-3xl font-black text-[#0f172a] ">
             {title}
           </DialogTitle>
         </DialogHeader>
@@ -47,12 +47,12 @@ export function ManageDialog({
               value={inputValue}
               onChange={(event) => onInputChange(event.target.value)}
               placeholder={`New ${title.slice(0, -1)}`}
-              className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm dark:border-[#4ade80] dark:bg-black dark:text-white"
+              className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm  "
             />
             <Button
               type="button"
               onClick={onAdd}
-              className="btn-neo rounded-2xl border-2 border-[#0f172a] bg-[#22c55e] px-4 py-3 text-sm font-black uppercase text-[#0f172a] shadow-neo-sm dark:border-[#4ade80] dark:bg-[#4ade80] dark:text-[#022c22]"
+              className="btn-neo rounded-2xl border-2 border-[#0f172a] bg-[#22c55e] px-4 py-3 text-sm font-black uppercase text-[#0f172a] shadow-neo-sm"
             >
               Add
             </Button>
@@ -61,15 +61,15 @@ export function ManageDialog({
             {items.map((item) => (
               <div
                 key={item}
-                className="flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]"
+                className="flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm"
               >
-                <span className="text-sm font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
+                <span className="text-sm font-semibold uppercase text-[#14532d]">
                   {item}
                 </span>
                 <button
                   type="button"
                   onClick={() => onDelete(item)}
-                  className="rounded-full border-2 border-transparent p-2 text-[#0f172a]/50 transition hover:border-[#0f172a] hover:text-[#0f172a] dark:text-[#bbf7d0]/70"
+                  className="rounded-full border-2 border-transparent p-2 text-[#0f172a]/50 transition hover:border-[#0f172a] hover:text-[#0f172a]/70"
                 >
                   <X className="h-4 w-4" />
                 </button>
