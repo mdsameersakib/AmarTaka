@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   title: "Amar Taka - Money Management",
   description:
     "Neo-brutalist personal finance experience for tracking income, expenses, wallets, and categories.",
+  icons: {
+    icon: "/icons/amartaka-192x192.png",
+    apple: "/icons/amartaka-192x192.png",
+  },
 };
 
 export default function RootLayout({
