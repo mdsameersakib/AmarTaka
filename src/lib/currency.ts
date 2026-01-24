@@ -1,9 +1,16 @@
-export const formatCurrency = (value: number, showCents = true) => {
+export const formatCurrency = (
+  value: number,
+  showCents = true,
+  currencySymbol = "৳",
+) => {
   const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
+    style: "decimal",
     minimumFractionDigits: showCents ? 2 : 0,
     maximumFractionDigits: showCents ? 2 : 0,
   });
-  return formatter.format(value);
+
+  const sign = value < 0 ? "-" : "";
+  const formatted = formatter.format(Math.abs(value));
+
+  return `${sign}${currencySymbol}${formatted}`;
 };

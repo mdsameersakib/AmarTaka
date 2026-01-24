@@ -1,8 +1,10 @@
 "use client";
 
 import { Filter, Search } from "lucide-react";
+import { useId } from "react";
 
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 type FilterPillProps = {
@@ -18,7 +20,7 @@ export function FilterPill({ label, active, onClick }: FilterPillProps) {
       onClick={onClick}
       className={cn(
         "btn-neo rounded-2xl border-2 border-[#0f172a] px-3 py-1 text-xs font-black uppercase tracking-wide text-[#0f172a]",
-        active ? "bg-[#22c55e]" : "bg-white dark:bg-black dark:text-[#bbf7d0]",
+        active ? "bg-[#22c55e]" : "bg-white",
       )}
     >
       {label}
@@ -39,22 +41,27 @@ export function SelectField({
   onChange,
   options,
 }: SelectFieldProps) {
+  const selectId = useId();
+
   return (
-    <label className="flex flex-col gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#030712]">
-      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/60 dark:text-[#bbf7d0]/60">
+    <label
+      htmlFor={selectId}
+      className="flex flex-col gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm"
+    >
+      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/60/60">
         {label}
       </span>
-      <select
+      <Select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-2 font-semibold shadow-neo-sm focus:outline-none dark:border-[#4ade80] dark:bg-black dark:text-white"
+        id={selectId}
       >
         {options.map((option) => (
           <option key={option} value={option}>
             {option === "all" ? "All" : option}
           </option>
         ))}
-      </select>
+      </Select>
     </label>
   );
 }
@@ -71,9 +78,9 @@ export function SearchFilter({
   resultsCount,
 }: SearchFilterProps) {
   return (
-    <div className="rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] p-4 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#052e16]">
-      <div className="flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 shadow-neo-sm dark:border-[#4ade80] dark:bg-black">
-        <Search className="h-4 w-4 text-[#0f172a]/60 dark:text-[#bbf7d0]" />
+    <div className="rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] p-4 shadow-neo-sm">
+      <div className="flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 shadow-neo-sm ">
+        <Search className="h-4 w-4 text-[#0f172a]/60" />
         <Input
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
@@ -81,7 +88,7 @@ export function SearchFilter({
           className="border-0 bg-transparent p-0 text-sm font-semibold focus-visible:ring-0"
         />
       </div>
-      <p className="mt-3 text-xs font-semibold uppercase text-[#14532d] dark:text-[#bbf7d0]">
+      <p className="mt-3 text-xs font-semibold uppercase text-[#14532d]">
         {resultsCount} results
       </p>
     </div>
@@ -90,10 +97,10 @@ export function SearchFilter({
 
 export function FilterSummary({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-wrap gap-3 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm dark:border-[#4ade80] dark:bg-[#030712]">
+    <div className="flex flex-wrap gap-3 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm">
       {children}
       <div className="flex-1" />
-      <Filter className="h-4 w-4 text-[#0f172a]/40 dark:text-[#4ade80]" />
+      <Filter className="h-4 w-4 text-[#0f172a]/40" />
     </div>
   );
 }

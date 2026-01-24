@@ -25,6 +25,7 @@ export interface MoneyState {
   transactions: Transaction[];
   recurring: RecurringPayment[];
   showCents: boolean;
+  currencySymbol: string;
 }
 
 export interface MoneyTotals {

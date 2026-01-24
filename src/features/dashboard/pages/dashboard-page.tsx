@@ -18,6 +18,7 @@ export default function DashboardPage() {
     walletBalances,
     recentTransactions,
     showCents,
+    currencySymbol,
     trend,
     recurring,
     resetDemoData,
@@ -52,18 +53,21 @@ export default function DashboardPage() {
           label="Total Balance"
           amount={totals.total}
           showCents={showCents}
+          currencySymbol={currencySymbol}
         />
         <SummaryCard
           label="Income"
           amount={totals.income}
           accent="income"
           showCents={showCents}
+          currencySymbol={currencySymbol}
         />
         <SummaryCard
           label="Expenses"
           amount={totals.expense}
           accent="expense"
           showCents={showCents}
+          currencySymbol={currencySymbol}
         />
       </section>
 
@@ -74,6 +78,7 @@ export default function DashboardPage() {
           <RecentTransactionsSection
             recentTransactions={recentTransactions}
             showCents={showCents}
+            currencySymbol={currencySymbol}
           />
 
           <SpendingInsightsSection
@@ -81,15 +86,21 @@ export default function DashboardPage() {
             setSpendingRange={setSpendingRange}
             rangeFilteredSpending={rangeFilteredSpending}
             showCents={showCents}
+            currencySymbol={currencySymbol}
           />
         </div>
 
-        <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo dark:border-[#4ade80] dark:bg-[#030712] lg:col-span-2">
-          <MonthlyTrendSection trend={trend} showCents={showCents} />
+        <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo lg:col-span-2">
+          <MonthlyTrendSection
+            trend={trend}
+            showCents={showCents}
+            currencySymbol={currencySymbol}
+          />
 
           <RecurringSection
             recurring={recurring}
             showCents={showCents}
+            currencySymbol={currencySymbol}
             onReset={resetDemoData}
           />
         </div>

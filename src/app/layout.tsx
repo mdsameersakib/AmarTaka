@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { MoneyProvider } from "@/providers/money-provider";
 import { RoleProvider } from "@/providers/role-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
 import { PwaRegister } from "./pwa-register";
 
 const geistSans = Geist({
@@ -26,6 +25,10 @@ export const metadata: Metadata = {
   title: "Amar Taka - Money Management",
   description:
     "Neo-brutalist personal finance experience for tracking income, expenses, wallets, and categories.",
+  icons: {
+    icon: "/icons/amartaka-192x192.png",
+    apple: "/icons/amartaka-192x192.png",
+  },
 };
 
 export default function RootLayout({
@@ -34,20 +37,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased`}
       >
         <PwaRegister />
         <RoleProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <MoneyProvider>{children}</MoneyProvider>
-          </ThemeProvider>
+          <MoneyProvider>{children}</MoneyProvider>
         </RoleProvider>
       </body>
     </html>

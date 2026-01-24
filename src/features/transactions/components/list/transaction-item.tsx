@@ -9,24 +9,22 @@ type TransactionItemProps = {
 };
 
 export function TransactionItem({ transaction }: TransactionItemProps) {
-  const { showCents, deleteTransaction } = useMoney();
+  const { showCents, currencySymbol, deleteTransaction } = useMoney();
   const isIncome = transaction.type === "income";
   const Icon = isIncome ? ArrowDownRight : ArrowUpRight;
 
   return (
     <div
       className={cn(
-        "rounded-2xl border-2 border-[#0f172a] px-4 py-3 shadow-neo-sm dark:border-[#4ade80]",
-        isIncome
-          ? "bg-[#dcfce7] dark:bg-[#022c22]"
-          : "bg-[#fee2e2] dark:bg-[#451a1a]",
+        "rounded-2xl border-2 border-[#0f172a] px-4 py-3 shadow-neo-sm",
+        isIncome ? "bg-[#dcfce7]" : "bg-[#fee2e2]",
       )}
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "rounded-full p-1 border-2 border-[#0f172a] dark:border-[#4ade80]",
+              "rounded-full p-1 border-2 border-[#0f172a]",
               isIncome ? "bg-green-100" : "bg-red-100",
             )}
           >
@@ -37,7 +35,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
               )}
             />
           </div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-[#14532d] dark:text-[#bbf7d0]">
+          <p className="text-xs font-semibold uppercase tracking-wide text-[#14532d]">
             {transaction.note
               ? `${transaction.category} - ${transaction.note}`
               : transaction.category}
@@ -47,13 +45,11 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
           <p
             className={cn(
               "text-sm font-black",
-              isIncome
-                ? "text-green-700 dark:text-green-300"
-                : "text-red-600 dark:text-red-300",
+              isIncome ? "text-green-700 " : "text-red-600 ",
             )}
           >
             {isIncome ? "+" : "-"}
-            {formatCurrency(transaction.amount, showCents)}
+            {formatCurrency(transaction.amount, showCents, currencySymbol)}
           </p>
           <button
             type="button"
@@ -64,7 +60,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
           </button>
         </div>
       </div>
-      <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 dark:text-[#bbf7d0]/70 pl-9">
+      <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 pl-9">
         <span>
           {new Date(transaction.date).toLocaleString("en-GB", {
             day: "2-digit",

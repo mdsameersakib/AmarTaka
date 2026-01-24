@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
-
 :root {
   --font-size: 16px;
   --background: #f0fdf4;
@@ -36,38 +34,6 @@
   --sidebar-accent-foreground: #166534;
   --sidebar-border: #0f172a;
   --sidebar-ring: #22c55e;
-}
-
-.dark {
-  --background: #020617;
-  --foreground: #f0fdf4;
-  --card: #030712;
-  --card-foreground: #f0fdf4;
-  --popover: #030712;
-  --popover-foreground: #f0fdf4;
-  --primary: #4ade80;
-  --primary-foreground: #022c22;
-  --secondary: #064e3b;
-  --secondary-foreground: #bbf7d0;
-  --muted: #052e16;
-  --muted-foreground: #a7f3d0;
-  --accent: #052e16;
-  --accent-foreground: #a7f3d0;
-  --destructive: #f87171;
-  --destructive-foreground: #450a0a;
-  --border: #4ade80;
-  --input: #14532d;
-  --ring: #4ade80;
-  --font-weight-medium: 600;
-  --font-weight-normal: 400;
-  --sidebar: #020617;
-  --sidebar-foreground: #f0fdf4;
-  --sidebar-primary: #4ade80;
-  --sidebar-primary-foreground: #022c22;
-  --sidebar-accent: #022c22;
-  --sidebar-accent-foreground: #86efac;
-  --sidebar-border: #4ade80;
-  --sidebar-ring: #4ade80;
 }
 
 @theme inline {
@@ -165,12 +131,6 @@ html {
   box-shadow: 10px 10px 0px 0px #0f172a;
 }
 
-.dark .shadow-neo,
-.dark .shadow-neo-sm,
-.dark .shadow-neo-lg {
-  box-shadow: 6px 6px 0px 0px #22c55e;
-}
-
 .btn-neo {
   transition:
     transform 0.1s ease,
@@ -199,27 +159,8 @@ html {
   }
 }
 
-@keyframes fabPulseDark {
-  0% {
-    transform: translateY(0);
-    box-shadow: 6px 6px 0px 0px #22c55e;
-  }
-  50% {
-    transform: translateY(-4px);
-    box-shadow: 8px 8px 0px 0px #22c55e;
-  }
-  100% {
-    transform: translateY(0);
-    box-shadow: 6px 6px 0px 0px #22c55e;
-  }
-}
-
 .fab-animate {
   animation: fabPulse 2.4s infinite;
-}
-
-.dark .fab-animate {
-  animation: fabPulseDark 2.4s infinite;
 }
 
 @keyframes sheetSlideUp {

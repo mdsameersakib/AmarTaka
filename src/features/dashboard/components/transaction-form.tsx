@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -36,13 +37,13 @@ export function AddTransactionSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="max-h-[85vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[#fefce8] shadow-neo-lg dark:border-[#4ade80] dark:bg-[#020617] flex flex-col overflow-y-auto"
+        className="max-h-[85vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[#fefce8] shadow-neo-lg flex flex-col overflow-y-auto"
       >
         <SheetHeader className="space-y-1 text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/70 dark:text-[#86efac]">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/70">
             {formType === "income" ? "Record" : "Track"}
           </p>
-          <SheetTitle className="text-3xl font-black tracking-tight text-[#0f172a] dark:text-white">
+          <SheetTitle className="text-3xl font-black tracking-tight text-[#0f172a] ">
             {formType === "income" ? "New Income" : "New Expense"}
           </SheetTitle>
         </SheetHeader>
@@ -51,7 +52,7 @@ export function AddTransactionSheet({
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-amount"
-              className="text-xs font-bold uppercase text-[#0f172a]/70 dark:text-[#bbf7d0]/70"
+              className="text-xs font-bold uppercase text-[#0f172a]/70"
             >
               Amount
             </label>
@@ -65,7 +66,7 @@ export function AddTransactionSheet({
               onChange={(event) =>
                 setFormData({ ...formData, amount: Number(event.target.value) })
               }
-              className="rounded-3xl border-2 border-[#0f172a] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm dark:border-[#4ade80] dark:bg-black dark:text-white"
+              className="rounded-3xl border-2 border-[#0f172a] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm  "
             />
           </div>
 
@@ -73,51 +74,51 @@ export function AddTransactionSheet({
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="tx-wallet"
-                className="text-xs font-bold uppercase text-[#0f172a]/70 dark:text-[#bbf7d0]/70"
+                className="text-xs font-bold uppercase text-[#0f172a]/70"
               >
                 Wallet
               </label>
-              <select
+              <Select
                 id="tx-wallet"
                 value={formData.wallet}
                 onChange={(event) =>
                   setFormData({ ...formData, wallet: event.target.value })
                 }
-                className="w-full rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm focus:outline-none dark:border-[#4ade80] dark:bg-black dark:text-white"
+                className="h-12"
                 required
               >
                 {wallets.map((wallet) => (
                   <option key={wallet}>{wallet}</option>
                 ))}
-              </select>
+              </Select>
             </div>
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="tx-category"
-                className="text-xs font-bold uppercase text-[#0f172a]/70 dark:text-[#bbf7d0]/70"
+                className="text-xs font-bold uppercase text-[#0f172a]/70"
               >
                 Category
               </label>
-              <select
+              <Select
                 id="tx-category"
                 value={formData.category}
                 onChange={(event) =>
                   setFormData({ ...formData, category: event.target.value })
                 }
-                className="w-full rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm focus:outline-none dark:border-[#4ade80] dark:bg-black dark:text-white"
+                className="h-12"
                 required
               >
                 {categories.map((category) => (
                   <option key={category}>{category}</option>
                 ))}
-              </select>
+              </Select>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-date"
-              className="text-xs font-bold uppercase text-[#0f172a]/70 dark:text-[#bbf7d0]/70"
+              className="text-xs font-bold uppercase text-[#0f172a]/70"
             >
               Date
             </label>
@@ -129,14 +130,14 @@ export function AddTransactionSheet({
               onChange={(event) =>
                 setFormData({ ...formData, date: event.target.value })
               }
-              className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm dark:border-[#4ade80] dark:bg-black dark:text-white"
+              className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm  "
             />
           </div>
 
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-note"
-              className="text-xs font-bold uppercase text-[#0f172a]/70 dark:text-[#bbf7d0]/70"
+              className="text-xs font-bold uppercase text-[#0f172a]/70"
             >
               Note
             </label>
@@ -147,13 +148,13 @@ export function AddTransactionSheet({
                 setFormData({ ...formData, note: event.target.value })
               }
               placeholder="Add a short description"
-              className="min-h-[100px] rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm dark:border-[#4ade80] dark:bg-black dark:text-white"
+              className="min-h-[100px] rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm  "
             />
           </div>
 
           <Button
             type="submit"
-            className="btn-neo rounded-3xl border-2 border-[#0f172a] bg-[#22c55e] py-6 text-lg font-black uppercase tracking-wide text-[#0f172a] shadow-neo-lg dark:border-[#4ade80] dark:bg-[#4ade80] dark:text-[#022c22]"
+            className="btn-neo rounded-3xl border-2 border-[#0f172a] bg-[#22c55e] py-6 text-lg font-black uppercase tracking-wide text-[#0f172a] shadow-neo-lg"
           >
             Save Transaction
           </Button>
