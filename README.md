@@ -1,125 +1,80 @@
-## Role Generator Script
+# Amar Taka 🪙
 
-You can create or delete roles in your app using the automated script:
+**Amar Taka** (*"My Money"*) is a simple, bold, and privacy-first personal finance tracker. It helps you keep track of your income, expenses, and wallet balances right from your browser—no logins, no ads, and no creepy tracking.
 
-### Create a Role
-
-```
-pnpm generate:role <RoleName>
-```
-
-This will:
-- Add the role to the `AppRole` union in `src/types/roles.ts`
-- Add the role to the `APP_ROLES` array
-
-### Delete a Role
-
-```
-pnpm generate:role <RoleName> --delete
-```
-
-This will:
-- Prompt for confirmation
-- Remove the role from the `AppRole` union and `APP_ROLES` array
-
-The script is robust and will not break your types file. All changes are made in `src/types/roles.ts`.
-
-# Project Template
-**Status**: 🟡 In Development
-
-## Overview
-This is a modern, feature-based Next.js starter template. It provides a scalable structure for building multi-role, multi-page web applications with clean separation of features and shared code.
-
-## Folder Structure
-
-```
-src/
-	app/
-		(app)/
-			dashboard/page.tsx      # Thin wrapper, renders feature page
-			transactions/page.tsx
-			settings/page.tsx
-		(auth)/                # Auth routes
-	components/              # Shared UI components
-	config/                  # Navigation and config
-	features/
-		dashboard/
-			components/
-			hooks/
-			lib/
-			pages/dashboard-page.tsx
-			constants.ts
-			types.ts
-			index.ts
-			README.md
-			__tests__/
-		transactions/
-		settings/
-		auth/
-	hooks/                   # Shared hooks
-	providers/               # Context providers
-	types/                   # Shared types
-```
-
-
-## Feature Generator Script
-
-You can safely create or delete feature modules using the automated script:
-
-### Create a Feature
-
-```
-pnpm generate:feature <FeatureName>
-```
-
-This will:
-- Scaffold a new folder under `src/features/<feature>` with all boilerplate files and subfolders
-- Create a route wrapper in `src/app/(app)/<feature>/page.tsx`
-- Add a navigation entry to `src/config/navigation.ts` at the generator marker
-
-### Delete a Feature
-
-```
-pnpm generate:feature <FeatureName> --delete
-```
-
-This will:
-- Prompt for confirmation
-- Delete the feature folder and route wrapper
-- Remove the navigation entry from `src/config/navigation.ts`
-
-The script is robust and will not break navigation. All changes are made at the `// [GENERATOR-INSERTION-POINT]` marker in `navigation.ts`.
+All your financial data stays **100% offline** on your device.
 
 ---
 
-## How to Add a New Page/Feature (Manual)
-If you prefer to do it manually:
-1. Duplicate one of the Amar Taka feature folders (for example `features/dashboard`) and rename it (e.g., `features/your-feature`).
-2. Add your main page component in `features/your-feature/pages/your-feature-page.tsx`.
-3. Create a route wrapper in `src/app/(app)/your-feature/page.tsx`:
-	 ```tsx
-	 import YourFeaturePage from "@/features/your-feature/pages/your-feature-page";
-	 export default function YourFeatureRoute() {
-		 return <YourFeaturePage />;
-	 }
-	 ```
-4. Add a navigation entry in `src/config/navigation.ts` at the marker.
+## ✨ Features at a Glance
 
-## How to Add a New Role
-1. Edit `src/types/roles.ts` and add your new role to the `AppRole` union and `APP_ROLES` array.
-2. The role switcher will automatically include your new role.
-3. Use the `useRole()` hook in client components to access the current role.
-
-## Development
-- Run `pnpm dev` to start the local server.
-- Run `pnpm lint` and `pnpm format` for code quality.
-- Add tests in each feature's `__tests__` folder.
-
-## Contributing
-- Keep all feature code self-contained in its own folder.
-- Only use shared code from `src/components`, `src/hooks`, `src/lib`, `src/providers`, or `src/types`.
-- Update documentation as you add new features or roles.
+- 🔒 **Private & Offline-First**: Your data is stored locally in your browser. What you spend is nobody else's business.
+- ⚡ **Quick Time Filters**: Filter transactions by **Today**, **Week**, or **Month** with a single click.
+- 👛 **Multiple Wallets**: Keep track of cash, bank accounts, and mobile wallets all in one place.
+- 🏷️ **Custom Categories**: Group your expenses and income however you like.
+- 📊 **Visual Insights**: Spot monthly spending trends and see where your money goes.
+- 🔄 **Recurring Payments**: Easily manage recurring expenses and income.
 
 ---
-For more details, see the comments in each folder and the `FEATURE_ARCHITECTURE.md` file.
 
+## 📸 Screenshots
+
+### 1. Main Dashboard
+Get an overview of your total balance, income vs. expenses, wallet balances, and monthly spending insights.
+
+![Dashboard Preview](public/screenshots/Dashboard-page.png)
+
+### 2. Transactions & Smart Filters
+Search through past payments or filter instantly by date range (Today, Week, Month), transaction type, wallet, or category.
+
+![Transactions Preview](public/screenshots/Transaction-page.png)
+
+### 3. Quick Add Transaction
+Add income or expenses in seconds with a clean, popup form.
+
+![Add Transaction Preview](public/screenshots/add-button%20popup.png)
+
+### 4. Settings & Customization
+Manage your wallets, custom categories, show/hide cents, or reset demo data whenever you want a fresh start.
+
+![Settings Preview](public/screenshots/Settings-page.png)
+
+---
+
+## 🚀 Quick Start
+
+Want to run Amar Taka locally? It takes less than a minute!
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/your-username/AmarTaka.git
+cd AmarTaka
+```
+
+### 2. Install dependencies
+```bash
+pnpm install
+# or npm install / yarn install
+```
+
+### 3. Run the development server
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser and start tracking your money!
+
+---
+
+## 🛠️ Built With
+
+- **Framework**: Next.js (App Router) & React
+- **Styling**: Tailwind CSS & Lucide Icons
+- **State**: Offline LocalStorage state
+- **Language**: TypeScript
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. Feel free to use, modify, and share!

@@ -8,10 +8,12 @@ type FilterToggleProps = {
 
 export function FilterToggle({ isOpen, onToggle }: FilterToggleProps) {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-end">
       <button
         type="button"
         onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls="transaction-filters"
         className="inline-flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 text-xs font-black uppercase tracking-wide text-[#0f172a] shadow-neo-sm transition hover:-translate-y-0.5 hover:bg-[#fefce8]"
       >
         <span>Filters</span>

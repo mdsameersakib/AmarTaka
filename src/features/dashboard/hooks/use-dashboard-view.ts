@@ -7,7 +7,6 @@ export function useDashboardView() {
     state,
     totals,
     walletBalances,
-    spendingByCategory,
     trend,
     recentTransactions,
     recurring,
@@ -23,10 +22,7 @@ export function useDashboardView() {
   // For now, the view uses direct data.
 
   const { spendingRange, setSpendingRange, rangeFilteredSpending } =
-    useSpendingInsights({
-      state,
-      spendingByCategory,
-    });
+    useSpendingInsights({ state });
 
   const [categoryDialog, setCategoryDialog] = useState(false);
   const [newCategory, setNewCategory] = useState("");

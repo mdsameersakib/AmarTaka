@@ -23,6 +23,11 @@ export function SpendingInsightsSection({
   showCents,
   currencySymbol,
 }: SpendingInsightsSectionProps) {
+  const maxAmount = Math.max(
+    ...rangeFilteredSpending.map((category) => category.amount),
+    1,
+  );
+
   return (
     <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
       <div className="mb-4 flex items-center justify-between">
@@ -37,6 +42,8 @@ export function SpendingInsightsSection({
               spendingRange === "week" && "bg-[#0f172a] text-[#fefce8]",
             )}
             onClick={() => setSpendingRange("week")}
+            aria-label="Show week spending"
+            aria-pressed={spendingRange === "week"}
           >
             W
           </button>
@@ -47,6 +54,8 @@ export function SpendingInsightsSection({
               spendingRange === "month" && "bg-[#0f172a] text-[#fefce8]",
             )}
             onClick={() => setSpendingRange("month")}
+            aria-label="Show month spending"
+            aria-pressed={spendingRange === "month"}
           >
             M
           </button>
@@ -57,6 +66,8 @@ export function SpendingInsightsSection({
               spendingRange === "year" && "bg-[#0f172a] text-[#fefce8]",
             )}
             onClick={() => setSpendingRange("year")}
+            aria-label="Show year spending"
+            aria-pressed={spendingRange === "year"}
           >
             Y
           </button>
@@ -81,7 +92,12 @@ export function SpendingInsightsSection({
                   </p>
                 </div>
                 <div className="mt-1 h-4 overflow-hidden rounded-full border-2 border-[#0f172a] bg-[#ecfccb] shadow-neo-sm">
-                  <div className="h-full w-full bg-[#16a34a]" />
+                  <div
+                    className="h-full bg-[#16a34a]"
+                    style={{
+                      width: `${Math.max((category.amount / maxAmount) * 100, 4)}%`,
+                    }}
+                  />
                 </div>
               </div>
             </div>

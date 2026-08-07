@@ -21,7 +21,6 @@ export default function DashboardPage() {
     currencySymbol,
     trend,
     recurring,
-    resetDemoData,
     spendingRange,
     setSpendingRange,
     rangeFilteredSpending,
@@ -101,7 +100,6 @@ export default function DashboardPage() {
             recurring={recurring}
             showCents={showCents}
             currencySymbol={currencySymbol}
-            onReset={resetDemoData}
           />
         </div>
       </section>

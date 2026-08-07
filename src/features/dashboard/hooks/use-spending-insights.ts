@@ -1,17 +1,13 @@
 import { useMemo, useState } from "react";
-import type { CategorySpending, MoneyState } from "@/types/money";
+import type { MoneyState } from "@/types/money";
 
 type SpendingRange = "week" | "month" | "year";
 
 type UseSpendingInsightsParams = {
   state: MoneyState;
-  spendingByCategory: CategorySpending[];
 };
 
-export function useSpendingInsights({
-  state,
-  spendingByCategory,
-}: UseSpendingInsightsParams) {
+export function useSpendingInsights({ state }: UseSpendingInsightsParams) {
   const [spendingRange, setSpendingRange] = useState<SpendingRange>("month");
 
   const rangeFilteredSpending = useMemo(() => {
@@ -68,12 +64,8 @@ export function useSpendingInsights({
       .filter((item) => item.amount > 0)
       .sort((a, b) => b.amount - a.amount);
 
-    if (ranged.length > 0) {
-      return ranged;
-    }
-
-    return spendingByCategory;
-  }, [state.transactions, state.categories, spendingRange, spendingByCategory]);
+    return ranged;
+  }, [state.transactions, state.categories, spendingRange]);
 
   return {
     spendingRange,

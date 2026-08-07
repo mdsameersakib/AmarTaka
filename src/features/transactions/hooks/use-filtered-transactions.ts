@@ -60,10 +60,13 @@ export function useFilteredTransactions(
         categoryFilter === "all" || tx.category === categoryFilter;
       if (!matchesCategory) return false;
 
-      const note = tx.note ?? "";
-      const matchesNote = !lowerNote || note.toLowerCase().includes(lowerNote);
+      const searchableText = [tx.note, tx.category, tx.wallet]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      const matchesSearch = !lowerNote || searchableText.includes(lowerNote);
 
-      return matchesNote;
+      return matchesSearch;
     });
   }, [
     allTransactions,

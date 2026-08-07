@@ -1,5 +1,5 @@
 import { Edit2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,6 +23,10 @@ export function RenameCategoryDialog({
 }: RenameCategoryDialogProps) {
   const { renameCategory } = useMoney();
   const [newName, setNewName] = useState(oldName);
+
+  useEffect(() => {
+    setNewName(oldName);
+  }, [oldName]);
 
   const handleConfirm = () => {
     if (!newName.trim() || newName === oldName) return;

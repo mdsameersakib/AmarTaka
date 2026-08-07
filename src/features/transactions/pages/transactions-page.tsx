@@ -28,13 +28,41 @@ export default function TransactionsPage() {
   return (
     <div className="space-y-8">
       <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-4 shadow-neo">
-        <FilterToggle
-          isOpen={filters.showFilters}
-          onToggle={() => filters.setShowFilters((prev) => !prev)}
-        />
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <FilterPill
+              label="All"
+              active={filters.quickPreset === "all"}
+              onClick={() => filters.setQuickRange("all")}
+            />
+            <FilterPill
+              label="Today"
+              active={filters.quickPreset === "today"}
+              onClick={() => filters.setQuickRange("today")}
+            />
+            <FilterPill
+              label="Week"
+              active={filters.quickPreset === "week"}
+              onClick={() => filters.setQuickRange("week")}
+            />
+            <FilterPill
+              label="Month"
+              active={filters.quickPreset === "month"}
+              onClick={() => filters.setQuickRange("month")}
+            />
+          </div>
+
+          <FilterToggle
+            isOpen={filters.showFilters}
+            onToggle={() => filters.setShowFilters((prev) => !prev)}
+          />
+        </div>
 
         {filters.showFilters && (
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            id="transaction-filters"
+            className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
             <DateFilter
               dateMode={filters.dateMode}
               setDateMode={filters.setDateMode}

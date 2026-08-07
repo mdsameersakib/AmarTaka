@@ -17,7 +17,7 @@ export function DangerZone({ onReset }: DangerZoneProps) {
             Reset Demo Data
           </h2>
           <p className="text-sm text-[#7f1d1d]/70/80">
-            Wipe localStorage and reload the Amar Taka demo dataset.
+            Replace your local data with a fresh Amar Taka demo dataset.
           </p>
         </div>
         <Button

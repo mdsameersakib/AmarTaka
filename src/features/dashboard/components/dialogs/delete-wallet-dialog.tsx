@@ -31,10 +31,19 @@ export function DeleteWalletDialog({
   ).length;
 
   const handleConfirm = () => {
-    if (!strategy) return;
-    if (strategy === "move" && !targetWallet) return;
+    if (
+      transactionCount > 0 &&
+      (!strategy || (strategy === "move" && !targetWallet))
+    ) {
+      return;
+    }
+    const resolvedStrategy = strategy ?? "cascade";
 
-    deleteWalletWithStrategy(walletName, strategy, targetWallet);
+    deleteWalletWithStrategy(
+      walletName,
+      transactionCount > 0 ? resolvedStrategy : "cascade",
+      targetWallet,
+    );
     onOpenChange(false);
     // Reset state
     setStrategy(null);
@@ -42,7 +51,16 @@ export function DeleteWalletDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        onOpenChange(nextOpen);
+        if (!nextOpen) {
+          setStrategy(null);
+          setTargetWallet("");
+        }
+      }}
+    >
       <DialogContent className="max-w-md rounded-[32px] border-4 border-[#7f1d1d] bg-[#fee2e2] p-6 shadow-neo">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl font-black uppercase text-[#7f1d1d]">

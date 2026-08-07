@@ -55,6 +55,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
             type="button"
             onClick={() => deleteTransaction(transaction.id)}
             className="p-1 hover:bg-black/5 rounded"
+            aria-label={`Delete ${transaction.category} transaction`}
           >
             <X className="h-4 w-4 opacity-50" />
           </button>

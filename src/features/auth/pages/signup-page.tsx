@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function SignupPage() {
   const router = useRouter();
 
-  if (typeof window !== "undefined") {
-    router.push("/dashboard");
-  }
+  useEffect(() => {
+    router.replace("/dashboard");
+  }, [router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/30">

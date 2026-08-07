@@ -1,10 +1,17 @@
+import { formatCurrency } from "@/lib/currency";
 import type { RecurringPayment } from "@/types/money";
 
 type RecurringPaymentsProps = {
   recurring: RecurringPayment[];
+  showCents: boolean;
+  currencySymbol: string;
 };
 
-export function RecurringPayments({ recurring }: RecurringPaymentsProps) {
+export function RecurringPayments({
+  recurring,
+  showCents,
+  currencySymbol,
+}: RecurringPaymentsProps) {
   return (
     <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
       <h2 className="text-2xl font-black text-[#0f172a] ">
@@ -28,7 +35,7 @@ export function RecurringPayments({ recurring }: RecurringPaymentsProps) {
               </p>
             </div>
             <p className="text-lg font-black text-[#0f172a] ">
-              ${item.amount.toFixed(2)}
+              {formatCurrency(item.amount, showCents, currencySymbol)}
             </p>
           </div>
         ))}

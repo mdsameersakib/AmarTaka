@@ -83,6 +83,7 @@ export function ManagerCard({
                 type="button"
                 onClick={() => onDelete(item)}
                 className="rounded-full border-2 border-transparent p-1 text-xs text-[#14532d]/70 transition hover:border-[#0f172a] hover:text-[#0f172a]/80"
+                aria-label={`Delete ${item}`}
               >
                 <X className="h-3 w-3" />
               </button>
