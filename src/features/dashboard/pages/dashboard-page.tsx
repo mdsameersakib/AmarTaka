@@ -72,8 +72,8 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-3 space-y-6">
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <div className="min-w-0 lg:col-span-3 space-y-6">
           <WalletsSection walletBalances={walletBalances} />
           <LoansSection />
           <RecentTransactionsSection
@@ -90,7 +90,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="space-y-6 rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo lg:col-span-2">
+        <div className="min-w-0 space-y-6 rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo lg:col-span-2">
           <MonthlyTrendSection
             trend={trend}
             showCents={showCents}
