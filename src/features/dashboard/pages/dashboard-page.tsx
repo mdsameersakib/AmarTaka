@@ -1,6 +1,7 @@
 "use client";
 
 import { FloatingActionLauncher } from "@/features/dashboard/components/floating-action-launcher";
+import { LoansSection } from "@/features/dashboard/components/loans-section";
 import { ManageDialog } from "@/features/dashboard/components/manage-dialog";
 import { MonthlyTrendSection } from "@/features/dashboard/components/monthly-trend-section";
 import { RecentTransactionsSection } from "@/features/dashboard/components/recent-transactions-section";
@@ -20,7 +21,6 @@ export default function DashboardPage() {
     showCents,
     currencySymbol,
     trend,
-    recurring,
     spendingRange,
     setSpendingRange,
     rangeFilteredSpending,
@@ -47,39 +47,40 @@ export default function DashboardPage() {
 
   return (
     <div className="relative mb-20 flex flex-col gap-8">
-      <section className="space-y-4">
+      <section className="space-y-3">
         <SummaryCard
           label="Total Balance"
           amount={totals.total}
           showCents={showCents}
           currencySymbol={currencySymbol}
         />
-        <SummaryCard
-          label="Income"
-          amount={totals.income}
-          accent="income"
-          showCents={showCents}
-          currencySymbol={currencySymbol}
-        />
-        <SummaryCard
-          label="Expenses"
-          amount={totals.expense}
-          accent="expense"
-          showCents={showCents}
-          currencySymbol={currencySymbol}
-        />
+        <div className="grid grid-cols-2 gap-3">
+          <SummaryCard
+            label="Income"
+            amount={totals.income}
+            accent="income"
+            showCents={showCents}
+            currencySymbol={currencySymbol}
+          />
+          <SummaryCard
+            label="Expenses"
+            amount={totals.expense}
+            accent="expense"
+            showCents={showCents}
+            currencySymbol={currencySymbol}
+          />
+        </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-3 space-y-6">
           <WalletsSection walletBalances={walletBalances} />
-
+          <LoansSection />
           <RecentTransactionsSection
             recentTransactions={recentTransactions}
             showCents={showCents}
             currencySymbol={currencySymbol}
           />
-
           <SpendingInsightsSection
             spendingRange={spendingRange}
             setSpendingRange={setSpendingRange}
@@ -95,12 +96,7 @@ export default function DashboardPage() {
             showCents={showCents}
             currencySymbol={currencySymbol}
           />
-
-          <RecurringSection
-            recurring={recurring}
-            showCents={showCents}
-            currencySymbol={currencySymbol}
-          />
+          <RecurringSection />
         </div>
       </section>
 

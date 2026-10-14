@@ -53,14 +53,16 @@ export function useFilteredTransactions(
       if (!matchesType) return false;
 
       const matchesWallet =
-        walletFilter === "all" || tx.wallet === walletFilter;
+        walletFilter === "all" ||
+        tx.wallet === walletFilter ||
+        tx.toWallet === walletFilter;
       if (!matchesWallet) return false;
 
       const matchesCategory =
         categoryFilter === "all" || tx.category === categoryFilter;
       if (!matchesCategory) return false;
 
-      const searchableText = [tx.note, tx.category, tx.wallet]
+      const searchableText = [tx.note, tx.category, tx.wallet, tx.toWallet]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();

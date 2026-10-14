@@ -1,7 +1,16 @@
-import { ArrowDownRight, ArrowUpRight, X } from "lucide-react";
-import { formatCurrency } from "@/lib/currency";
+"use client";
+
+import {
+  ArrowDownRight,
+  ArrowLeftRight,
+  ArrowUpRight,
+  MoreHorizontal,
+} from "lucide-react";
+import { useRef, useState } from "react";
+import { MaskedAmount } from "@/components/ui/masked-amount";
+import { TransactionActionSheet } from "@/features/transactions/components/transaction-action-sheet";
+import { formatDisplayDate } from "@/lib/date";
 import { cn } from "@/lib/utils";
-import { useMoney } from "@/providers/money-provider";
 import type { Transaction } from "@/types/money";
 
 type TransactionItemProps = {
@@ -9,70 +18,143 @@ type TransactionItemProps = {
 };
 
 export function TransactionItem({ transaction }: TransactionItemProps) {
-  const { showCents, currencySymbol, deleteTransaction } = useMoney();
+  const [sheetOpen, setSheetOpen] = useState(false);
   const isIncome = transaction.type === "income";
-  const Icon = isIncome ? ArrowDownRight : ArrowUpRight;
+  const isTransfer = transaction.type === "transfer";
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const startCoords = useRef<{ x: number; y: number } | null>(null);
+  const isLongPressTriggered = useRef(false);
+
+  const clearLongPress = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    startCoords.current = null;
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isLongPressTriggered.current = false;
+    startCoords.current = { x: e.clientX, y: e.clientY };
+    clearLongPress();
+    timerRef.current = setTimeout(() => {
+      isLongPressTriggered.current = true;
+      setSheetOpen(true);
+      clearLongPress();
+    }, 450);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!startCoords.current) return;
+    const dx = Math.abs(e.clientX - startCoords.current.x);
+    const dy = Math.abs(e.clientY - startCoords.current.y);
+    if (dx > 10 || dy > 10) {
+      clearLongPress();
+    }
+  };
+
+  const handleClick = () => {
+    if (isLongPressTriggered.current) {
+      isLongPressTriggered.current = false;
+      return;
+    }
+    setSheetOpen(true);
+  };
 
   return (
-    <div
-      className={cn(
-        "rounded-2xl border-2 border-[#0f172a] px-4 py-3 shadow-neo-sm",
-        isIncome ? "bg-[#dcfce7]" : "bg-[#fee2e2]",
-      )}
-    >
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div
-            className={cn(
-              "rounded-full p-1 border-2 border-[#0f172a]",
-              isIncome ? "bg-green-100" : "bg-red-100",
-            )}
-          >
-            <Icon
+    <>
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: Long-press gesture container */}
+      <div
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={clearLongPress}
+        onPointerLeave={clearLongPress}
+        onPointerCancel={clearLongPress}
+        onClick={handleClick}
+        onContextMenu={(e) => e.preventDefault()}
+        className={cn(
+          "rounded-2xl border-2 border-[#0f172a] px-4 py-3 shadow-neo-sm cursor-pointer select-none transition active:scale-[0.98]",
+          isIncome && "bg-[#dcfce7]",
+          !isIncome && !isTransfer && "bg-[#fee2e2]",
+          isTransfer && "bg-[#f0f9ff]",
+        )}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div
               className={cn(
-                "h-4 w-4",
-                isIncome ? "text-green-600" : "text-red-500",
+                "rounded-full p-1 border-2 border-[#0f172a]",
+                isIncome &&
+                  "bg-green-100 dark:bg-emerald-950 dark:border-emerald-800",
+                !isIncome &&
+                  !isTransfer &&
+                  "bg-red-100 dark:bg-rose-950 dark:border-rose-800",
+                isTransfer && "bg-blue-100 dark:bg-sky-950 dark:border-sky-800",
               )}
-            />
+            >
+              {isTransfer ? (
+                <ArrowLeftRight className="h-4 w-4 text-blue-600 dark:text-sky-400" />
+              ) : isIncome ? (
+                <ArrowDownRight className="h-4 w-4 text-green-600 dark:text-emerald-400" />
+              ) : (
+                <ArrowUpRight className="h-4 w-4 text-red-500 dark:text-rose-400" />
+              )}
+            </div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#0f172a]">
+              {transaction.note
+                ? `${transaction.category} - ${transaction.note}`
+                : transaction.category}
+            </p>
           </div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-[#14532d]">
-            {transaction.note
-              ? `${transaction.category} - ${transaction.note}`
-              : transaction.category}
-          </p>
+          <div className="flex items-center gap-2">
+            <div
+              className={cn(
+                "text-sm font-black",
+                isIncome && "text-green-700 dark:text-emerald-400",
+                !isIncome && !isTransfer && "text-red-600 dark:text-rose-400",
+                isTransfer && "text-blue-700 dark:text-sky-400",
+              )}
+            >
+              <MaskedAmount
+                amount={transaction.amount}
+                prefix={isIncome ? "+" : isTransfer ? "⇄ " : "-"}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSheetOpen(true);
+              }}
+              className="p-1 rounded-full text-[#0f172a]/40 hover:text-[#0f172a] hover:bg-black/5 dark:hover:bg-white/10 transition"
+              aria-label="Transaction options"
+            >
+              <MoreHorizontal className="h-4 w-4" />
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <p
-            className={cn(
-              "text-sm font-black",
-              isIncome ? "text-green-700 " : "text-red-600 ",
-            )}
-          >
-            {isIncome ? "+" : "-"}
-            {formatCurrency(transaction.amount, showCents, currencySymbol)}
-          </p>
-          <button
-            type="button"
-            onClick={() => deleteTransaction(transaction.id)}
-            className="p-1 hover:bg-black/5 rounded"
-            aria-label={`Delete ${transaction.category} transaction`}
-          >
-            <X className="h-4 w-4 opacity-50" />
-          </button>
+        <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 pl-9">
+          <span>{formatDisplayDate(transaction.date)}</span>
+          <span>
+            {isTransfer
+              ? `${transaction.wallet} → ${transaction.toWallet ?? "Wallet"}`
+              : transaction.wallet}
+          </span>
         </div>
       </div>
-      <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 pl-9">
-        <span>
-          {new Date(transaction.date).toLocaleString("en-GB", {
-            day: "2-digit",
-            month: "short",
-            year: "2-digit",
-            hour: "numeric",
-            minute: "2-digit",
-          })}
-        </span>
-        <span>{transaction.wallet}</span>
-      </div>
-    </div>
+
+      <TransactionActionSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        transaction={transaction}
+      />
+    </>
   );
 }

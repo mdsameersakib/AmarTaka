@@ -77,13 +77,13 @@ export function DeleteWalletDialog({
 
           {transactionCount > 0 ? (
             <>
-              <p className="text-sm text-[#7f1d1d]/80/80">
+              <p className="text-sm text-[#7f1d1d]/80">
                 This wallet has <strong>{transactionCount}</strong> associated
                 transactions. What should happen to them?
               </p>
 
               <div className="space-y-3">
-                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3/20 ">
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3">
                   <input
                     type="radio"
                     name="strategy"
@@ -101,7 +101,7 @@ export function DeleteWalletDialog({
                   </div>
                 </label>
 
-                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3/20 ">
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#7f1d1d]/20 bg-white/50 p-3">
                   <input
                     type="radio"
                     name="strategy"
@@ -139,7 +139,7 @@ export function DeleteWalletDialog({
               </div>
             </>
           ) : (
-            <p className="text-sm text-[#7f1d1d]/80/80">
+            <p className="text-sm text-[#7f1d1d]/80">
               This wallet has no transactions. It is safe to delete.
             </p>
           )}

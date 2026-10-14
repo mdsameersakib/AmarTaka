@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-
-import { LayoutDashboard, ReceiptText, Settings } from "lucide-react";
+import { LayoutDashboard, ReceiptText } from "lucide-react";
 
 import type { AppRole } from "@/types/roles";
 import { APP_ROLES } from "@/types/roles";
@@ -27,10 +26,4 @@ export const navigationItems: NavigationItem[] = [
     icon: ReceiptText,
     roles: ALL_ROLES,
   },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: Settings,
-    roles: ALL_ROLES,
-  }, // [GENERATOR-INSERTION-POINT]
 ];

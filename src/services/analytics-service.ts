@@ -25,18 +25,28 @@ export const AnalyticsService = {
       if (tx.type === "income") {
         income += amt;
         walletMap[tx.wallet] = (walletMap[tx.wallet] ?? 0) + amt;
-      } else {
+      } else if (tx.type === "expense") {
         expense += amt;
         walletMap[tx.wallet] = (walletMap[tx.wallet] ?? 0) - amt;
+      } else if (tx.type === "transfer") {
+        // debit fromWallet, credit toWallet — no income/expense impact
+        walletMap[tx.wallet] = (walletMap[tx.wallet] ?? 0) - amt;
+        if (tx.toWallet) {
+          walletMap[tx.toWallet] = (walletMap[tx.toWallet] ?? 0) + amt;
+        }
+        // fee is a real expense from the fromWallet
+        if (tx.transferFee && tx.transferFee > 0) {
+          expense += tx.transferFee;
+          walletMap[tx.wallet] = (walletMap[tx.wallet] ?? 0) - tx.transferFee;
+        }
       }
     });
 
+    // Total balance = sum of all wallet balances
+    const total = Object.values(walletMap).reduce((sum, b) => sum + b, 0);
+
     return {
-      totals: {
-        total: income - expense,
-        income,
-        expense,
-      },
+      totals: { total, income, expense },
       walletBalances: state.wallets.map((wallet) => ({
         wallet,
         balance: walletMap[wallet] ?? 0,
@@ -51,9 +61,8 @@ export const AnalyticsService = {
     });
 
     state.transactions.forEach((tx) => {
-      if (tx.type === "expense") {
-        categoryMap[tx.category] = (categoryMap[tx.category] ?? 0) + tx.amount;
-      }
+      if (tx.type !== "expense") return;
+      categoryMap[tx.category] = (categoryMap[tx.category] ?? 0) + tx.amount;
     });
 
     return Object.entries(categoryMap)
@@ -64,6 +73,7 @@ export const AnalyticsService = {
   calculateTrend: (state: MoneyState): TrendPoint[] => {
     const buckets: Record<string, { income: number; expense: number }> = {};
     state.transactions.forEach((tx) => {
+      if (tx.type === "transfer") return; // exclude transfers from trend
       const date = new Date(tx.date);
       if (Number.isNaN(date.getTime())) return;
       const label = date.toLocaleString("default", {
@@ -75,7 +85,7 @@ export const AnalyticsService = {
       }
       if (tx.type === "income") {
         buckets[label].income += tx.amount;
-      } else {
+      } else if (tx.type === "expense") {
         buckets[label].expense += tx.amount;
       }
     });

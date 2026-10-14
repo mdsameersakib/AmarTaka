@@ -25,7 +25,7 @@ export function TransactionList({
 }: TransactionListProps) {
   if (!transactions.length) {
     return (
-      <div className="rounded-3xl border-2 border-dashed border-[#0f172a]/40 bg-[#fefce8] px-6 py-12 text-center text-sm font-semibold uppercase text-[#0f172a]/50/50/60">
+      <div className="rounded-3xl border-2 border-dashed border-[#0f172a]/40 bg-[#fefce8] px-6 py-12 text-center text-sm font-semibold uppercase text-[#0f172a]/60">
         No transactions match the filter.
       </div>
     );
@@ -56,7 +56,7 @@ function TransactionRow({
   const Icon = isIncome ? ArrowDownRight : ArrowUpRight;
 
   return (
-    <div className="flex items-center gap-4 rounded-3xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm">
+    <div className="flex items-center gap-4 rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm">
       <div className="rounded-2xl border-2 border-[#0f172a] bg-white p-3 shadow-neo-sm ">
         <Icon
           className={cn(
@@ -66,7 +66,7 @@ function TransactionRow({
         />
       </div>
       <div className="flex-1">
-        <p className="text-sm font-semibold uppercase text-[#14532d]">
+        <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
           {transaction.category} - {transaction.wallet}
         </p>
         <p className="text-xs text-[#0f172a]/70">

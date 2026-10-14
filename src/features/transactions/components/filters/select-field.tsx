@@ -21,7 +21,7 @@ export function SelectField({
       htmlFor={selectId}
       className="flex flex-col gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm"
     >
-      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/60/60">
+      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/70">
         {label}
       </span>
       <Select

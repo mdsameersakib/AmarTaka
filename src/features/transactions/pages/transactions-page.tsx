@@ -96,6 +96,11 @@ export default function TransactionsPage() {
                 active={filters.typeFilter === "expense"}
                 onClick={() => filters.setTypeFilter("expense")}
               />
+              <FilterPill
+                label="Transfer"
+                active={filters.typeFilter === "transfer"}
+                onClick={() => filters.setTypeFilter("transfer")}
+              />
             </FilterSummary>
 
             <SelectField

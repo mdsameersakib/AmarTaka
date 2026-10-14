@@ -52,7 +52,7 @@ export function ManageDialog({
             <Button
               type="button"
               onClick={onAdd}
-              className="btn-neo rounded-2xl border-2 border-[#0f172a] bg-[#22c55e] px-4 py-3 text-sm font-black uppercase text-[#0f172a] shadow-neo-sm"
+              className="btn-neo rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-3 text-sm font-black uppercase shadow-neo-sm"
             >
               Add
             </Button>
@@ -61,9 +61,9 @@ export function ManageDialog({
             {items.map((item) => (
               <div
                 key={item}
-                className="flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm"
+                className="flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm"
               >
-                <span className="text-sm font-semibold uppercase text-[#14532d]">
+                <span className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
                   {item}
                 </span>
                 <button

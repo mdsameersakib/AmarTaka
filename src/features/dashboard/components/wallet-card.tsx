@@ -1,7 +1,8 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
-import { formatCurrency } from "@/lib/currency";
+import { MaskedAmount } from "@/components/ui/masked-amount";
 import { cn } from "@/lib/utils";
-import { useMoney } from "@/providers/money-provider";
 
 type WalletCardProps = {
   name: string;
@@ -10,11 +11,11 @@ type WalletCardProps = {
 };
 
 export function WalletCard({ name, balance, onLongPress }: WalletCardProps) {
-  const { showCents, currencySymbol } = useMoney();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const amountRef = useRef<HTMLParagraphElement | null>(null);
   const [needsFullRow, setNeedsFullRow] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const startCoords = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -41,34 +42,58 @@ export function WalletCard({ name, balance, onLongPress }: WalletCardProps) {
         observer.disconnect();
       };
     }
-
-    return;
   }, []);
 
-  const handlePointerDown = () => {
-    timerRef.current = setTimeout(() => {
-      if (onLongPress) onLongPress();
-    }, 800);
+  const clearLongPress = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    startCoords.current = null;
   };
 
-  const handlePointerUp = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
+  const handlePointerDown = (e: React.PointerEvent) => {
+    startCoords.current = { x: e.clientX, y: e.clientY };
+    clearLongPress();
+    timerRef.current = setTimeout(() => {
+      if (onLongPress) onLongPress();
+      clearLongPress();
+    }, 500); // 500ms standard long-press
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!startCoords.current) return;
+    const dx = Math.abs(e.clientX - startCoords.current.x);
+    const dy = Math.abs(e.clientY - startCoords.current.y);
+    // If finger moves more than 10px, it's a scroll or gesture, cancel long press
+    if (dx > 10 || dy > 10) {
+      clearLongPress();
+    }
   };
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: Long-press gesture container
     <div
       ref={containerRef}
       onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerUp}
+      onPointerMove={handlePointerMove}
+      onPointerUp={clearLongPress}
+      onPointerLeave={clearLongPress}
+      onPointerCancel={clearLongPress}
+      onContextMenu={(e) => {
+        // Prevent default browser context menu when long-pressing
+        e.preventDefault();
+      }}
       className={cn(
-        "rounded-2xl border-2 border-[#0f172a] bg-[#ecfccb] px-4 py-3 shadow-neo-sm transition active:scale-95 cursor-pointer select-none",
+        "rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm transition active:scale-95 cursor-pointer select-none text-left",
         needsFullRow && "col-span-2 sm:col-span-1",
       )}
     >
-      <p className="text-sm font-semibold uppercase text-[#14532d]">{name}</p>
-      <p ref={amountRef} className="text-2xl font-black text-[#0f172a] ">
-        {formatCurrency(balance, showCents, currencySymbol)}
+      <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
+        {name}
+      </p>
+      <p ref={amountRef} className="text-2xl font-black text-[#0f172a]">
+        <MaskedAmount amount={balance} />
       </p>
     </div>
   );

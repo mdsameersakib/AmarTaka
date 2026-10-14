@@ -226,7 +226,9 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
                     className={cn(
                       "flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold uppercase text-[#0f172a]",
                       option.disabled && "cursor-not-allowed opacity-50",
-                      isSelected ? "bg-[#a3e635]" : "hover:bg-[#ecfccb]",
+                      isSelected
+                        ? "bg-[var(--accent-tab)] text-[var(--accent-tab-contrast)]"
+                        : "hover:bg-[var(--accent-soft)]",
                     )}
                   >
                     <span className="truncate">{option.label}</span>

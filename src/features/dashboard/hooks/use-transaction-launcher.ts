@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatLocalYMD } from "@/lib/date";
 import { useMoney } from "@/providers/money-provider";
 import type { TransactionInput, TransactionType } from "@/types/money";
 
@@ -13,7 +14,7 @@ export function useTransactionLauncher() {
     amount: 0,
     wallet: state.wallets[0] ?? "",
     category: state.categories[0] ?? "",
-    date: new Date().toISOString().slice(0, 10),
+    date: formatLocalYMD(),
     note: "",
   });
 
@@ -24,7 +25,7 @@ export function useTransactionLauncher() {
       amount: 0,
       wallet: state.wallets[0] ?? "",
       category: state.categories[0] ?? "",
-      date: new Date().toISOString().slice(0, 10),
+      date: formatLocalYMD(),
       note: "",
     });
     setIsFormOpen(true);

@@ -4,6 +4,8 @@ import { Tag, Wallet } from "lucide-react";
 import { useState } from "react";
 import { DeleteWalletDialog } from "@/features/dashboard/components/dialogs/delete-wallet-dialog";
 import { ManagerCard } from "@/features/settings/components/manager-card";
+import { AccentColorPicker } from "@/features/settings/components/sections/accent-color-picker";
+import { BackupRestore } from "@/features/settings/components/sections/backup-restore";
 import { DangerZone } from "@/features/settings/components/sections/danger-zone";
 import { DeveloperCredits } from "@/features/settings/components/sections/developer-credits";
 import { DisplaySettings } from "@/features/settings/components/sections/display-settings";
@@ -14,7 +16,6 @@ import { useMoney } from "@/providers/money-provider";
 export default function SettingsPage() {
   const {
     state,
-    recurring,
     addCategory,
     deleteCategory,
     addWallet,
@@ -23,6 +24,10 @@ export default function SettingsPage() {
     toggleShowCents,
     currencySymbol,
     setCurrencySymbol,
+    toggleBalanceHidden,
+    balanceHidden,
+    themeMode,
+    setThemeMode,
   } = useMoney();
 
   const [categoryInput, setCategoryInput] = useState("");
@@ -39,11 +44,18 @@ export default function SettingsPage() {
           onToggleCents={toggleShowCents}
           currencySymbol={currencySymbol}
           onSetCurrencySymbol={setCurrencySymbol}
+          balanceHidden={balanceHidden}
+          onToggleBalanceHidden={toggleBalanceHidden}
+          themeMode={themeMode}
+          onSetThemeMode={setThemeMode}
         />
+        <AccentColorPicker />
+      </section>
 
+      <section className="grid gap-6 lg:grid-cols-2">
         <ManagerCard
           label="Categories"
-          description="Organize recurring expense tags to keep your analytics sharp. Click to rename."
+          description="Organize expense tags. Click to rename."
           icon={<Tag className="h-5 w-5" />}
           items={state.categories}
           value={categoryInput}
@@ -58,7 +70,7 @@ export default function SettingsPage() {
         />
         <ManagerCard
           label="Wallets"
-          description="Cash, cards, and fintech rails that feed your spending."
+          description="Cash, cards, and mobile wallets."
           icon={<Wallet className="h-5 w-5" />}
           items={state.wallets}
           value={walletInput}
@@ -72,11 +84,9 @@ export default function SettingsPage() {
         />
       </section>
 
-      <RecurringPayments
-        recurring={recurring}
-        showCents={showCents}
-        currencySymbol={currencySymbol}
-      />
+      <RecurringPayments />
+
+      <BackupRestore />
 
       <DeleteWalletDialog
         open={Boolean(walletToDelete)}

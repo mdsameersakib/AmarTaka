@@ -16,7 +16,7 @@ export function DangerZone({ onReset }: DangerZoneProps) {
           <h2 className="text-2xl font-black text-[#7f1d1d] ">
             Reset Demo Data
           </h2>
-          <p className="text-sm text-[#7f1d1d]/70/80">
+          <p className="text-sm text-[#7f1d1d]/80">
             Replace your local data with a fresh Amar Taka demo dataset.
           </p>
         </div>

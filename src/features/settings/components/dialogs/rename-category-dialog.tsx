@@ -69,7 +69,7 @@ export function RenameCategoryDialog({
             <Button
               onClick={handleConfirm}
               disabled={!newName.trim() || newName === oldName}
-              className="btn-neo border-2 border-[#0f172a] bg-[#22c55e] text-[#0f172a]"
+              className="btn-neo border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
             >
               Save Changes
             </Button>
