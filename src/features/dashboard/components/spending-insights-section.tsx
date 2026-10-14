@@ -85,7 +85,7 @@ export function SpendingInsightsSection({
         ) : (
           rangeFilteredSpending.slice(0, 4).map((category) => (
             <div key={category.category} className="flex items-center gap-4">
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
                     {category.category}
