@@ -8,8 +8,6 @@ export default function manifest(): MetadataRoute.Manifest {
       "Offline-first personal finance tracker with Neobrutalist design.",
     start_url: "/",
     display: "standalone",
-    background_color: "#f0fdf4",
-    theme_color: "#16a34a",
     icons: [
       {
         src: "/icons/amartaka-192x192.png",

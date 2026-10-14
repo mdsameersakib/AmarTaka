@@ -21,7 +21,7 @@ export function SummaryCard({
   return (
     <div
       className={cn(
-        "rounded-[32px] border-4 border-[#0f172a] bg-white p-5 shadow-neo",
+        "rounded-[24px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-3.5 sm:p-5 shadow-neo",
         accent === "income" &&
           "bg-[#dcfce7] dark:bg-[#072615] dark:border-emerald-800",
         accent === "expense" &&
@@ -29,10 +29,10 @@ export function SummaryCard({
       )}
     >
       <div className="flex items-center justify-between">
-        <div>
+        <div className="min-w-0 flex-1">
           <p
             className={cn(
-              "text-xs font-semibold uppercase tracking-[0.2em]",
+              "text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] truncate",
               accent === "income"
                 ? "text-[#14532d] dark:text-emerald-400"
                 : accent === "expense"
@@ -44,7 +44,7 @@ export function SummaryCard({
           </p>
           <p
             className={cn(
-              "text-3xl font-black mt-1",
+              "text-xl xs:text-2xl sm:text-3xl font-black mt-0.5 sm:mt-1 truncate",
               accent === "income"
                 ? "text-[#14532d] dark:text-emerald-300"
                 : accent === "expense"
@@ -61,7 +61,7 @@ export function SummaryCard({
         </div>
       </div>
       {pill ? (
-        <span className="mt-4 inline-flex rounded-full bg-[#0f172a] text-white dark:bg-white dark:text-[#0f172a] px-3 py-1 text-xs font-bold uppercase shadow-neo-sm">
+        <span className="mt-3 sm:mt-4 inline-flex rounded-full bg-[#0f172a] text-white dark:bg-white dark:text-[#0f172a] px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-bold uppercase shadow-neo-sm">
           {pill}
         </span>
       ) : null}

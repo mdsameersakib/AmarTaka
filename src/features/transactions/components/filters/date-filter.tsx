@@ -1,3 +1,4 @@
+import { DatePicker } from "@/components/ui/date-picker";
 import type { DateMode } from "@/features/transactions/hooks/use-transaction-filters";
 
 type DateFilterProps = {
@@ -71,29 +72,27 @@ export function DateFilter({
       )}
 
       {dateMode === "single" && (
-        <input
-          type="date"
+        <DatePicker
+          label="Filter by Date"
           value={singleDate}
-          onChange={(event) => setSingleDate(event.target.value)}
-          className="w-full rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-2 text-sm font-semibold shadow-neo-sm focus:outline-none  "
+          onChange={setSingleDate}
+          placeholder="Pick a date"
         />
       )}
 
       {dateMode === "range" && (
-        <div className="grid grid-cols-2 gap-3">
-          <input
-            type="date"
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <DatePicker
+            label="From Date"
             value={rangeFrom}
-            onChange={(event) => setRangeFrom(event.target.value)}
-            placeholder="From"
-            className="w-full rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-2 text-sm font-semibold shadow-neo-sm focus:outline-none  "
+            onChange={setRangeFrom}
+            placeholder="From date"
           />
-          <input
-            type="date"
+          <DatePicker
+            label="To Date"
             value={rangeTo}
-            onChange={(event) => setRangeTo(event.target.value)}
-            placeholder="To"
-            className="w-full rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-2 text-sm font-semibold shadow-neo-sm focus:outline-none  "
+            onChange={setRangeTo}
+            placeholder="To date"
           />
         </div>
       )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import {
@@ -142,21 +143,14 @@ export function AddTransactionSheet({
 
           {/* Date */}
           <div className="flex flex-col gap-2">
-            <label
-              htmlFor="tx-date"
-              className="text-xs font-bold uppercase text-[#0f172a]/70"
-            >
+            <span className="text-xs font-bold uppercase text-[#0f172a]/70">
               Date
-            </label>
-            <Input
+            </span>
+            <DatePicker
               id="tx-date"
-              type="date"
-              required
+              label="Transaction Date"
               value={formData.date}
-              onChange={(e) =>
-                setFormData({ ...formData, date: e.target.value })
-              }
-              className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+              onChange={(date) => setFormData({ ...formData, date })}
             />
           </div>
 

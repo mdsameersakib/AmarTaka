@@ -86,11 +86,11 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
           isTransfer && "bg-[#f0f9ff]",
         )}
       >
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
             <div
               className={cn(
-                "rounded-full p-1 border-2 border-[#0f172a]",
+                "rounded-full p-1 border-2 border-[#0f172a] flex-shrink-0",
                 isIncome &&
                   "bg-green-100 dark:bg-emerald-950 dark:border-emerald-800",
                 !isIncome &&
@@ -100,23 +100,23 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
               )}
             >
               {isTransfer ? (
-                <ArrowLeftRight className="h-4 w-4 text-blue-600 dark:text-sky-400" />
+                <ArrowLeftRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-600 dark:text-sky-400" />
               ) : isIncome ? (
-                <ArrowDownRight className="h-4 w-4 text-green-600 dark:text-emerald-400" />
+                <ArrowDownRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-600 dark:text-emerald-400" />
               ) : (
-                <ArrowUpRight className="h-4 w-4 text-red-500 dark:text-rose-400" />
+                <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-500 dark:text-rose-400" />
               )}
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-[#0f172a]">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#0f172a] truncate">
               {transaction.note
                 ? `${transaction.category} - ${transaction.note}`
                 : transaction.category}
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
             <div
               className={cn(
-                "text-sm font-black",
+                "text-xs sm:text-sm font-black whitespace-nowrap",
                 isIncome && "text-green-700 dark:text-emerald-400",
                 !isIncome && !isTransfer && "text-red-600 dark:text-rose-400",
                 isTransfer && "text-blue-700 dark:text-sky-400",
@@ -140,9 +140,9 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
             </button>
           </div>
         </div>
-        <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 pl-9">
+        <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 pl-7 sm:pl-9">
           <span>{formatDisplayDate(transaction.date)}</span>
-          <span>
+          <span className="truncate max-w-[130px] sm:max-w-[200px] text-right">
             {isTransfer
               ? `${transaction.wallet} → ${transaction.toWallet ?? "Wallet"}`
               : transaction.wallet}

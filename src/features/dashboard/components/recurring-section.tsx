@@ -36,8 +36,8 @@ export function RecurringSection() {
 
   return (
     <div>
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-lg font-black uppercase tracking-tight text-[#0f172a]">
+      <div className="mb-3 flex items-center justify-between gap-2 flex-wrap">
+        <h2 className="text-base sm:text-lg font-black uppercase tracking-tight text-[#0f172a]">
           Recurring
         </h2>
         {monthlyFixedSpendings > 0 && (

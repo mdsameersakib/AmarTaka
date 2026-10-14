@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { MaskedAmount } from "@/components/ui/masked-amount";
 import { Select } from "@/components/ui/select";
@@ -22,6 +23,7 @@ import {
 } from "@/components/ui/sheet";
 import { formatCurrency } from "@/lib/currency";
 import { formatLocalYMD } from "@/lib/date";
+import { cn } from "@/lib/utils";
 import { useMoney } from "@/providers/money-provider";
 import {
   calculateMonthlyEmi,
@@ -120,10 +122,10 @@ export function LoansSection() {
   };
 
   return (
-    <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
+    <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a]">
+          <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#0f172a]">
             Loans & EMIs
           </h2>
           {loans.length > 0 && (
@@ -308,47 +310,59 @@ export function LoansSection() {
               />
             </div>
 
-            {/* Direction & Wallet */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="loan-direction"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
+            {/* Direction */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-xs font-bold uppercase text-[#0f172a]/70">
+                Direction
+              </span>
+              <div className="grid grid-cols-2 gap-1 rounded-2xl border-2 border-[#0f172a] bg-white p-1 shadow-neo-sm">
+                <button
+                  type="button"
+                  onClick={() => setDirection("borrowed")}
+                  className={cn(
+                    "rounded-xl py-2.5 text-xs font-black uppercase transition select-none",
+                    direction === "borrowed"
+                      ? "border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm"
+                      : "border-2 border-transparent text-[#0f172a]/70 hover:text-[#0f172a]",
+                  )}
                 >
-                  Direction
-                </label>
-                <Select
-                  id="loan-direction"
-                  value={direction}
-                  onChange={(e) =>
-                    setDirection(e.target.value as "borrowed" | "lent")
-                  }
-                  className="h-12"
+                  I Borrowed
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDirection("lent")}
+                  className={cn(
+                    "rounded-xl py-2.5 text-xs font-black uppercase transition select-none",
+                    direction === "lent"
+                      ? "border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm"
+                      : "border-2 border-transparent text-[#0f172a]/70 hover:text-[#0f172a]",
+                  )}
                 >
-                  <option value="borrowed">I borrowed (Debt)</option>
-                  <option value="lent">I lent (Receivable)</option>
-                </Select>
+                  I Lent
+                </button>
               </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="loan-wallet"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
-                >
-                  Wallet
-                </label>
-                <Select
-                  id="loan-wallet"
-                  value={walletName}
-                  onChange={(e) => setWalletName(e.target.value)}
-                  className="h-12"
-                >
-                  {state.wallets.map((w) => (
-                    <option key={w} value={w}>
-                      {w}
-                    </option>
-                  ))}
-                </Select>
-              </div>
+            </div>
+
+            {/* Wallet */}
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="loan-wallet"
+                className="text-xs font-bold uppercase text-[#0f172a]/70"
+              >
+                Wallet
+              </label>
+              <Select
+                id="loan-wallet"
+                value={walletName}
+                onChange={(e) => setWalletName(e.target.value)}
+                className="h-12"
+              >
+                {state.wallets.map((w) => (
+                  <option key={w} value={w}>
+                    {w}
+                  </option>
+                ))}
+              </Select>
             </div>
 
             {/* Principal & Interest */}
@@ -391,21 +405,16 @@ export function LoansSection() {
             </div>
 
             {/* Starting Date & Duration */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="loan-startdate"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70 flex items-center gap-1"
-                >
+                <span className="text-xs font-bold uppercase text-[#0f172a]/70 flex items-center gap-1">
                   <Calendar className="h-3 w-3" /> Starting Date
-                </label>
-                <Input
+                </span>
+                <DatePicker
                   id="loan-startdate"
-                  type="date"
-                  required
+                  label="Loan Starting Date"
                   value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                  onChange={setStartDate}
                 />
               </div>
 

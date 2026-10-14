@@ -26,8 +26,8 @@ export default function TransactionsPage() {
   );
 
   return (
-    <div className="space-y-8">
-      <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-4 shadow-neo">
+    <div className="space-y-6 sm:space-y-8 pb-32 sm:pb-36">
+      <section className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-3.5 sm:p-4 shadow-neo">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <FilterPill

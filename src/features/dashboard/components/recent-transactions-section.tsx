@@ -66,8 +66,8 @@ export function RecentTransactionsSection({
 
   return (
     <>
-      <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
-        <h2 className="mb-4 text-xl font-black uppercase tracking-tight text-[#0f172a]">
+      <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo">
+        <h2 className="mb-3 sm:mb-4 text-lg sm:text-xl font-black uppercase tracking-tight text-[#0f172a]">
           Recent Transactions
         </h2>
         <div className="h-64 space-y-3 overflow-y-auto pr-3">
@@ -97,23 +97,23 @@ export function RecentTransactionsSection({
                   onClick={() => handleClick(tx)}
                   onContextMenu={(e) => e.preventDefault()}
                   className={cn(
-                    "rounded-2xl border-2 border-[#0f172a] px-4 py-3 shadow-neo-sm cursor-pointer select-none transition active:scale-[0.98]",
+                    "rounded-2xl border-2 border-[#0f172a] px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-neo-sm cursor-pointer select-none transition active:scale-[0.98]",
                     isTransfer ? "bg-[#f0f9ff]" : "bg-[var(--accent-subtle)]",
                   )}
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between gap-2 sm:gap-3">
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
                       {isTransfer && (
-                        <ArrowLeftRight className="h-3.5 w-3.5 text-blue-600" />
+                        <ArrowLeftRight className="h-3.5 w-3.5 text-blue-600 flex-shrink-0" />
                       )}
-                      <p className="text-xs font-semibold uppercase tracking-wide text-[var(--accent-text-dark)]">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-[var(--accent-text-dark)] truncate">
                         {tx.note ? `${tx.category} - ${tx.note}` : tx.category}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
                       <div
                         className={cn(
-                          "text-sm font-black",
+                          "text-xs sm:text-sm font-black whitespace-nowrap",
                           isIncome && "text-green-700 dark:text-emerald-400",
                           !isIncome &&
                             !isTransfer &&
@@ -144,7 +144,7 @@ export function RecentTransactionsSection({
                   </div>
                   <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70">
                     <span>{formatDateTimeDemo(tx.date)}</span>
-                    <span>
+                    <span className="truncate max-w-[130px] sm:max-w-[200px] text-right">
                       {isTransfer
                         ? `${tx.wallet} → ${tx.toWallet ?? "Wallet"}`
                         : tx.wallet}

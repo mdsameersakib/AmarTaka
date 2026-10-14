@@ -3,6 +3,7 @@
 import { AlertTriangle, Pencil, Trash2, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { MaskedAmount } from "@/components/ui/masked-amount";
 import { Select } from "@/components/ui/select";
@@ -363,19 +364,14 @@ export function TransactionActionSheet({
 
               {/* Date */}
               <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="edit-tx-date"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
-                >
+                <span className="text-xs font-bold uppercase text-[#0f172a]/70">
                   Date
-                </label>
-                <Input
+                </span>
+                <DatePicker
                   id="edit-tx-date"
-                  type="date"
-                  required
+                  label="Edit Transaction Date"
                   value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2.5 font-semibold shadow-neo-sm"
+                  onChange={setDate}
                 />
               </div>
 

@@ -46,8 +46,8 @@ export default function DashboardPage() {
   } = useTransactionLauncher();
 
   return (
-    <div className="relative mb-20 flex flex-col gap-8">
-      <section className="space-y-3">
+    <div className="relative pb-32 sm:pb-36 flex flex-col gap-5 sm:gap-8">
+      <section className="space-y-2.5 sm:space-y-3">
         <SummaryCard
           label="Total Balance"
           amount={totals.total}
@@ -90,7 +90,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="space-y-6 rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo lg:col-span-2">
+        <div className="space-y-6 rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo lg:col-span-2">
           <MonthlyTrendSection
             trend={trend}
             showCents={showCents}

@@ -20,9 +20,9 @@ export function FloatingActionLauncher({
       <button
         type="button"
         onClick={() => onOpenChange(true)}
-        className="fab-animate fixed bottom-10 right-10 z-40 inline-flex h-16 w-16 items-center justify-center rounded-full border-4 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-lg"
+        className="fab-animate fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-40 inline-flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-3 sm:border-4 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-lg active:scale-90 transition"
       >
-        <PlusIcon className="h-7 w-7" />
+        <PlusIcon className="h-6 w-6 sm:h-7 sm:w-7" />
       </button>
 
       <Sheet open={open} onOpenChange={onOpenChange}>

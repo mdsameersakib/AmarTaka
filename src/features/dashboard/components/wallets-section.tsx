@@ -28,9 +28,9 @@ export function WalletsSection({ walletBalances }: WalletsSectionProps) {
 
   return (
     <>
-      <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-xl font-black uppercase tracking-tight text-[#0f172a]">
+      <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo">
+        <div className="mb-4 sm:mb-5 flex items-center justify-between">
+          <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#0f172a]">
             Wallets
           </h2>
           <button
@@ -50,7 +50,7 @@ export function WalletsSection({ walletBalances }: WalletsSectionProps) {
             No wallets yet. Add one above.
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
             {walletBalances.map((wallet) => (
               <WalletCard
                 key={wallet.wallet}
