@@ -38,7 +38,7 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <SettingsHeader />
 
-      <section className="grid gap-6 lg:grid-cols-2">
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <DisplaySettings
           showCents={showCents}
           onToggleCents={toggleShowCents}
@@ -52,7 +52,7 @@ export default function SettingsPage() {
         <AccentColorPicker />
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-2">
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <ManagerCard
           label="Categories"
           description="Organize expense tags. Click to rename."

@@ -7,7 +7,7 @@ type DangerZoneProps = {
 
 export function DangerZone({ onReset }: DangerZoneProps) {
   return (
-    <section className="rounded-[32px] border-4 border-[#0f172a] bg-[#fee2e2] p-6 shadow-neo">
+    <section className="rounded-[32px] border-4 border-[var(--border)] bg-[#fee2e2] p-6 shadow-neo">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#7f1d1d]">

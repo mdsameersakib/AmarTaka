@@ -23,18 +23,18 @@ export function DateFilter({
   setRangeTo,
 }: DateFilterProps) {
   return (
-    <div className="sm:col-span-2 lg:col-span-1 space-y-3 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] p-4 shadow-neo-sm">
+    <div className="sm:col-span-2 lg:col-span-1 space-y-3 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] p-4 shadow-neo-sm">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/70">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--foreground)]">
           Date
         </p>
-        <div className="inline-flex rounded-full border-2 border-[#0f172a] bg-white p-1 text-xs font-semibold shadow-neo-sm ">
+        <div className="inline-flex rounded-full border-2 border-[var(--border)] bg-white p-1 text-xs font-semibold shadow-neo-sm ">
           <button
             type="button"
             className={`rounded-full px-3 py-1 ${
               dateMode === "all"
-                ? "bg-[#0f172a] text-[#fefce8] dark:bg-[var(--accent-primary)] dark:text-[var(--accent-contrast)]"
-                : "text-[#0f172a]/70 hover:text-[#0f172a]"
+                ? "bg-[var(--foreground)] text-[#fefce8] dark:bg-[var(--accent-primary)] dark:text-[var(--accent-contrast)]"
+                : "text-[var(--foreground)] hover:text-[var(--foreground)]"
             }`}
             onClick={() => setDateMode("all")}
           >
@@ -44,8 +44,8 @@ export function DateFilter({
             type="button"
             className={`rounded-full px-3 py-1 ${
               dateMode === "single"
-                ? "bg-[#0f172a] text-[#fefce8] dark:bg-[var(--accent-primary)] dark:text-[var(--accent-contrast)]"
-                : "text-[#0f172a]/70 hover:text-[#0f172a]"
+                ? "bg-[var(--foreground)] text-[#fefce8] dark:bg-[var(--accent-primary)] dark:text-[var(--accent-contrast)]"
+                : "text-[var(--foreground)] hover:text-[var(--foreground)]"
             }`}
             onClick={() => setDateMode("single")}
           >
@@ -55,8 +55,8 @@ export function DateFilter({
             type="button"
             className={`rounded-full px-3 py-1 ${
               dateMode === "range"
-                ? "bg-[#0f172a] text-[#fefce8] dark:bg-[var(--accent-primary)] dark:text-[var(--accent-contrast)]"
-                : "text-[#0f172a]/70 hover:text-[#0f172a]"
+                ? "bg-[var(--foreground)] text-[#fefce8] dark:bg-[var(--accent-primary)] dark:text-[var(--accent-contrast)]"
+                : "text-[var(--foreground)] hover:text-[var(--foreground)]"
             }`}
             onClick={() => setDateMode("range")}
           >
@@ -66,7 +66,7 @@ export function DateFilter({
       </div>
 
       {dateMode === "all" && (
-        <div className="w-full rounded-2xl border-2 border-[#0f172a]/20 bg-white/50 px-3 py-2 text-sm text-[#0f172a]/50 italic text-center">
+        <div className="w-full rounded-2xl border-2 border-[var(--border)]/20 bg-white/50 px-3 py-2 text-sm text-[var(--foreground)] italic text-center">
           Showing all transactions
         </div>
       )}

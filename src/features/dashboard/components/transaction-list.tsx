@@ -25,7 +25,7 @@ export function TransactionList({
 }: TransactionListProps) {
   if (!transactions.length) {
     return (
-      <div className="rounded-3xl border-2 border-dashed border-[#0f172a]/40 bg-[#fefce8] px-6 py-12 text-center text-sm font-semibold uppercase text-[#0f172a]/60">
+      <div className="rounded-3xl border-2 border-dashed border-[var(--border)]/40 bg-[#fefce8] px-6 py-12 text-center text-sm font-semibold uppercase text-[var(--foreground)]">
         No transactions match the filter.
       </div>
     );
@@ -56,8 +56,8 @@ function TransactionRow({
   const Icon = isIncome ? ArrowDownRight : ArrowUpRight;
 
   return (
-    <div className="flex items-center gap-4 rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm">
-      <div className="rounded-2xl border-2 border-[#0f172a] bg-white p-3 shadow-neo-sm ">
+    <div className="flex items-center gap-4 rounded-3xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm">
+      <div className="rounded-2xl border-2 border-[var(--border)] bg-white p-3 shadow-neo-sm ">
         <Icon
           className={cn(
             "h-5 w-5",
@@ -69,7 +69,7 @@ function TransactionRow({
         <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
           {transaction.category} - {transaction.wallet}
         </p>
-        <p className="text-xs text-[#0f172a]/70">
+        <p className="text-xs text-[var(--foreground)]">
           {transaction.note || "No note"} -{" "}
           {new Date(transaction.date).toLocaleDateString("en-US", {
             month: "short",
@@ -90,7 +90,7 @@ function TransactionRow({
         <button
           type="button"
           onClick={() => onDelete(transaction.id)}
-          className="rounded-full border-2 border-transparent p-2 text-[#0f172a]/40 transition hover:border-[#0f172a] hover:text-[#0f172a]/60"
+          className="rounded-full border-2 border-transparent p-2 text-[var(--foreground)] transition hover:border-[var(--border)] hover:text-[var(--foreground)]"
           aria-label="Delete transaction"
         >
           <X className="h-4 w-4" />

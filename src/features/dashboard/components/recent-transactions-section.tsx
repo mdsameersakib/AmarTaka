@@ -66,13 +66,13 @@ export function RecentTransactionsSection({
 
   return (
     <>
-      <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo">
-        <h2 className="mb-3 sm:mb-4 text-lg sm:text-xl font-black uppercase tracking-tight text-[#0f172a]">
+      <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[var(--border)] bg-white p-4 sm:p-6 shadow-neo">
+        <h2 className="mb-3 sm:mb-4 text-lg sm:text-xl font-black uppercase tracking-tight text-[var(--foreground)]">
           Recent Transactions
         </h2>
         <div className="h-64 space-y-3 overflow-y-auto pr-3">
           {recentTransactions.length === 0 ? (
-            <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[var(--accent-subtle)] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/50">
+            <p className="rounded-2xl border-2 border-dashed border-[var(--border)]/30 bg-[var(--accent-subtle)] px-4 py-6 text-center text-xs font-semibold uppercase text-[var(--foreground)]">
               No recent transactions.
             </p>
           ) : (
@@ -97,7 +97,7 @@ export function RecentTransactionsSection({
                   onClick={() => handleClick(tx)}
                   onContextMenu={(e) => e.preventDefault()}
                   className={cn(
-                    "rounded-2xl border-2 border-[#0f172a] px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-neo-sm cursor-pointer select-none transition active:scale-[0.98]",
+                    "rounded-2xl border-2 border-[var(--border)] px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-neo-sm cursor-pointer select-none transition active:scale-[0.98]",
                     isTransfer ? "bg-[#f0f9ff]" : "bg-[var(--accent-subtle)]",
                   )}
                 >
@@ -135,14 +135,14 @@ export function RecentTransactionsSection({
                           setSelectedTx(tx);
                           setSheetOpen(true);
                         }}
-                        className="p-1 rounded-full text-[#0f172a]/40 hover:text-[#0f172a] hover:bg-black/5 dark:hover:bg-white/10 transition"
+                        className="p-1 rounded-full text-[var(--foreground)] hover:text-[var(--foreground)] hover:bg-black/5 dark:hover:bg-white/10 transition"
                         aria-label="Transaction options"
                       >
                         <MoreHorizontal className="h-4 w-4" />
                       </button>
                     </div>
                   </div>
-                  <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70">
+                  <div className="mt-1 flex items-center justify-between text-[11px] text-[var(--foreground)]">
                     <span>{formatDateTimeDemo(tx.date)}</span>
                     <span className="truncate max-w-[130px] sm:max-w-[200px] text-right">
                       {isTransfer

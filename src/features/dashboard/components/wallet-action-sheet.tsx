@@ -97,14 +97,14 @@ export function WalletActionSheet({
     <Sheet open={open} onOpenChange={handleClose}>
       <SheetContent
         side="bottom"
-        className="max-h-[85vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[#fefce8] shadow-neo-lg flex flex-col overflow-y-auto"
+        className="max-h-[85vh] rounded-t-[48px] border-4 border-[var(--border)] bg-[#fefce8] shadow-neo-lg flex flex-col overflow-y-auto"
       >
         {view === "menu" && (
           <>
-            <SheetTitle className="text-2xl font-black text-[#0f172a] mt-2">
+            <SheetTitle className="text-2xl font-black text-[var(--foreground)] mt-2">
               {walletName}
             </SheetTitle>
-            <p className="text-4xl font-black text-[#0f172a] mt-1">
+            <p className="text-4xl font-black text-[var(--foreground)] mt-1">
               {formatCurrency(walletBalance, showCents, currencySymbol)}
             </p>
             <div className="mt-6 grid grid-cols-2 gap-4">
@@ -114,10 +114,10 @@ export function WalletActionSheet({
                   setNewBalance(walletBalance.toString());
                   setView("edit-balance");
                 }}
-                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-5 shadow-neo-sm hover:bg-[var(--accent-soft)]"
+                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-white p-5 shadow-neo-sm hover:bg-[var(--accent-soft)]"
               >
-                <Pencil className="h-6 w-6 text-[#0f172a]" />
-                <span className="text-sm font-black uppercase text-[#0f172a]">
+                <Pencil className="h-6 w-6 text-[var(--foreground)]" />
+                <span className="text-sm font-black uppercase text-[var(--foreground)]">
                   Edit Balance
                 </span>
               </button>
@@ -128,10 +128,10 @@ export function WalletActionSheet({
                   setView("transfer");
                 }}
                 disabled={otherWallets.length === 0}
-                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-5 shadow-neo-sm hover:bg-[var(--accent-soft)] disabled:opacity-40"
+                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-white p-5 shadow-neo-sm hover:bg-[var(--accent-soft)] disabled:opacity-40"
               >
-                <ArrowLeftRight className="h-6 w-6 text-[#0f172a]" />
-                <span className="text-sm font-black uppercase text-[#0f172a]">
+                <ArrowLeftRight className="h-6 w-6 text-[var(--foreground)]" />
+                <span className="text-sm font-black uppercase text-[var(--foreground)]">
                   Transfer
                 </span>
               </button>
@@ -154,21 +154,21 @@ export function WalletActionSheet({
             <button
               type="button"
               onClick={() => setView("menu")}
-              className="mb-2 self-start text-xs font-bold uppercase text-[#0f172a]/60 hover:text-[#0f172a]"
+              className="mb-2 self-start text-xs font-bold uppercase text-[var(--foreground)] hover:text-[var(--foreground)]"
             >
               ← Back
             </button>
-            <SheetTitle className="text-2xl font-black text-[#0f172a]">
+            <SheetTitle className="text-2xl font-black text-[var(--foreground)]">
               Edit Balance
             </SheetTitle>
-            <p className="text-xs text-[#0f172a]/60 mb-4">
+            <p className="text-xs text-[var(--foreground)] mb-4">
               Enter the actual current balance for <strong>{walletName}</strong>
               .
             </p>
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="edit-balance-input"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Current Balance
               </label>
@@ -179,13 +179,13 @@ export function WalletActionSheet({
                 value={newBalance}
                 onChange={(e) => setNewBalance(e.target.value)}
                 placeholder="0.00"
-                className="rounded-3xl border-2 border-[#0f172a] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm"
+                className="rounded-3xl border-2 border-[var(--border)] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm"
               />
             </div>
             <Button
               type="button"
               onClick={handleEditBalance}
-              className="mt-5 btn-neo rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
+              className="mt-5 btn-neo rounded-3xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
             >
               Save Balance
             </Button>
@@ -197,11 +197,11 @@ export function WalletActionSheet({
             <button
               type="button"
               onClick={() => setView("menu")}
-              className="mb-2 self-start text-xs font-bold uppercase text-[#0f172a]/60 hover:text-[#0f172a]"
+              className="mb-2 self-start text-xs font-bold uppercase text-[var(--foreground)] hover:text-[var(--foreground)]"
             >
               ← Back
             </button>
-            <SheetTitle className="text-2xl font-black text-[#0f172a]">
+            <SheetTitle className="text-2xl font-black text-[var(--foreground)]">
               Transfer from {walletName}
             </SheetTitle>
 
@@ -209,7 +209,7 @@ export function WalletActionSheet({
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="transfer-to"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
+                  className="text-xs font-bold uppercase text-[var(--foreground)]"
                 >
                   To Wallet
                 </label>
@@ -231,7 +231,7 @@ export function WalletActionSheet({
                 <div className="flex flex-col gap-2">
                   <label
                     htmlFor="transfer-amount"
-                    className="text-xs font-bold uppercase text-[#0f172a]/70"
+                    className="text-xs font-bold uppercase text-[var(--foreground)]"
                   >
                     Amount
                   </label>
@@ -242,13 +242,13 @@ export function WalletActionSheet({
                     value={transferAmount}
                     onChange={(e) => setTransferAmount(e.target.value)}
                     placeholder="0.00"
-                    className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 text-xl font-black shadow-neo-sm"
+                    className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 text-xl font-black shadow-neo-sm"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label
                     htmlFor="transfer-fee"
-                    className="text-xs font-bold uppercase text-[#0f172a]/70"
+                    className="text-xs font-bold uppercase text-[var(--foreground)]"
                   >
                     Fee (optional)
                   </label>
@@ -259,7 +259,7 @@ export function WalletActionSheet({
                     value={transferFee}
                     onChange={(e) => setTransferFee(e.target.value)}
                     placeholder="0.00"
-                    className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 text-xl font-black shadow-neo-sm"
+                    className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 text-xl font-black shadow-neo-sm"
                   />
                 </div>
               </div>
@@ -267,7 +267,7 @@ export function WalletActionSheet({
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="transfer-note"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
+                  className="text-xs font-bold uppercase text-[var(--foreground)]"
                 >
                   Note (optional)
                 </label>
@@ -277,14 +277,14 @@ export function WalletActionSheet({
                   value={transferNote}
                   onChange={(e) => setTransferNote(e.target.value)}
                   placeholder="e.g. bKash cashout"
-                  className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                  className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
                 />
               </div>
 
               <Button
                 type="button"
                 onClick={handleTransfer}
-                className="btn-neo rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
+                className="btn-neo rounded-3xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
               >
                 Transfer Funds
               </Button>

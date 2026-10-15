@@ -188,7 +188,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           aria-haspopup="listbox"
           aria-expanded={open}
           className={cn(
-            "flex h-10 w-full items-center justify-between gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 text-left text-sm font-semibold text-[#0f172a] shadow-neo-sm focus:outline-none",
+            "flex h-10 w-full items-center justify-between gap-2 rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-2 text-left text-sm font-semibold text-[var(--foreground)] shadow-neo-sm focus:outline-none",
             disabled && "cursor-not-allowed opacity-60",
             className,
           )}
@@ -198,7 +198,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           </span>
           <ChevronDown
             className={cn(
-              "h-4 w-4 text-[#0f172a]/70 transition",
+              "h-4 w-4 text-[var(--foreground)] transition",
               open && "rotate-180",
             )}
           />
@@ -207,7 +207,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         {open && !disabled ? (
           <div
             role="listbox"
-            className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border-2 border-[#0f172a] bg-white p-2 shadow-neo-sm"
+            className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border-2 border-[var(--border)] bg-white p-2 shadow-neo-sm"
           >
             <div className="max-h-56 overflow-y-auto">
               {options.map((option, index) => {
@@ -224,7 +224,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
                     disabled={option.disabled}
                     onClick={() => handleSelect(option)}
                     className={cn(
-                      "flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold uppercase text-[#0f172a]",
+                      "flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold uppercase text-[var(--foreground)]",
                       option.disabled && "cursor-not-allowed opacity-50",
                       isSelected
                         ? "bg-[var(--accent-tab)] text-[var(--accent-tab-contrast)]"

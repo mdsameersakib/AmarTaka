@@ -19,10 +19,10 @@ export function FilterPill({ label, active, onClick }: FilterPillProps) {
       type="button"
       onClick={onClick}
       className={cn(
-        "btn-neo rounded-2xl border-2 border-[#0f172a] px-3 py-1 text-xs font-black uppercase tracking-wide",
+        "btn-neo rounded-2xl border-2 border-[var(--border)] px-3 py-1 text-xs font-black uppercase tracking-wide",
         active
           ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
-          : "bg-white text-[#0f172a]",
+          : "bg-white text-[var(--foreground)]",
       )}
     >
       {label}
@@ -48,9 +48,9 @@ export function SelectField({
   return (
     <label
       htmlFor={selectId}
-      className="flex flex-col gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm"
+      className="flex flex-col gap-2 rounded-2xl border-2 border-[var(--border)] bg-white p-4 shadow-neo-sm"
     >
-      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/70">
+      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--foreground)]">
         {label}
       </span>
       <Select
@@ -80,9 +80,9 @@ export function SearchFilter({
   resultsCount,
 }: SearchFilterProps) {
   return (
-    <div className="rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] p-4 shadow-neo-sm">
-      <div className="flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 shadow-neo-sm ">
-        <Search className="h-4 w-4 text-[#0f172a]/60" />
+    <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] p-4 shadow-neo-sm">
+      <div className="flex items-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-2 shadow-neo-sm ">
+        <Search className="h-4 w-4 text-[var(--foreground)]" />
         <Input
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
@@ -99,10 +99,10 @@ export function SearchFilter({
 
 export function FilterSummary({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-wrap gap-3 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm">
+    <div className="flex flex-wrap gap-3 rounded-2xl border-2 border-[var(--border)] bg-white p-4 shadow-neo-sm">
       {children}
       <div className="flex-1" />
-      <Filter className="h-4 w-4 text-[#0f172a]/40" />
+      <Filter className="h-4 w-4 text-[var(--foreground)]" />
     </div>
   );
 }

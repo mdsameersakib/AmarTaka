@@ -309,6 +309,17 @@ export const applyThemeToDocument = (theme: ColorTheme, isDark = false) => {
   // Toggle .dark class for CSS selectors
   root.classList.toggle("dark", isDark);
 
+  const themeColorValue = isDark ? theme.darkSubtle : theme.subtle;
+
+  // Update theme-color meta tag for mobile status bar
+  let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+  if (!metaThemeColor) {
+    metaThemeColor = document.createElement("meta");
+    metaThemeColor.setAttribute("name", "theme-color");
+    document.head.appendChild(metaThemeColor);
+  }
+  metaThemeColor.setAttribute("content", themeColorValue);
+
   if (isDark) {
     root.style.setProperty("--accent-primary", theme.darkPrimary);
     root.style.setProperty("--accent-contrast", theme.darkPrimaryContrast);

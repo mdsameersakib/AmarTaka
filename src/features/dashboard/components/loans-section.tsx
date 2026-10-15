@@ -122,14 +122,14 @@ export function LoansSection() {
   };
 
   return (
-    <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo">
+    <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[var(--border)] bg-white p-4 sm:p-6 shadow-neo">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#0f172a]">
+          <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[var(--foreground)]">
             Loans & EMIs
           </h2>
           {loans.length > 0 && (
-            <span className="rounded-full border-2 border-[#0f172a] bg-[var(--accent-pill-bg)] px-2 py-0.5 text-xs font-black text-[var(--accent-text-dark)]">
+            <span className="rounded-full border-2 border-[var(--border)] bg-[var(--accent-pill-bg)] px-2 py-0.5 text-xs font-black text-[var(--accent-text-dark)]">
               {loans.length}
             </span>
           )}
@@ -138,14 +138,14 @@ export function LoansSection() {
           <button
             type="button"
             onClick={() => setAddOpen(true)}
-            className="btn-neo flex items-center gap-1 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-3 py-1.5 text-xs font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
+            className="btn-neo flex items-center gap-1 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-3 py-1.5 text-xs font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
           >
             <Plus className="h-3 w-3" /> Add
           </button>
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="rounded-full border-2 border-[#0f172a] p-1.5 text-[#0f172a] shadow-neo-sm hover:bg-[var(--accent-soft)]"
+            className="rounded-full border-2 border-[var(--border)] p-1.5 text-[var(--foreground)] shadow-neo-sm hover:bg-[var(--accent-soft)]"
             aria-label={collapsed ? "Expand loans" : "Collapse loans"}
           >
             {collapsed ? (
@@ -160,7 +160,7 @@ export function LoansSection() {
       {!collapsed && (
         <div className="space-y-3">
           {loans.length === 0 ? (
-            <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[var(--accent-subtle)] px-4 py-8 text-center text-xs font-semibold uppercase text-[#0f172a]/50">
+            <p className="rounded-2xl border-2 border-dashed border-[var(--border)]/30 bg-[var(--accent-subtle)] px-4 py-8 text-center text-xs font-semibold uppercase text-[var(--foreground)]">
               No loans tracked. Add one above.
             </p>
           ) : (
@@ -176,12 +176,12 @@ export function LoansSection() {
               return (
                 <div
                   key={loan.id}
-                  className="rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-subtle)] p-4 shadow-neo-sm"
+                  className="rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-subtle)] p-4 shadow-neo-sm"
                 >
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-black uppercase text-[#0f172a]">
+                        <p className="text-sm font-black uppercase text-[var(--foreground)]">
                           {loan.lenderName}
                         </p>
                         <span
@@ -194,7 +194,7 @@ export function LoansSection() {
                           {isBorrowed ? "I owe" : "Owed to me"}
                         </span>
                       </div>
-                      <p className="mt-0.5 text-xs text-[#0f172a]/70">
+                      <p className="mt-0.5 text-xs text-[var(--foreground)]">
                         <span className="font-bold">{months} mos tenure</span> ·
                         Started {start}
                         {loan.interestRate > 0
@@ -214,7 +214,7 @@ export function LoansSection() {
                   </div>
 
                   <div className="mt-3">
-                    <div className="flex items-center justify-between text-xs font-bold uppercase text-[#0f172a]/60">
+                    <div className="flex items-center justify-between text-xs font-bold uppercase text-[var(--foreground)]">
                       <span>Remaining</span>
                       <span className={isOverdue ? "text-red-600" : ""}>
                         {isOverdue && (
@@ -235,21 +235,21 @@ export function LoansSection() {
                       </span>
                     </div>
                     <div className="mt-1 flex items-center gap-2">
-                      <p className="text-2xl font-black text-[#0f172a]">
+                      <p className="text-2xl font-black text-[var(--foreground)]">
                         <MaskedAmount amount={loan.remaining} />
                       </p>
-                      <span className="text-xs text-[#0f172a]/50">
+                      <span className="text-xs text-[var(--foreground)]">
                         / <MaskedAmount amount={loan.principal} />
                       </span>
                     </div>
                     {/* Progress bar */}
-                    <div className="mt-2 h-3 overflow-hidden rounded-full border-2 border-[#0f172a] bg-[var(--accent-soft)] shadow-neo-sm">
+                    <div className="mt-2 h-3 overflow-hidden rounded-full border-2 border-[var(--border)] bg-[var(--accent-soft)] shadow-neo-sm">
                       <div
                         className="h-full rounded-full bg-[var(--accent-primary)] transition-all"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
-                    <div className="mt-1 flex justify-between text-[10px] font-bold text-[#0f172a]/60">
+                    <div className="mt-1 flex justify-between text-[10px] font-bold text-[var(--foreground)]">
                       <span>Wallet: {loan.walletName}</span>
                       <span>{pct}% completed</span>
                     </div>
@@ -266,7 +266,7 @@ export function LoansSection() {
                             : String(loan.remaining),
                       })
                     }
-                    className="btn-neo mt-3 w-full rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-2 text-sm font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
+                    className="btn-neo mt-3 w-full rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-2 text-sm font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
                   >
                     {isBorrowed ? "Make Payment" : "Record Repayment"}
                   </button>
@@ -281,10 +281,10 @@ export function LoansSection() {
       <Sheet open={addOpen} onOpenChange={setAddOpen}>
         <SheetContent
           side="bottom"
-          className="max-h-[90vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[var(--accent-subtle)] shadow-neo-lg flex flex-col overflow-y-auto"
+          className="max-h-[90vh] rounded-t-[48px] border-4 border-[var(--border)] bg-[var(--accent-subtle)] shadow-neo-lg flex flex-col overflow-y-auto"
         >
           <SheetHeader className="text-left">
-            <SheetTitle className="text-3xl font-black text-[#0f172a]">
+            <SheetTitle className="text-3xl font-black text-[var(--foreground)]">
               Add Loan / EMI
             </SheetTitle>
           </SheetHeader>
@@ -296,7 +296,7 @@ export function LoansSection() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="loan-lender"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Lender / Borrower name
               </label>
@@ -306,24 +306,24 @@ export function LoansSection() {
                 onChange={(e) => setLenderName(e.target.value)}
                 required
                 placeholder="e.g. Abba, City Bank, Friend"
-                className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
               />
             </div>
 
             {/* Direction */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-xs font-bold uppercase text-[#0f172a]/70">
+              <span className="text-xs font-bold uppercase text-[var(--foreground)]">
                 Direction
               </span>
-              <div className="grid grid-cols-2 gap-1 rounded-2xl border-2 border-[#0f172a] bg-white p-1 shadow-neo-sm">
+              <div className="grid grid-cols-2 gap-1 rounded-2xl border-2 border-[var(--border)] bg-white p-1 shadow-neo-sm">
                 <button
                   type="button"
                   onClick={() => setDirection("borrowed")}
                   className={cn(
                     "rounded-xl py-2.5 text-xs font-black uppercase transition select-none",
                     direction === "borrowed"
-                      ? "border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm"
-                      : "border-2 border-transparent text-[#0f172a]/70 hover:text-[#0f172a]",
+                      ? "border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm"
+                      : "border-2 border-transparent text-[var(--foreground)] hover:text-[var(--foreground)]",
                   )}
                 >
                   I Borrowed
@@ -334,8 +334,8 @@ export function LoansSection() {
                   className={cn(
                     "rounded-xl py-2.5 text-xs font-black uppercase transition select-none",
                     direction === "lent"
-                      ? "border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm"
-                      : "border-2 border-transparent text-[#0f172a]/70 hover:text-[#0f172a]",
+                      ? "border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm"
+                      : "border-2 border-transparent text-[var(--foreground)] hover:text-[var(--foreground)]",
                   )}
                 >
                   I Lent
@@ -347,7 +347,7 @@ export function LoansSection() {
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="loan-wallet"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Wallet
               </label>
@@ -370,7 +370,7 @@ export function LoansSection() {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="loan-principal"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
+                  className="text-xs font-bold uppercase text-[var(--foreground)]"
                 >
                   Principal Amount
                 </label>
@@ -382,13 +382,13 @@ export function LoansSection() {
                   onChange={(e) => setPrincipal(e.target.value)}
                   required
                   placeholder="0.00"
-                  className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                  className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="loan-interest"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
+                  className="text-xs font-bold uppercase text-[var(--foreground)]"
                 >
                   Interest % / yr
                 </label>
@@ -399,7 +399,7 @@ export function LoansSection() {
                   value={interestRate}
                   onChange={(e) => setInterestRate(e.target.value)}
                   placeholder="0"
-                  className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                  className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
                 />
               </div>
             </div>
@@ -407,7 +407,7 @@ export function LoansSection() {
             {/* Starting Date & Duration */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex flex-col gap-2">
-                <span className="text-xs font-bold uppercase text-[#0f172a]/70 flex items-center gap-1">
+                <span className="text-xs font-bold uppercase text-[var(--foreground)] flex items-center gap-1">
                   <Calendar className="h-3 w-3" /> Starting Date
                 </span>
                 <DatePicker
@@ -421,7 +421,7 @@ export function LoansSection() {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="loan-duration"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70 flex items-center gap-1"
+                  className="text-xs font-bold uppercase text-[var(--foreground)] flex items-center gap-1"
                 >
                   <Clock className="h-3 w-3" /> Duration (Months)
                 </label>
@@ -434,14 +434,14 @@ export function LoansSection() {
                   value={durationMonths}
                   onChange={(e) => setDurationMonths(e.target.value)}
                   placeholder="12"
-                  className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                  className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
                 />
               </div>
             </div>
 
             {/* Preset month chips */}
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase text-[#0f172a]/60">
+              <span className="text-[10px] font-bold uppercase text-[var(--foreground)]">
                 Quick term:
               </span>
               <div className="flex gap-1.5 flex-wrap">
@@ -450,10 +450,10 @@ export function LoansSection() {
                     key={m}
                     type="button"
                     onClick={() => setDurationMonths(String(m))}
-                    className={`rounded-xl border-2 border-[#0f172a] px-2.5 py-1 text-xs font-black transition ${
+                    className={`rounded-xl border-2 border-[var(--border)] px-2.5 py-1 text-xs font-black transition ${
                       durationMonths === String(m)
-                        ? "bg-[var(--accent-tab)] text-[#0f172a] shadow-neo-sm"
-                        : "bg-white text-[#0f172a] hover:bg-[var(--accent-soft)]"
+                        ? "bg-[var(--accent-tab)] text-[var(--foreground)] shadow-neo-sm"
+                        : "bg-white text-[var(--foreground)] hover:bg-[var(--accent-soft)]"
                     }`}
                   >
                     {m}m
@@ -463,19 +463,19 @@ export function LoansSection() {
             </div>
 
             {/* Monthly EMI calculation */}
-            <div className="rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] p-3">
+            <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] p-3">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-black uppercase text-[var(--accent-text-dark)]">
                     Calculated Monthly EMI
                   </p>
-                  <p className="text-xs text-[#0f172a]/60">
+                  <p className="text-xs text-[var(--foreground)]">
                     Next due: {previewDueDate}
                   </p>
                 </div>
-                <p className="text-xl font-black text-[#0f172a]">
+                <p className="text-xl font-black text-[var(--foreground)]">
                   {formatCurrency(autoEmi, showCents, currencySymbol)}
-                  <span className="text-xs font-bold text-[#0f172a]/60">
+                  <span className="text-xs font-bold text-[var(--foreground)]">
                     /mo
                   </span>
                 </p>
@@ -484,7 +484,7 @@ export function LoansSection() {
               <div className="mt-2.5 flex items-center gap-2">
                 <label
                   htmlFor="loan-custom-emi"
-                  className="text-[11px] font-bold uppercase text-[#0f172a]/70 whitespace-nowrap"
+                  className="text-[11px] font-bold uppercase text-[var(--foreground)] whitespace-nowrap"
                 >
                   Custom EMI (opt):
                 </label>
@@ -495,7 +495,7 @@ export function LoansSection() {
                   value={customEmi}
                   onChange={(e) => setCustomEmi(e.target.value)}
                   placeholder={String(autoEmi)}
-                  className="h-8 rounded-xl border border-[#0f172a] bg-white px-2 py-1 text-xs font-semibold"
+                  className="h-8 rounded-xl border border-[var(--border)] bg-white px-2 py-1 text-xs font-semibold"
                 />
               </div>
             </div>
@@ -504,7 +504,7 @@ export function LoansSection() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="loan-note"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Note (optional)
               </label>
@@ -513,13 +513,13 @@ export function LoansSection() {
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="e.g. Car purchase, home renovation"
-                className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
               />
             </div>
 
             <Button
               type="submit"
-              className="btn-neo rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
+              className="btn-neo rounded-3xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
             >
               Save Loan
             </Button>
@@ -531,16 +531,16 @@ export function LoansSection() {
       <Sheet open={!!paySheet} onOpenChange={(o) => !o && setPaySheet(null)}>
         <SheetContent
           side="bottom"
-          className="rounded-t-[48px] border-4 border-[#0f172a] bg-[var(--accent-subtle)] shadow-neo-lg flex flex-col"
+          className="rounded-t-[48px] border-4 border-[var(--border)] bg-[var(--accent-subtle)] shadow-neo-lg flex flex-col"
         >
-          <SheetTitle className="text-2xl font-black text-[#0f172a] mt-2">
+          <SheetTitle className="text-2xl font-black text-[var(--foreground)] mt-2">
             {paySheet?.loan.direction === "borrowed"
               ? "Make Payment"
               : "Record Repayment"}
           </SheetTitle>
           {paySheet && (
             <>
-              <p className="text-sm text-[#0f172a]/60 mt-1">
+              <p className="text-sm text-[var(--foreground)] mt-1">
                 {paySheet.loan.direction === "borrowed"
                   ? `Paying ${paySheet.loan.lenderName} from ${paySheet.loan.walletName}`
                   : `Receiving from ${paySheet.loan.lenderName} into ${paySheet.loan.walletName}`}
@@ -549,7 +549,7 @@ export function LoansSection() {
                 <div className="flex flex-col gap-2">
                   <label
                     htmlFor="loan-pay-amount"
-                    className="text-xs font-bold uppercase text-[#0f172a]/70"
+                    className="text-xs font-bold uppercase text-[var(--foreground)]"
                   >
                     Payment Amount
                   </label>
@@ -562,9 +562,9 @@ export function LoansSection() {
                       setPaySheet({ ...paySheet, amount: e.target.value })
                     }
                     placeholder="0.00"
-                    className="rounded-3xl border-2 border-[#0f172a] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm"
+                    className="rounded-3xl border-2 border-[var(--border)] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm"
                   />
-                  <div className="flex justify-between text-xs text-[#0f172a]/60">
+                  <div className="flex justify-between text-xs text-[var(--foreground)]">
                     <span>
                       Remaining:{" "}
                       <MaskedAmount
@@ -588,7 +588,7 @@ export function LoansSection() {
                 <Button
                   type="button"
                   onClick={handlePay}
-                  className="btn-neo rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase shadow-neo-lg"
+                  className="btn-neo rounded-3xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase shadow-neo-lg"
                 >
                   {paySheet.loan.direction === "borrowed"
                     ? "Confirm Payment"

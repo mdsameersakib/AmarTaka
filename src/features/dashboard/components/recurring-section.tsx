@@ -24,10 +24,10 @@ export function RecurringSection() {
   if (recurring.length === 0) {
     return (
       <div>
-        <h2 className="mb-3 text-lg font-black uppercase tracking-tight text-[#0f172a]">
+        <h2 className="mb-3 text-lg font-black uppercase tracking-tight text-[var(--foreground)]">
           Recurring
         </h2>
-        <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/50">
+        <p className="rounded-2xl border-2 border-dashed border-[var(--border)]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[var(--foreground)]">
           No recurring payments. Add them in Settings.
         </p>
       </div>
@@ -37,11 +37,11 @@ export function RecurringSection() {
   return (
     <div>
       <div className="mb-3 flex items-center justify-between gap-2 flex-wrap">
-        <h2 className="text-base sm:text-lg font-black uppercase tracking-tight text-[#0f172a]">
+        <h2 className="text-base sm:text-lg font-black uppercase tracking-tight text-[var(--foreground)]">
           Recurring
         </h2>
         {monthlyFixedSpendings > 0 && (
-          <div className="flex items-center gap-1.5 rounded-full border-2 border-[#0f172a] bg-[var(--accent-pill-bg)] px-3 py-1 shadow-neo-sm">
+          <div className="flex items-center gap-1.5 rounded-full border-2 border-[var(--border)] bg-[var(--accent-pill-bg)] px-3 py-1 shadow-neo-sm">
             <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--accent-text-dark)]">
               Fixed:
             </span>
@@ -62,10 +62,10 @@ export function RecurringSection() {
           return (
             <div
               key={item.id}
-              className="flex items-center gap-3 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-subtle)] px-4 py-3 shadow-neo-sm"
+              className="flex items-center gap-3 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-subtle)] px-4 py-3 shadow-neo-sm"
             >
-              <div className="rounded-2xl border-2 border-[#0f172a] bg-white p-2.5 shadow-neo-sm flex-shrink-0">
-                <CreditCard className="h-4 w-4 text-[#0f172a]" />
+              <div className="rounded-2xl border-2 border-[var(--border)] bg-white p-2.5 shadow-neo-sm flex-shrink-0">
+                <CreditCard className="h-4 w-4 text-[var(--foreground)]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)] truncate">
@@ -75,14 +75,14 @@ export function RecurringSection() {
                   className={`text-xs font-semibold ${
                     isDue
                       ? "text-red-600 dark:text-red-400 font-bold"
-                      : "text-[#0f172a]/60 dark:text-[#94a3b8]"
+                      : "text-[var(--foreground)] dark:text-[#94a3b8]"
                   }`}
                 >
                   {isDue ? "⚠ Due now" : `Due ${item.nextDueDate}`}
                 </p>
               </div>
               <div className="flex flex-col items-end gap-1">
-                <p className="text-sm font-black text-[#0f172a]">
+                <p className="text-sm font-black text-[var(--foreground)]">
                   <MaskedAmount
                     amount={item.amount}
                     showCents={showCents}
@@ -93,7 +93,7 @@ export function RecurringSection() {
                   <button
                     type="button"
                     onClick={() => payRecurring(item.id)}
-                    className="flex items-center gap-1 rounded-full border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-2.5 py-0.5 text-[10px] font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
+                    className="flex items-center gap-1 rounded-full border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-2.5 py-0.5 text-[10px] font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
                   >
                     <CheckCircle className="h-3 w-3" /> Pay
                   </button>

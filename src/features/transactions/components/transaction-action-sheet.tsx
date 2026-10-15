@@ -116,7 +116,7 @@ export function TransactionActionSheet({
     <Sheet open={open} onOpenChange={handleClose}>
       <SheetContent
         side="bottom"
-        className="max-h-[90vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[var(--accent-subtle)] shadow-neo-lg flex flex-col overflow-y-auto"
+        className="max-h-[90vh] rounded-t-[48px] border-4 border-[var(--border)] bg-[var(--accent-subtle)] shadow-neo-lg flex flex-col overflow-y-auto"
       >
         {/* VIEW: MENU */}
         {view === "menu" && (
@@ -125,7 +125,7 @@ export function TransactionActionSheet({
               <div className="flex items-center gap-2">
                 <span
                   className={cn(
-                    "text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full border-2 border-[#0f172a]",
+                    "text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full border-2 border-[var(--border)]",
                     isIncome &&
                       "bg-[#dcfce7] text-[#14532d] dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800",
                     !isIncome &&
@@ -137,18 +137,18 @@ export function TransactionActionSheet({
                 >
                   {isTransfer ? "Transfer" : isIncome ? "Income" : "Expense"}
                 </span>
-                <span className="text-xs font-bold text-[#0f172a]/60">
+                <span className="text-xs font-bold text-[var(--foreground)]">
                   {formatDisplayDate(transaction.date)}
                 </span>
               </div>
-              <SheetTitle className="text-3xl font-black text-[#0f172a] mt-1">
+              <SheetTitle className="text-3xl font-black text-[var(--foreground)] mt-1">
                 {transaction.category}
               </SheetTitle>
             </SheetHeader>
 
             {/* Amount card */}
-            <div className="rounded-3xl border-3 border-[#0f172a] bg-white p-5 shadow-neo-sm">
-              <p className="text-xs font-bold uppercase text-[#0f172a]/60">
+            <div className="rounded-3xl border-3 border-[var(--border)] bg-white p-5 shadow-neo-sm">
+              <p className="text-xs font-bold uppercase text-[var(--foreground)]">
                 Amount
               </p>
               <p
@@ -164,9 +164,9 @@ export function TransactionActionSheet({
                   prefix={isIncome ? "+" : isTransfer ? "⇄ " : "-"}
                 />
               </p>
-              <div className="mt-4 flex flex-col gap-1.5 text-xs text-[#0f172a]/80 font-semibold border-t-2 border-[#0f172a]/10 pt-3">
+              <div className="mt-4 flex flex-col gap-1.5 text-xs text-[var(--foreground)] font-semibold border-t-2 border-[var(--border)]/10 pt-3">
                 <div className="flex items-center gap-2">
-                  <Wallet className="h-4 w-4 text-[#0f172a]/50" />
+                  <Wallet className="h-4 w-4 text-[var(--foreground)]" />
                   <span>
                     {isTransfer
                       ? `${transaction.wallet} → ${transaction.toWallet ?? "Wallet"}`
@@ -174,7 +174,7 @@ export function TransactionActionSheet({
                   </span>
                 </div>
                 {transaction.note && (
-                  <p className="italic text-[#0f172a]/70">
+                  <p className="italic text-[var(--foreground)]">
                     "{transaction.note}"
                   </p>
                 )}
@@ -186,10 +186,10 @@ export function TransactionActionSheet({
               <button
                 type="button"
                 onClick={() => setView("edit")}
-                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white p-4 shadow-neo-sm hover:bg-[var(--accent-soft)] transition"
+                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-white p-4 shadow-neo-sm hover:bg-[var(--accent-soft)] transition"
               >
-                <Pencil className="h-5 w-5 text-[#0f172a]" />
-                <span className="text-sm font-black uppercase text-[#0f172a]">
+                <Pencil className="h-5 w-5 text-[var(--foreground)]" />
+                <span className="text-sm font-black uppercase text-[var(--foreground)]">
                   Edit
                 </span>
               </button>
@@ -197,7 +197,7 @@ export function TransactionActionSheet({
               <button
                 type="button"
                 onClick={() => setView("delete-confirm")}
-                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-red-50 p-4 shadow-neo-sm hover:bg-red-100 transition"
+                className="btn-neo flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-red-50 p-4 shadow-neo-sm hover:bg-red-100 transition"
               >
                 <Trash2 className="h-5 w-5 text-red-600" />
                 <span className="text-sm font-black uppercase text-red-600">
@@ -214,12 +214,12 @@ export function TransactionActionSheet({
             <button
               type="button"
               onClick={() => setView("menu")}
-              className="self-start text-xs font-bold uppercase text-[#0f172a]/60 hover:text-[#0f172a]"
+              className="self-start text-xs font-bold uppercase text-[var(--foreground)] hover:text-[var(--foreground)]"
             >
               ← Back
             </button>
             <SheetHeader className="text-left">
-              <SheetTitle className="text-2xl font-black text-[#0f172a]">
+              <SheetTitle className="text-2xl font-black text-[var(--foreground)]">
                 Edit Transaction
               </SheetTitle>
             </SheetHeader>
@@ -236,10 +236,10 @@ export function TransactionActionSheet({
                     type="button"
                     onClick={() => setType(t)}
                     className={cn(
-                      "rounded-xl border-2 border-[#0f172a] py-2 text-xs font-black uppercase transition",
+                      "rounded-xl border-2 border-[var(--border)] py-2 text-xs font-black uppercase transition",
                       type === t
                         ? "bg-[var(--accent-tab)] text-[var(--accent-tab-contrast)] shadow-neo-sm"
-                        : "bg-white text-[#0f172a]/70 hover:bg-black/5",
+                        : "bg-white text-[var(--foreground)] hover:bg-black/5",
                     )}
                   >
                     {t}
@@ -251,7 +251,7 @@ export function TransactionActionSheet({
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="edit-tx-amount"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
+                  className="text-xs font-bold uppercase text-[var(--foreground)]"
                 >
                   Amount
                 </label>
@@ -263,7 +263,7 @@ export function TransactionActionSheet({
                   value={amountStr}
                   onChange={handleAmountChange}
                   placeholder="0.00"
-                  className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-5 text-2xl font-black shadow-neo-sm"
+                  className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-5 text-2xl font-black shadow-neo-sm"
                 />
               </div>
 
@@ -273,7 +273,7 @@ export function TransactionActionSheet({
                   <div className="flex flex-col gap-2">
                     <label
                       htmlFor="edit-from-wallet"
-                      className="text-xs font-bold uppercase text-[#0f172a]/70"
+                      className="text-xs font-bold uppercase text-[var(--foreground)]"
                     >
                       From Wallet
                     </label>
@@ -293,7 +293,7 @@ export function TransactionActionSheet({
                   <div className="flex flex-col gap-2">
                     <label
                       htmlFor="edit-to-wallet"
-                      className="text-xs font-bold uppercase text-[#0f172a]/70"
+                      className="text-xs font-bold uppercase text-[var(--foreground)]"
                     >
                       To Wallet
                     </label>
@@ -317,7 +317,7 @@ export function TransactionActionSheet({
                 <div className="flex flex-col gap-2">
                   <label
                     htmlFor="edit-tx-wallet"
-                    className="text-xs font-bold uppercase text-[#0f172a]/70"
+                    className="text-xs font-bold uppercase text-[var(--foreground)]"
                   >
                     Wallet
                   </label>
@@ -339,7 +339,7 @@ export function TransactionActionSheet({
               {/* Category (if not transfer) */}
               {type !== "transfer" && (
                 <div className="flex flex-col gap-2">
-                  <span className="text-xs font-bold uppercase text-[#0f172a]/70">
+                  <span className="text-xs font-bold uppercase text-[var(--foreground)]">
                     Category
                   </span>
                   <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -349,10 +349,10 @@ export function TransactionActionSheet({
                         type="button"
                         onClick={() => setCategory(cat)}
                         className={cn(
-                          "flex-shrink-0 rounded-full border-2 border-[#0f172a] px-3 py-1.5 text-xs font-black uppercase transition",
+                          "flex-shrink-0 rounded-full border-2 border-[var(--border)] px-3 py-1.5 text-xs font-black uppercase transition",
                           category === cat
                             ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm"
-                            : "bg-white text-[#0f172a] hover:bg-[var(--accent-soft)]",
+                            : "bg-white text-[var(--foreground)] hover:bg-[var(--accent-soft)]",
                         )}
                       >
                         {cat}
@@ -364,7 +364,7 @@ export function TransactionActionSheet({
 
               {/* Date */}
               <div className="flex flex-col gap-2">
-                <span className="text-xs font-bold uppercase text-[#0f172a]/70">
+                <span className="text-xs font-bold uppercase text-[var(--foreground)]">
                   Date
                 </span>
                 <DatePicker
@@ -379,7 +379,7 @@ export function TransactionActionSheet({
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="edit-tx-note"
-                  className="text-xs font-bold uppercase text-[#0f172a]/70"
+                  className="text-xs font-bold uppercase text-[var(--foreground)]"
                 >
                   Note (optional)
                 </label>
@@ -388,13 +388,13 @@ export function TransactionActionSheet({
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder="Description..."
-                  className="min-h-[70px] rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2.5 font-semibold shadow-neo-sm"
+                  className="min-h-[70px] rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-2.5 font-semibold shadow-neo-sm"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="btn-neo mt-2 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-5 text-base font-black uppercase shadow-neo-lg"
+                className="btn-neo mt-2 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-5 text-base font-black uppercase shadow-neo-lg"
               >
                 Save Changes
               </Button>
@@ -408,7 +408,7 @@ export function TransactionActionSheet({
             <button
               type="button"
               onClick={() => setView("menu")}
-              className="self-start text-xs font-bold uppercase text-[#0f172a]/60 hover:text-[#0f172a]"
+              className="self-start text-xs font-bold uppercase text-[var(--foreground)] hover:text-[var(--foreground)]"
             >
               ← Back
             </button>
@@ -416,11 +416,11 @@ export function TransactionActionSheet({
               <div className="rounded-2xl border-2 border-red-600 bg-red-100 p-2.5">
                 <AlertTriangle className="h-6 w-6" />
               </div>
-              <SheetTitle className="text-2xl font-black text-[#0f172a]">
+              <SheetTitle className="text-2xl font-black text-[var(--foreground)]">
                 Delete Transaction?
               </SheetTitle>
             </div>
-            <p className="text-sm text-[#0f172a]/70 mt-1">
+            <p className="text-sm text-[var(--foreground)] mt-1">
               Are you sure you want to delete this{" "}
               <strong>{transaction.category}</strong> transaction of{" "}
               <strong>
@@ -434,14 +434,14 @@ export function TransactionActionSheet({
                 type="button"
                 variant="outline"
                 onClick={() => setView("menu")}
-                className="rounded-2xl border-2 border-[#0f172a] bg-white py-4 font-black uppercase text-[#0f172a]"
+                className="rounded-2xl border-2 border-[var(--border)] bg-white py-4 font-black uppercase text-[var(--foreground)]"
               >
                 Cancel
               </Button>
               <Button
                 type="button"
                 onClick={handleDelete}
-                className="rounded-2xl border-2 border-[#0f172a] bg-red-600 py-4 font-black uppercase text-white shadow-neo-sm hover:bg-red-700"
+                className="flex-1 rounded-2xl border-2 border-[var(--border)] bg-red-600 py-4 font-black uppercase text-[#f8fafc] shadow-neo-sm hover:bg-red-700"
               >
                 Yes, Delete
               </Button>

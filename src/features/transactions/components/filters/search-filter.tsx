@@ -13,9 +13,9 @@ export function SearchFilter({
   resultsCount,
 }: SearchFilterProps) {
   return (
-    <div className="rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] p-4 shadow-neo-sm">
-      <div className="flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 shadow-neo-sm ">
-        <Search className="h-4 w-4 text-[#0f172a]/60" />
+    <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] p-4 shadow-neo-sm">
+      <div className="flex items-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-2 shadow-neo-sm ">
+        <Search className="h-4 w-4 text-[var(--foreground)]" />
         <Input
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}

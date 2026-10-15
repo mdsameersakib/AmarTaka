@@ -21,7 +21,7 @@ export function SummaryCard({
   return (
     <div
       className={cn(
-        "rounded-[24px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-3.5 sm:p-5 shadow-neo",
+        "rounded-[24px] sm:rounded-[32px] border-3 sm:border-4 border-[var(--border)] bg-white p-3.5 sm:p-5 shadow-neo",
         accent === "income" &&
           "bg-[#dcfce7] dark:bg-[#072615] dark:border-emerald-800",
         accent === "expense" &&
@@ -37,7 +37,7 @@ export function SummaryCard({
                 ? "text-[#14532d] dark:text-emerald-400"
                 : accent === "expense"
                   ? "text-red-700 dark:text-rose-400"
-                  : "text-[#0f172a]/70 dark:text-[#94a3b8]",
+                  : "text-[var(--foreground)] dark:text-[#94a3b8]",
             )}
           >
             {label}
@@ -49,7 +49,7 @@ export function SummaryCard({
                 ? "text-[#14532d] dark:text-emerald-300"
                 : accent === "expense"
                   ? "text-red-700 dark:text-rose-300"
-                  : "text-[#0f172a] dark:text-[#f8fafc]",
+                  : "text-[var(--foreground)] dark:text-[#f8fafc]",
             )}
           >
             <MaskedAmount
@@ -61,7 +61,7 @@ export function SummaryCard({
         </div>
       </div>
       {pill ? (
-        <span className="mt-3 sm:mt-4 inline-flex rounded-full bg-[#0f172a] text-white dark:bg-white dark:text-[#0f172a] px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-bold uppercase shadow-neo-sm">
+        <span className="mt-3 sm:mt-4 inline-flex rounded-full bg-[var(--foreground)] text-[var(--background)] px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-bold uppercase shadow-neo-sm">
           {pill}
         </span>
       ) : null}

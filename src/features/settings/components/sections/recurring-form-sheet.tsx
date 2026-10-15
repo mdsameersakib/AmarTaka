@@ -89,10 +89,10 @@ export function RecurringFormSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="max-h-[90vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[#fefce8] shadow-neo-lg flex flex-col overflow-y-auto"
+        className="max-h-[90vh] rounded-t-[48px] border-4 border-[var(--border)] bg-[#fefce8] shadow-neo-lg flex flex-col overflow-y-auto"
       >
         <SheetHeader className="space-y-1 text-left">
-          <SheetTitle className="text-3xl font-black tracking-tight text-[#0f172a]">
+          <SheetTitle className="text-3xl font-black tracking-tight text-[var(--foreground)]">
             {editing ? "Edit Recurring" : "New Recurring"}
           </SheetTitle>
         </SheetHeader>
@@ -101,7 +101,7 @@ export function RecurringFormSheet({
           <div className="flex flex-col gap-2">
             <label
               htmlFor="rec-name"
-              className="text-xs font-bold uppercase text-[#0f172a]/70"
+              className="text-xs font-bold uppercase text-[var(--foreground)]"
             >
               Name
             </label>
@@ -111,7 +111,7 @@ export function RecurringFormSheet({
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Netflix, WiFi"
               required
-              className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+              className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
             />
           </div>
 
@@ -119,7 +119,7 @@ export function RecurringFormSheet({
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="rec-amount"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Amount
               </label>
@@ -131,13 +131,13 @@ export function RecurringFormSheet({
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
                 required
-                className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+                className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="rec-type"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Type
               </label>
@@ -157,7 +157,7 @@ export function RecurringFormSheet({
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="rec-freq"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Frequency
               </label>
@@ -177,7 +177,7 @@ export function RecurringFormSheet({
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="rec-dueday"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 {frequency === "weekly" ? "Day of week" : "Day of month"}
               </label>
@@ -217,7 +217,7 @@ export function RecurringFormSheet({
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="rec-wallet"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Wallet
               </label>
@@ -237,7 +237,7 @@ export function RecurringFormSheet({
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="rec-cat"
-                className="text-xs font-bold uppercase text-[#0f172a]/70"
+                className="text-xs font-bold uppercase text-[var(--foreground)]"
               >
                 Category
               </label>
@@ -258,7 +258,7 @@ export function RecurringFormSheet({
 
           <Button
             type="submit"
-            className="btn-neo rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg mt-2"
+            className="btn-neo rounded-3xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg mt-2"
           >
             {editing ? "Update" : "Add Recurring"}
           </Button>

@@ -80,7 +80,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
         onClick={handleClick}
         onContextMenu={(e) => e.preventDefault()}
         className={cn(
-          "rounded-2xl border-2 border-[#0f172a] px-4 py-3 shadow-neo-sm cursor-pointer select-none transition active:scale-[0.98]",
+          "rounded-2xl border-2 border-[var(--border)] px-4 py-3 shadow-neo-sm cursor-pointer select-none transition active:scale-[0.98]",
           isIncome && "bg-[#dcfce7]",
           !isIncome && !isTransfer && "bg-[#fee2e2]",
           isTransfer && "bg-[#f0f9ff]",
@@ -90,7 +90,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
             <div
               className={cn(
-                "rounded-full p-1 border-2 border-[#0f172a] flex-shrink-0",
+                "rounded-full p-1 border-2 border-[var(--border)] flex-shrink-0",
                 isIncome &&
                   "bg-green-100 dark:bg-emerald-950 dark:border-emerald-800",
                 !isIncome &&
@@ -107,7 +107,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
                 <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-500 dark:text-rose-400" />
               )}
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-[#0f172a] truncate">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--foreground)] truncate">
               {transaction.note
                 ? `${transaction.category} - ${transaction.note}`
                 : transaction.category}
@@ -133,14 +133,14 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
                 e.stopPropagation();
                 setSheetOpen(true);
               }}
-              className="p-1 rounded-full text-[#0f172a]/40 hover:text-[#0f172a] hover:bg-black/5 dark:hover:bg-white/10 transition"
+              className="p-1 rounded-full text-[var(--foreground)] hover:text-[var(--foreground)] hover:bg-black/5 dark:hover:bg-white/10 transition"
               aria-label="Transaction options"
             >
               <MoreHorizontal className="h-4 w-4" />
             </button>
           </div>
         </div>
-        <div className="mt-1 flex items-center justify-between text-[11px] text-[#0f172a]/70 pl-7 sm:pl-9">
+        <div className="mt-1 flex items-center justify-between text-[11px] text-[var(--foreground)] pl-7 sm:pl-9">
           <span>{formatDisplayDate(transaction.date)}</span>
           <span className="truncate max-w-[130px] sm:max-w-[200px] text-right">
             {isTransfer

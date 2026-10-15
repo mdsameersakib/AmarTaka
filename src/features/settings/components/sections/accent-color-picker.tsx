@@ -15,9 +15,9 @@ export function AccentColorPicker() {
   );
 
   return (
-    <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
-      <h2 className="text-xl font-black text-[#0f172a]">Accent Color</h2>
-      <p className="mt-1 text-xs text-[#0f172a]/70">
+    <div className="rounded-[32px] border-4 border-[var(--border)] bg-white p-6 shadow-neo">
+      <h2 className="text-xl font-black text-[var(--foreground)]">Accent Color</h2>
+      <p className="mt-1 text-xs text-[var(--foreground)]">
         Choose your app&apos;s theme. All background shades, tabs, buttons, and
         cards adapt automatically.
       </p>
@@ -33,7 +33,7 @@ export function AccentColorPicker() {
               className={cn(
                 "h-10 w-10 rounded-full border-4 transition-transform hover:scale-110",
                 isSelected
-                  ? "border-[#0f172a] dark:border-white scale-110 shadow-neo-sm"
+                  ? "border-[var(--border)] dark:border-white scale-110 shadow-neo-sm"
                   : "border-transparent",
               )}
               style={{ backgroundColor: theme.primary }}
@@ -43,7 +43,7 @@ export function AccentColorPicker() {
           );
         })}
       </div>
-      <p className="mt-3 text-xs font-semibold uppercase text-[#0f172a]/50">
+      <p className="mt-3 text-xs font-semibold uppercase text-[var(--foreground)]">
         Selected: {selectedTheme?.name ?? "Custom"}
       </p>
     </div>

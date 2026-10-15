@@ -25,13 +25,13 @@ export function RecurringPayments() {
   };
 
   return (
-    <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
+    <section className="rounded-[32px] border-4 border-[var(--border)] bg-white p-6 shadow-neo">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-black text-[#0f172a]">
+          <h2 className="text-2xl font-black text-[var(--foreground)]">
             Recurring Payments
           </h2>
-          <p className="text-sm text-[#0f172a]/70">
+          <p className="text-sm text-[var(--foreground)]">
             Subscriptions, bills, and regular income.
           </p>
         </div>
@@ -41,7 +41,7 @@ export function RecurringPayments() {
             setEditing(null);
             setFormOpen(true);
           }}
-          className="btn-neo flex items-center gap-1 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-2 text-xs font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
+          className="btn-neo flex items-center gap-1 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-2 text-xs font-black uppercase shadow-neo-sm hover:opacity-90 active:scale-95 transition"
         >
           <Plus className="h-4 w-4" /> Add
         </button>
@@ -49,7 +49,7 @@ export function RecurringPayments() {
 
       <div className="space-y-3">
         {recurring.length === 0 ? (
-          <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[#0f172a]/50">
+          <p className="rounded-2xl border-2 border-dashed border-[var(--border)]/30 bg-[#fefce8] px-4 py-6 text-center text-xs font-semibold uppercase text-[var(--foreground)]">
             No recurring payments yet.
           </p>
         ) : (
@@ -58,14 +58,14 @@ export function RecurringPayments() {
             return (
               <div
                 key={item.id}
-                className="flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm"
+                className="flex items-center justify-between rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm"
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)] truncate">
                     {item.name}
                   </p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-xs text-[#0f172a]/60">
+                    <span className="text-xs text-[var(--foreground)]">
                       {item.frequency} · {item.walletName}
                     </span>
                     <span
@@ -74,7 +74,7 @@ export function RecurringPayments() {
                           ? "bg-red-100 text-red-700"
                           : status === "soon"
                             ? "bg-amber-100 text-amber-700"
-                            : "bg-white text-[#0f172a]/50"
+                            : "bg-white text-[var(--foreground)]"
                       }`}
                     >
                       Due {item.nextDueDate}
@@ -82,7 +82,7 @@ export function RecurringPayments() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 ml-3">
-                  <p className="text-sm font-black text-[#0f172a]">
+                  <p className="text-sm font-black text-[var(--foreground)]">
                     <MaskedAmount
                       amount={item.amount}
                       showCents={showCents}
@@ -95,7 +95,7 @@ export function RecurringPayments() {
                       setEditing(item);
                       setFormOpen(true);
                     }}
-                    className="rounded-full border-2 border-transparent p-1.5 text-[#0f172a]/50 hover:border-[#0f172a] hover:text-[#0f172a]"
+                    className="rounded-full border-2 border-transparent p-1.5 text-[var(--foreground)] hover:border-[var(--border)] hover:text-[var(--foreground)]"
                     aria-label={`Edit ${item.name}`}
                   >
                     <Pencil className="h-4 w-4" />

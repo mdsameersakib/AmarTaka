@@ -156,8 +156,8 @@ export function DatePicker({
         disabled={disabled}
         aria-label={label ?? "Select date"}
         className={cn(
-          "btn-neo flex w-full items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-white px-3.5 py-3 font-semibold shadow-neo-sm hover:bg-[var(--accent-soft)] active:scale-[0.99] transition text-left text-xs sm:text-sm text-[#0f172a]",
-          !value && "text-[#0f172a]/50 italic",
+          "btn-neo flex w-full items-center justify-between rounded-2xl border-2 border-[var(--border)] bg-white px-3.5 py-3 font-semibold shadow-neo-sm hover:bg-[var(--accent-soft)] active:scale-[0.99] transition text-left text-xs sm:text-sm text-[var(--foreground)]",
+          !value && "text-[var(--foreground)] italic",
           disabled && "opacity-50 cursor-not-allowed",
           className,
         )}
@@ -167,7 +167,7 @@ export function DatePicker({
           <span className="truncate">{formattedDisplay}</span>
         </div>
         {value === todayStr && (
-          <span className="flex-shrink-0 rounded-full border border-[#0f172a] bg-[var(--accent-pill-bg)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--accent-text-dark)]">
+          <span className="flex-shrink-0 rounded-full border border-[var(--border)] bg-[var(--accent-pill-bg)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--accent-text-dark)]">
             Today
           </span>
         )}
@@ -176,21 +176,21 @@ export function DatePicker({
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent
           side="bottom"
-          className="max-h-[92vh] rounded-t-[36px] sm:rounded-t-[44px] border-4 border-[#0f172a] bg-[var(--accent-sheet)] p-5 sm:p-6 shadow-neo-lg flex flex-col"
+          className="max-h-[92vh] rounded-t-[36px] sm:rounded-t-[44px] border-4 border-[var(--border)] bg-[var(--accent-sheet)] p-5 sm:p-6 shadow-neo-lg flex flex-col"
         >
           <SheetHeader className="flex flex-row items-center justify-between pb-2 text-left">
             <div>
-              <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#0f172a]/60">
+              <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[var(--foreground)]">
                 Custom Calendar
               </p>
-              <SheetTitle className="text-xl sm:text-2xl font-black text-[#0f172a]">
+              <SheetTitle className="text-xl sm:text-2xl font-black text-[var(--foreground)]">
                 {label ?? "Choose Date"}
               </SheetTitle>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="rounded-full border-2 border-[#0f172a] bg-white p-1.5 text-[#0f172a] shadow-neo-sm hover:bg-[var(--accent-soft)] transition"
+              className="rounded-full border-2 border-[var(--border)] bg-white p-1.5 text-[var(--foreground)] shadow-neo-sm hover:bg-[var(--accent-soft)] transition"
               aria-label="Close calendar"
             >
               <X className="h-4 w-4" />
@@ -203,10 +203,10 @@ export function DatePicker({
               type="button"
               onClick={() => handleSelectPreset(todayStr)}
               className={cn(
-                "flex-shrink-0 rounded-xl border-2 border-[#0f172a] px-3 py-1.5 text-xs font-black uppercase shadow-neo-sm transition",
+                "flex-shrink-0 rounded-xl border-2 border-[var(--border)] px-3 py-1.5 text-xs font-black uppercase shadow-neo-sm transition",
                 value === todayStr
                   ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
-                  : "bg-white text-[#0f172a] hover:bg-[var(--accent-soft)]",
+                  : "bg-white text-[var(--foreground)] hover:bg-[var(--accent-soft)]",
               )}
             >
               Today
@@ -215,10 +215,10 @@ export function DatePicker({
               type="button"
               onClick={() => handleSelectPreset(yesterdayStr)}
               className={cn(
-                "flex-shrink-0 rounded-xl border-2 border-[#0f172a] px-3 py-1.5 text-xs font-black uppercase shadow-neo-sm transition",
+                "flex-shrink-0 rounded-xl border-2 border-[var(--border)] px-3 py-1.5 text-xs font-black uppercase shadow-neo-sm transition",
                 value === yesterdayStr
                   ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
-                  : "bg-white text-[#0f172a] hover:bg-[var(--accent-soft)]",
+                  : "bg-white text-[var(--foreground)] hover:bg-[var(--accent-soft)]",
               )}
             >
               Yesterday
@@ -230,31 +230,31 @@ export function DatePicker({
                 setViewYear(now.getFullYear());
                 setViewMonth(now.getMonth());
               }}
-              className="flex-shrink-0 flex items-center gap-1 rounded-xl border-2 border-[#0f172a]/40 bg-white/70 px-2.5 py-1.5 text-xs font-bold uppercase text-[#0f172a]/70 hover:bg-white"
+              className="flex-shrink-0 flex items-center gap-1 rounded-xl border-2 border-[var(--border)]/40 bg-white/70 px-2.5 py-1.5 text-xs font-bold uppercase text-[var(--foreground)] hover:bg-white"
             >
               <RotateCcw className="h-3 w-3" /> This Month
             </button>
           </div>
 
           {/* Month & Year Navigation */}
-          <div className="mt-4 flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-white px-3 py-2 shadow-neo-sm">
+          <div className="mt-4 flex items-center justify-between rounded-2xl border-2 border-[var(--border)] bg-white px-3 py-2 shadow-neo-sm">
             <button
               type="button"
               onClick={prevMonth}
-              className="rounded-xl border border-[#0f172a] bg-[var(--accent-soft)] p-2 text-[#0f172a] shadow-neo-sm active:scale-95 transition"
+              className="rounded-xl border border-[var(--border)] bg-[var(--accent-soft)] p-2 text-[var(--foreground)] shadow-neo-sm active:scale-95 transition"
               aria-label="Previous month"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
 
-            <span className="text-sm sm:text-base font-black uppercase tracking-tight text-[#0f172a]">
+            <span className="text-sm sm:text-base font-black uppercase tracking-tight text-[var(--foreground)]">
               {MONTH_NAMES[viewMonth]} {viewYear}
             </span>
 
             <button
               type="button"
               onClick={nextMonth}
-              className="rounded-xl border border-[#0f172a] bg-[var(--accent-soft)] p-2 text-[#0f172a] shadow-neo-sm active:scale-95 transition"
+              className="rounded-xl border border-[var(--border)] bg-[var(--accent-soft)] p-2 text-[var(--foreground)] shadow-neo-sm active:scale-95 transition"
               aria-label="Next month"
             >
               <ChevronRight className="h-4 w-4" />
@@ -266,7 +266,7 @@ export function DatePicker({
             {WEEKDAYS.map((wd) => (
               <span
                 key={wd}
-                className="text-[11px] font-black uppercase text-[#0f172a]/60 py-1"
+                className="text-[11px] font-black uppercase text-[var(--foreground)] py-1"
               >
                 {wd}
               </span>
@@ -281,7 +281,7 @@ export function DatePicker({
               return (
                 <div
                   key={`prev-${d}`}
-                  className="flex h-10 sm:h-11 items-center justify-center text-xs font-semibold text-[#0f172a]/20 select-none"
+                  className="flex h-10 sm:h-11 items-center justify-center text-xs font-semibold text-[var(--foreground)] select-none"
                 >
                   {d}
                 </div>
@@ -305,10 +305,10 @@ export function DatePicker({
                   className={cn(
                     "relative flex h-10 sm:h-11 w-full items-center justify-center rounded-xl sm:rounded-2xl text-xs sm:text-sm font-black transition-all select-none active:scale-90",
                     isSelected
-                      ? "border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm scale-105 z-10"
+                      ? "border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] shadow-neo-sm scale-105 z-10"
                       : isToday
-                        ? "border-2 border-[#0f172a] bg-[var(--accent-soft)] text-[#0f172a]"
-                        : "border border-transparent bg-white text-[#0f172a] hover:border-[#0f172a] hover:bg-[var(--accent-soft)]",
+                        ? "border-2 border-[var(--border)] bg-[var(--accent-soft)] text-[var(--foreground)]"
+                        : "border border-transparent bg-white text-[var(--foreground)] hover:border-[var(--border)] hover:bg-[var(--accent-soft)]",
                   )}
                 >
                   {day}

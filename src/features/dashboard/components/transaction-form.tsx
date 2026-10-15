@@ -62,13 +62,13 @@ export function AddTransactionSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="max-h-[90vh] rounded-t-[48px] border-4 border-[#0f172a] bg-[#fefce8] shadow-neo-lg flex flex-col overflow-y-auto"
+        className="max-h-[90vh] rounded-t-[48px] border-4 border-[var(--border)] bg-[#fefce8] shadow-neo-lg flex flex-col overflow-y-auto"
       >
         <SheetHeader className="space-y-1 text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0f172a]/70">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--foreground)]">
             {formType === "income" ? "Record" : "Track"}
           </p>
-          <SheetTitle className="text-3xl font-black tracking-tight text-[#0f172a]">
+          <SheetTitle className="text-3xl font-black tracking-tight text-[var(--foreground)]">
             {formType === "income" ? "New Income" : "New Expense"}
           </SheetTitle>
         </SheetHeader>
@@ -78,7 +78,7 @@ export function AddTransactionSheet({
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-amount"
-              className="text-xs font-bold uppercase text-[#0f172a]/70"
+              className="text-xs font-bold uppercase text-[var(--foreground)]"
             >
               Amount
             </label>
@@ -90,7 +90,7 @@ export function AddTransactionSheet({
               value={amountStr}
               onChange={handleAmountChange}
               placeholder="0.00"
-              className="rounded-3xl border-2 border-[#0f172a] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm"
+              className="rounded-3xl border-2 border-[var(--border)] bg-white px-4 py-6 text-3xl font-black shadow-neo-sm"
             />
           </div>
 
@@ -98,7 +98,7 @@ export function AddTransactionSheet({
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-wallet"
-              className="text-xs font-bold uppercase text-[#0f172a]/70"
+              className="text-xs font-bold uppercase text-[var(--foreground)]"
             >
               Wallet
             </label>
@@ -119,7 +119,7 @@ export function AddTransactionSheet({
 
           {/* Category chips */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-bold uppercase text-[#0f172a]/70">
+            <span className="text-xs font-bold uppercase text-[var(--foreground)]">
               Category
             </span>
             <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -129,10 +129,10 @@ export function AddTransactionSheet({
                   type="button"
                   onClick={() => setFormData({ ...formData, category: cat })}
                   className={cn(
-                    "flex-shrink-0 rounded-full border-2 border-[#0f172a] px-4 py-2 text-xs font-black uppercase transition",
+                    "flex-shrink-0 rounded-full border-2 border-[var(--border)] px-4 py-2 text-xs font-black uppercase transition",
                     formData.category === cat
                       ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)] border-[var(--accent-primary)] shadow-neo-sm"
-                      : "bg-white text-[#0f172a] shadow-neo-sm hover:bg-[var(--accent-soft)]",
+                      : "bg-white text-[var(--foreground)] shadow-neo-sm hover:bg-[var(--accent-soft)]",
                   )}
                 >
                   {cat}
@@ -143,7 +143,7 @@ export function AddTransactionSheet({
 
           {/* Date */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-bold uppercase text-[#0f172a]/70">
+            <span className="text-xs font-bold uppercase text-[var(--foreground)]">
               Date
             </span>
             <DatePicker
@@ -158,7 +158,7 @@ export function AddTransactionSheet({
           <div className="flex flex-col gap-2">
             <label
               htmlFor="tx-note"
-              className="text-xs font-bold uppercase text-[#0f172a]/70"
+              className="text-xs font-bold uppercase text-[var(--foreground)]"
             >
               Note
             </label>
@@ -169,13 +169,13 @@ export function AddTransactionSheet({
                 setFormData({ ...formData, note: e.target.value })
               }
               placeholder="Add a short description"
-              className="min-h-[80px] rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm"
+              className="min-h-[80px] rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm"
             />
           </div>
 
           <Button
             type="submit"
-            className="btn-neo rounded-3xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
+            className="btn-neo rounded-3xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] py-6 text-lg font-black uppercase tracking-wide shadow-neo-lg"
           >
             Save Transaction
           </Button>

@@ -12,10 +12,10 @@ export function FilterPill({ label, active, onClick }: FilterPillProps) {
       type="button"
       onClick={onClick}
       className={cn(
-        "btn-neo rounded-2xl border-2 border-[#0f172a] px-3 py-1 text-xs font-black uppercase tracking-wide",
+        "btn-neo rounded-2xl border-2 border-[var(--border)] px-3 py-1 text-xs font-black uppercase tracking-wide",
         active
           ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
-          : "bg-white text-[#0f172a]",
+          : "bg-white text-[var(--foreground)]",
       )}
     >
       {label}

@@ -35,19 +35,19 @@ export function DisplaySettings({
   onSetThemeMode,
 }: DisplaySettingsProps) {
   return (
-    <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
-      <h2 className="text-xl font-black text-[#0f172a]">Display</h2>
-      <p className="text-xs text-[#0f172a]/70">
+    <div className="rounded-[32px] border-4 border-[var(--border)] bg-white p-6 shadow-neo">
+      <h2 className="text-xl font-black text-[var(--foreground)]">Display</h2>
+      <p className="text-xs text-[var(--foreground)]">
         Control appearance and how amounts are rendered.
       </p>
 
       {/* Theme mode */}
-      <div className="mt-4 flex flex-col gap-3 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-4 flex flex-col gap-3 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
             Appearance
           </p>
-          <p className="text-xs text-[#0f172a]/70">
+          <p className="text-xs text-[var(--foreground)]">
             Light, dark, or system preference.
           </p>
         </div>
@@ -56,10 +56,10 @@ export function DisplaySettings({
             type="button"
             onClick={() => onSetThemeMode("light")}
             className={cn(
-              "btn-neo flex items-center justify-center gap-1.5 rounded-xl border-2 border-[#0f172a] px-3 py-2 text-xs font-black uppercase transition shadow-neo-sm",
+              "btn-neo flex items-center justify-center gap-1.5 rounded-xl border-2 border-[var(--border)] px-3 py-2 text-xs font-black uppercase transition shadow-neo-sm",
               themeMode === "light"
                 ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
-                : "bg-white text-[#0f172a] hover:bg-black/5",
+                : "bg-white text-[var(--foreground)] hover:bg-black/5",
             )}
           >
             <Sun className="h-3.5 w-3.5" /> Light
@@ -68,10 +68,10 @@ export function DisplaySettings({
             type="button"
             onClick={() => onSetThemeMode("dark")}
             className={cn(
-              "btn-neo flex items-center justify-center gap-1.5 rounded-xl border-2 border-[#0f172a] px-3 py-2 text-xs font-black uppercase transition shadow-neo-sm",
+              "btn-neo flex items-center justify-center gap-1.5 rounded-xl border-2 border-[var(--border)] px-3 py-2 text-xs font-black uppercase transition shadow-neo-sm",
               themeMode === "dark"
                 ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
-                : "bg-white text-[#0f172a] hover:bg-black/5",
+                : "bg-white text-[var(--foreground)] hover:bg-black/5",
             )}
           >
             <Moon className="h-3.5 w-3.5" /> Dark
@@ -80,10 +80,10 @@ export function DisplaySettings({
             type="button"
             onClick={() => onSetThemeMode("system")}
             className={cn(
-              "btn-neo flex items-center justify-center gap-1.5 rounded-xl border-2 border-[#0f172a] px-3 py-2 text-xs font-black uppercase transition shadow-neo-sm",
+              "btn-neo flex items-center justify-center gap-1.5 rounded-xl border-2 border-[var(--border)] px-3 py-2 text-xs font-black uppercase transition shadow-neo-sm",
               themeMode === "system"
                 ? "bg-[var(--accent-primary)] text-[var(--accent-contrast)]"
-                : "bg-white text-[#0f172a] hover:bg-black/5",
+                : "bg-white text-[var(--foreground)] hover:bg-black/5",
             )}
           >
             <Laptop className="h-3.5 w-3.5" /> Auto
@@ -92,20 +92,20 @@ export function DisplaySettings({
       </div>
 
       {/* Show cents */}
-      <div className="mt-3 flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm">
+      <div className="mt-3 flex items-center justify-between rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm">
         <div>
           <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
             Show cents
           </p>
-          <p className="text-xs text-[#0f172a]/70">Toggle decimal places.</p>
+          <p className="text-xs text-[var(--foreground)]">Toggle decimal places.</p>
         </div>
         <Button
           type="button"
           onClick={onToggleCents}
           className={
             showCents
-              ? "btn-neo rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-2 text-xs font-black uppercase shadow-neo-sm"
-              : "btn-neo rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 text-xs font-black uppercase text-[#0f172a] shadow-neo-sm"
+              ? "btn-neo rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-2 text-xs font-black uppercase shadow-neo-sm"
+              : "btn-neo rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-2 text-xs font-black uppercase text-[var(--foreground)] shadow-neo-sm"
           }
         >
           {showCents ? "On" : "Off"}
@@ -113,12 +113,12 @@ export function DisplaySettings({
       </div>
 
       {/* Privacy mode */}
-      <div className="mt-3 flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm">
+      <div className="mt-3 flex items-center justify-between rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm">
         <div>
           <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
             Privacy mode
           </p>
-          <p className="text-xs text-[#0f172a]/70">
+          <p className="text-xs text-[var(--foreground)]">
             Hide all balances from view.
           </p>
         </div>
@@ -127,8 +127,8 @@ export function DisplaySettings({
           onClick={onToggleBalanceHidden}
           className={
             balanceHidden
-              ? "btn-neo rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-2 text-xs font-black uppercase shadow-neo-sm"
-              : "btn-neo rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-2 text-xs font-black uppercase text-[#0f172a] shadow-neo-sm"
+              ? "btn-neo rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-2 text-xs font-black uppercase shadow-neo-sm"
+              : "btn-neo rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-2 text-xs font-black uppercase text-[var(--foreground)] shadow-neo-sm"
           }
         >
           {balanceHidden ? "On" : "Off"}
@@ -136,12 +136,12 @@ export function DisplaySettings({
       </div>
 
       {/* Currency */}
-      <div className="mt-3 flex flex-col gap-3 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-3 flex flex-col gap-3 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
             Currency symbol
           </p>
-          <p className="text-xs text-[#0f172a]/70">
+          <p className="text-xs text-[var(--foreground)]">
             Choose the symbol shown before amounts.
           </p>
         </div>

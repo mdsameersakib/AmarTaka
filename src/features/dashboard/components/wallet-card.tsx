@@ -85,7 +85,7 @@ export function WalletCard({ name, balance, onLongPress }: WalletCardProps) {
         e.preventDefault();
       }}
       className={cn(
-        "rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-3 py-2.5 sm:px-4 sm:py-3 shadow-neo-sm transition active:scale-95 cursor-pointer select-none text-left min-w-0",
+        "rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-3 py-2.5 sm:px-4 sm:py-3 shadow-neo-sm transition active:scale-95 cursor-pointer select-none text-left min-w-0",
         needsFullRow && "col-span-2 sm:col-span-1",
       )}
     >
@@ -94,7 +94,7 @@ export function WalletCard({ name, balance, onLongPress }: WalletCardProps) {
       </p>
       <p
         ref={amountRef}
-        className="text-lg xs:text-xl sm:text-2xl font-black text-[#0f172a] truncate mt-0.5"
+        className="text-lg xs:text-xl sm:text-2xl font-black text-[var(--foreground)] truncate mt-0.5"
       >
         <MaskedAmount amount={balance} />
       </p>

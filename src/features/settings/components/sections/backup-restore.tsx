@@ -27,9 +27,9 @@ export function BackupRestore() {
   };
 
   return (
-    <section className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
-      <h2 className="text-xl font-black text-[#0f172a]">Backup & Restore</h2>
-      <p className="mt-1 text-xs text-[#0f172a]/70">
+    <section className="rounded-[32px] border-4 border-[var(--border)] bg-white p-6 shadow-neo">
+      <h2 className="text-xl font-black text-[var(--foreground)]">Backup & Restore</h2>
+      <p className="mt-1 text-xs text-[var(--foreground)]">
         Export your data to a JSON file or restore from a previous backup.
         Currently tracking <strong>{state.transactions.length}</strong>{" "}
         transactions across <strong>{state.wallets.length}</strong> wallets.
@@ -39,7 +39,7 @@ export function BackupRestore() {
         <Button
           type="button"
           onClick={exportBackup}
-          className="btn-neo flex items-center justify-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] py-3 text-sm font-black uppercase text-[#0f172a] shadow-neo-sm"
+          className="btn-neo flex items-center justify-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] py-3 text-sm font-black uppercase text-[var(--foreground)] shadow-neo-sm"
         >
           <Download className="h-4 w-4" /> Export Backup
         </Button>
@@ -47,7 +47,7 @@ export function BackupRestore() {
         <Button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="btn-neo flex items-center justify-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-white py-3 text-sm font-black uppercase text-[#0f172a] shadow-neo-sm"
+          className="btn-neo flex items-center justify-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-white py-3 text-sm font-black uppercase text-[var(--foreground)] shadow-neo-sm"
         >
           <Upload className="h-4 w-4" /> Import Backup
         </Button>

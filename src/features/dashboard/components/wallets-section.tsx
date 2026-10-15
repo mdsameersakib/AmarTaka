@@ -28,9 +28,9 @@ export function WalletsSection({ walletBalances }: WalletsSectionProps) {
 
   return (
     <>
-      <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[#0f172a] bg-white p-4 sm:p-6 shadow-neo">
+      <div className="rounded-[28px] sm:rounded-[32px] border-3 sm:border-4 border-[var(--border)] bg-white p-4 sm:p-6 shadow-neo">
         <div className="mb-4 sm:mb-5 flex items-center justify-between">
-          <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#0f172a]">
+          <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[var(--foreground)]">
             Wallets
           </h2>
           <button
@@ -39,14 +39,14 @@ export function WalletsSection({ walletBalances }: WalletsSectionProps) {
               const name = prompt("Wallet name?");
               if (name?.trim()) addWallet(name.trim());
             }}
-            className="flex items-center gap-1 rounded-full border-2 border-[#0f172a] bg-[var(--accent-pill-bg)] px-3 py-1 text-xs font-black uppercase text-[var(--accent-text-dark)] shadow-neo-sm hover:opacity-90"
+            className="flex items-center gap-1 rounded-full border-2 border-[var(--border)] bg-[var(--accent-pill-bg)] px-3 py-1 text-xs font-black uppercase text-[var(--accent-text-dark)] shadow-neo-sm hover:opacity-90"
           >
             <Plus className="h-3 w-3" /> Add
           </button>
         </div>
 
         {walletBalances.length === 0 ? (
-          <p className="rounded-2xl border-2 border-dashed border-[#0f172a]/30 bg-[#fefce8] px-4 py-8 text-center text-xs font-semibold uppercase text-[#0f172a]/50">
+          <p className="rounded-2xl border-2 border-dashed border-[var(--border)]/30 bg-[#fefce8] px-4 py-8 text-center text-xs font-semibold uppercase text-[var(--foreground)]">
             No wallets yet. Add one above.
           </p>
         ) : (
@@ -63,7 +63,7 @@ export function WalletsSection({ walletBalances }: WalletsSectionProps) {
             ))}
           </div>
         )}
-        <p className="mt-4 text-center text-xs text-[#0f172a]/40">
+        <p className="mt-4 text-center text-xs text-[var(--foreground)]">
           Long press a wallet to edit balance, transfer, or delete.
         </p>
       </div>

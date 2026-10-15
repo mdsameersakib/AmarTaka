@@ -158,7 +158,7 @@ export function DeleteWalletDialog({
                 transactionCount > 0 &&
                 (!strategy || (strategy === "move" && !targetWallet))
               }
-              className="border-2 border-[#7f1d1d] bg-[#ef4444] text-white hover:bg-[#dc2626]"
+              className="border-2 border-[#7f1d1d] bg-[#ef4444] text-[#f8fafc] hover:bg-[#dc2626]"
             >
               Delete
             </Button>

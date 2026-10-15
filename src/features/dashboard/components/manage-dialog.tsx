@@ -34,10 +34,10 @@ export function ManageDialog({
 }: ManageDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[32px] border-4 border-[#0f172a] bg-white shadow-neo">
+      <DialogContent className="rounded-[32px] border-4 border-[var(--border)] bg-white shadow-neo">
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogHeader>
-          <DialogTitle className="text-3xl font-black text-[#0f172a] ">
+          <DialogTitle className="text-3xl font-black text-[var(--foreground)] ">
             {title}
           </DialogTitle>
         </DialogHeader>
@@ -47,12 +47,12 @@ export function ManageDialog({
               value={inputValue}
               onChange={(event) => onInputChange(event.target.value)}
               placeholder={`New ${title.slice(0, -1)}`}
-              className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm  "
+              className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm  "
             />
             <Button
               type="button"
               onClick={onAdd}
-              className="btn-neo rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-3 text-sm font-black uppercase shadow-neo-sm"
+              className="btn-neo rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-3 text-sm font-black uppercase shadow-neo-sm"
             >
               Add
             </Button>
@@ -61,7 +61,7 @@ export function ManageDialog({
             {items.map((item) => (
               <div
                 key={item}
-                className="flex items-center justify-between rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm"
+                className="flex items-center justify-between rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-4 py-3 shadow-neo-sm"
               >
                 <span className="text-sm font-semibold uppercase text-[var(--accent-text-dark)]">
                   {item}
@@ -69,7 +69,7 @@ export function ManageDialog({
                 <button
                   type="button"
                   onClick={() => onDelete(item)}
-                  className="rounded-full border-2 border-transparent p-2 text-[#0f172a]/50 transition hover:border-[#0f172a] hover:text-[#0f172a]/70"
+                  className="rounded-full border-2 border-transparent p-2 text-[var(--foreground)] transition hover:border-[var(--border)] hover:text-[var(--foreground)]"
                 >
                   <X className="h-4 w-4" />
                 </button>

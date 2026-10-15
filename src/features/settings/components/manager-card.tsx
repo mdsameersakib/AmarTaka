@@ -35,14 +35,14 @@ export function ManagerCard({
 
   return (
     <>
-      <div className="rounded-[32px] border-4 border-[#0f172a] bg-white p-6 shadow-neo">
+      <div className="rounded-[32px] border-4 border-[var(--border)] bg-white p-6 shadow-neo">
         <div className="flex items-center gap-3">
-          <div className="rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] p-3 shadow-neo-sm">
+          <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] p-3 shadow-neo-sm">
             {icon}
           </div>
           <div>
-            <h3 className="text-xl font-black text-[#0f172a] ">{label}</h3>
-            <p className="text-xs text-[#0f172a]/70">{description}</p>
+            <h3 className="text-xl font-black text-[var(--foreground)] ">{label}</h3>
+            <p className="text-xs text-[var(--foreground)]">{description}</p>
           </div>
         </div>
         <div className="mt-5 flex gap-3">
@@ -50,12 +50,12 @@ export function ManagerCard({
             value={value}
             onChange={(event) => onValueChange(event.target.value)}
             placeholder={`Add ${label.slice(0, -1)}`}
-            className="rounded-2xl border-2 border-[#0f172a] bg-white px-4 py-3 font-semibold shadow-neo-sm  "
+            className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 font-semibold shadow-neo-sm  "
           />
           <Button
             type="button"
             onClick={onAdd}
-            className="btn-neo rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-3 font-black uppercase shadow-neo-sm"
+            className="btn-neo rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-primary)] text-[var(--accent-contrast)] px-4 py-3 font-black uppercase shadow-neo-sm"
           >
             Add
           </Button>
@@ -64,7 +64,7 @@ export function ManagerCard({
           {items.map((item) => (
             <span
               key={item}
-              className="inline-flex items-center gap-2 rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] px-3 py-1 text-sm font-semibold uppercase text-[var(--accent-text-dark)]"
+              className="inline-flex items-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] px-3 py-1 text-sm font-semibold uppercase text-[var(--accent-text-dark)]"
             >
               <button
                 type="button"
@@ -82,7 +82,7 @@ export function ManagerCard({
               <button
                 type="button"
                 onClick={() => onDelete(item)}
-                className="rounded-full border-2 border-transparent p-1 text-xs text-[var(--accent-text-dark)]/70 transition hover:border-[#0f172a] hover:text-[#0f172a]/80"
+                className="rounded-full border-2 border-transparent p-1 text-xs text-[var(--accent-text-dark)]/70 transition hover:border-[var(--border)] hover:text-[var(--foreground)]"
                 aria-label={`Delete ${item}`}
               >
                 <X className="h-3 w-3" />
@@ -90,7 +90,7 @@ export function ManagerCard({
             </span>
           ))}
           {!items.length && (
-            <p className="text-xs font-semibold uppercase text-[#0f172a]/40">
+            <p className="text-xs font-semibold uppercase text-[var(--foreground)]">
               No items yet.
             </p>
           )}

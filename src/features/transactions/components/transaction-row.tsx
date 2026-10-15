@@ -18,7 +18,7 @@ export function TransactionRow({ transaction, onDelete }: TransactionRowProps) {
   return (
     <div className="flex flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-4">
-        <div className="rounded-2xl border-2 border-[#0f172a] bg-[var(--accent-soft)] p-3 shadow-neo-sm">
+        <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--accent-soft)] p-3 shadow-neo-sm">
           {isTransfer ? (
             <ArrowLeftRight className="h-5 w-5 text-blue-600" />
           ) : isIncome ? (
@@ -33,7 +33,7 @@ export function TransactionRow({ transaction, onDelete }: TransactionRowProps) {
               ? `${transaction.wallet} → ${transaction.toWallet ?? "Wallet"}`
               : `${transaction.category} - ${transaction.wallet}`}
           </p>
-          <p className="text-xs text-[#0f172a]/70">
+          <p className="text-xs text-[var(--foreground)]">
             {formatDisplayDate(transaction.date)} -{" "}
             {transaction.note || "No note"}
           </p>
@@ -56,7 +56,7 @@ export function TransactionRow({ transaction, onDelete }: TransactionRowProps) {
         <button
           type="button"
           onClick={() => onDelete(transaction.id)}
-          className="rounded-full border-2 border-transparent p-2 text-[#0f172a]/40 transition hover:border-[#0f172a] hover:text-[#0f172a]/70"
+          className="rounded-full border-2 border-transparent p-2 text-[var(--foreground)] transition hover:border-[var(--border)] hover:text-[var(--foreground)]"
           aria-label="Delete transaction"
         >
           <X className="h-4 w-4" />
